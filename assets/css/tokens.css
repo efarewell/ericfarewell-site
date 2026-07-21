@@ -1,0 +1,74 @@
+/* ============================================================
+   ERIC FAREWELL — WATERCOLOR + PEACOCK DESIGN TOKENS
+   Source of truth for the whole site. Edit here; everything inherits.
+   ============================================================ */
+:root {
+  /* ---- Peacock core hues ---- */
+  --peacock-teal:      #0E7C86;  /* primary brand teal */
+  --peacock-teal-deep: #0A4A54;  /* deep pool */
+  --peacock-emerald:   #1C6B5B;  /* viridian green */
+  --peacock-blue:      #244B78;  /* tail blue */
+  --peacock-indigo:    #2B2E63;  /* iridescent shadow */
+  --peacock-violet:    #5B3E7A;  /* rare iridescent pop (use sparingly) */
+
+  /* ---- Metallics (the "eye" of the feather) ---- */
+  --gold:        #C6A15B;  /* primary accent */
+  --gold-bright: #E6C784;  /* hover / highlight */
+  --bronze:      #A8763E;
+
+  /* ---- Dark base: "Nightfall Peacock" (primary theme) ---- */
+  --ink:        #08171B;  /* near-black, peacock-charcoal */
+  --ink-2:      #0C232A;  /* deep section bg */
+  --surface:    #10303890; /* translucent card over washes */
+  --surface-solid: #123138;
+  --hairline:   #2C4E552e; /* subtle borders (teal-tinted) */
+  --hairline-gold: #C6A15B33;
+
+  /* ---- Text on dark ---- */
+  --ivory:      #F5EFE3;  /* display / headings */
+  --parchment:  #CDD6D2;  /* body copy */
+  --muted:      #8FA6A4;  /* captions / meta */
+
+  /* ---- Light base: "Parchment" (long-form / blog option) ---- */
+  --paper:      #F5F1E7;
+  --paper-2:    #ECE5D6;
+  --ink-on-paper:  #10262C;
+  --body-on-paper: #33474B;
+
+  /* ---- Type ---- */
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-body:    "Mulish", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --tracking-eyebrow: 0.22em;
+
+  /* ---- Scale (fluid) ---- */
+  --step-hero:  clamp(3.2rem, 8vw, 7rem);
+  --step-h1:    clamp(2.4rem, 5vw, 4rem);
+  --step-h2:    clamp(1.9rem, 3.4vw, 2.9rem);
+  --step-h3:    clamp(1.35rem, 2vw, 1.7rem);
+  --step-body:  clamp(1.02rem, 1.15vw, 1.18rem);
+  --step-small: 0.86rem;
+
+  /* ---- Space & shape ---- */
+  --container: 1180px;
+  --radius: 14px;
+  --radius-lg: 22px;
+  --shadow-soft: 0 30px 80px -30px rgba(0,0,0,.7);
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+/* ---- Watercolor wash: layered translucent peacock gradients + grain ---- */
+.wash {
+  position: relative;
+  background-color: var(--ink);
+  background-image:
+    radial-gradient(60% 55% at 12% 18%, #0E7C8636 0%, transparent 60%),
+    radial-gradient(55% 60% at 88% 8%,  #1C6B5B30 0%, transparent 58%),
+    radial-gradient(70% 70% at 78% 92%, #244B7833 0%, transparent 62%),
+    radial-gradient(60% 60% at 20% 95%, #2B2E6335 0%, transparent 60%);
+  background-attachment: fixed;
+}
+.wash::after { /* fine paper grain */
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
