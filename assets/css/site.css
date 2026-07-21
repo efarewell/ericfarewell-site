@@ -109,9 +109,9 @@ p:last-child{margin-bottom:0}
 .photo-banner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--ink),transparent 22%,transparent 72%,var(--ink))}
 
 /* Video testimonial (click-to-play facade) */
-.vtst{max-width:720px;margin:0 auto}
+.vtst{max-width:640px;margin:0 auto}
 .vtst-lead{margin:0 auto 52px}
-.vtst-player{position:relative;aspect-ratio:16/9;border-radius:var(--radius-lg);overflow:hidden;
+.vtst-player{position:relative;aspect-ratio:9/16;max-width:376px;margin:0 auto;border-radius:var(--radius-lg);overflow:hidden;
   border:1px solid var(--hairline-gold);box-shadow:0 30px 70px -30px #000a;cursor:pointer;background:#08171B}
 .vtst-poster{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   background:
