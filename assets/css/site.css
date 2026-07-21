@@ -108,6 +108,30 @@ p:last-child{margin-bottom:0}
 .photo-banner img{width:100%;height:100%;object-fit:cover;object-position:center 35%}
 .photo-banner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--ink),transparent 22%,transparent 72%,var(--ink))}
 
+/* Video testimonial (click-to-play facade) */
+.vtst{max-width:720px;margin:0 auto}
+.vtst-lead{margin:0 auto 52px}
+.vtst-player{position:relative;aspect-ratio:16/9;border-radius:var(--radius-lg);overflow:hidden;
+  border:1px solid var(--hairline-gold);box-shadow:0 30px 70px -30px #000a;cursor:pointer;background:#08171B}
+.vtst-poster{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(60% 60% at 30% 20%,#0E7C8655,transparent 60%),
+    radial-gradient(70% 70% at 80% 90%,#244B7855,transparent 60%),
+    radial-gradient(60% 60% at 90% 10%,#1C6B5B44,transparent 60%),#0C232A}
+.vtst-poster::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(8,23,27,.72));pointer-events:none}
+.vtst-play{position:relative;z-index:2;width:78px;height:78px;padding:0;border:none;background:none;cursor:pointer;
+  filter:drop-shadow(0 8px 24px #08171Baa);transition:transform .3s var(--ease)}
+.vtst-play svg{width:100%;height:100%;display:block}
+.vtst-player:hover .vtst-play{transform:scale(1.08)}
+.vtst-tag{position:absolute;left:26px;bottom:22px;z-index:2;text-align:left;display:flex;flex-direction:column;gap:2px}
+.vtst-headline{font-family:var(--font-display);font-style:italic;color:var(--gold-bright);font-size:1.35rem;line-height:1.1}
+.vtst-name{color:var(--parchment);font-size:.9rem;font-weight:600}
+.vtst-role{color:#ffffff99;font-weight:400}
+.vtst-player video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#08171B}
+.vtst-quote{margin:26px auto 0;max-width:60ch;font-family:var(--font-display);font-style:italic;
+  font-size:1.2rem;line-height:1.55;color:var(--parchment);text-align:center;border:none;padding:0}
+@media(max-width:560px){.vtst-play{width:64px;height:64px}.vtst-headline{font-size:1.15rem}.vtst-tag{left:18px;bottom:16px}}
+
 /* Newsletter with photo background */
 .news.has-photo{background-image:linear-gradient(rgba(8,23,27,.8),rgba(8,23,27,.86)),var(--news-photo);background-size:cover;background-position:center;border-color:var(--hairline-gold)}
 .news.has-photo::before{opacity:.5}

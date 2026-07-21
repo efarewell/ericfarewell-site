@@ -24,6 +24,26 @@
   if (closeBtn) closeBtn.addEventListener('click', function () { setMenu(false); });
   if (mobile) mobile.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
 
+  // Video testimonials — click-to-play facade (avoids preloading large files)
+  document.querySelectorAll('.vtst-player').forEach(function (player) {
+    player.addEventListener('click', function () {
+      var src = player.getAttribute('data-src');
+      if (!src || player.dataset.playing) return;
+      player.dataset.playing = '1';
+      var v = document.createElement('video');
+      v.src = src;
+      v.controls = true;
+      v.autoplay = true;
+      v.playsInline = true;
+      v.setAttribute('playsinline', '');
+      v.preload = 'auto';
+      player.innerHTML = '';
+      player.appendChild(v);
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {});
+    });
+  });
+
   // Reveal on scroll — only enable if the page is genuinely scrollable and IO exists.
   var reveals = document.querySelectorAll('.reveal');
   function revealAll() { reveals.forEach(function (el) { el.classList.add('in'); }); }
