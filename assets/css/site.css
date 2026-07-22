@@ -132,6 +132,26 @@ p:last-child{margin-bottom:0}
 .vtst-role{color:#ffffff99;font-weight:400}
 .vtst-player video,.vtst-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:contain;background:#08171B}
 
+/* Podcast appearances grid */
+.pgrid{display:grid;gap:26px 24px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin-top:46px}
+.pcard{display:block;text-decoration:none}
+.pcard .vtst-player{cursor:pointer}
+.pcard.audio .vtst-poster{background-size:cover}
+.pcard.audio .vtst-player::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,23,27,.05),rgba(8,23,27,.5));pointer-events:none;transition:background .3s var(--ease)}
+.pcard.audio:hover .vtst-player::after{background:linear-gradient(180deg,rgba(8,23,27,.0),rgba(8,23,27,.35))}
+.pcard-listen{position:absolute;right:14px;bottom:14px;z-index:2;display:inline-flex;align-items:center;gap:6px;
+  padding:8px 15px;border-radius:60px;background:linear-gradient(135deg,var(--gold),var(--bronze));color:#1a1207;font-weight:700;font-size:.82rem;box-shadow:0 8px 20px -8px #C6A15B88}
+.pcard-cap{padding:14px 4px 0;text-align:center}
+.pcard-title{display:block;font-family:var(--font-display);font-size:1.34rem;line-height:1.15;color:var(--parchment)}
+.pcard.audio:hover .pcard-title,.pcard:hover .pcard-title{color:var(--gold-bright)}
+.pcard-host{display:block;margin-top:3px;font-size:.82rem;color:#ffffff88;letter-spacing:.02em}
+.pcard .vtst-player{transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.pcard:hover .vtst-player{transform:translateY(-4px);box-shadow:0 34px 70px -30px #000c}
+/* Featured episode player sits in the two-col next to its blurb */
+.pod-feature{align-items:center}
+.pcard.feature{margin:0}
+.pcard.feature .vtst-player{aspect-ratio:16/9}
+
 /* Newsletter with photo background */
 .news.has-photo{background-image:linear-gradient(rgba(8,23,27,.8),rgba(8,23,27,.86)),var(--news-photo);background-size:cover;background-position:center;border-color:var(--hairline-gold)}
 .news.has-photo::before{opacity:.5}
