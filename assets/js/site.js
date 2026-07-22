@@ -56,27 +56,6 @@
     });
   });
 
-  // Contact form: hide the GHL form's full-width square header image by clipping the embed.
-  document.querySelectorAll('.form-clip[data-clip-square]').forEach(function (wrap) {
-    var ifr = wrap.querySelector('iframe');
-    if (!ifr) return;
-    function adjust() {
-      var w = ifr.clientWidth || wrap.clientWidth;        // header image is 1:1, full width
-      var clip = Math.round(w);                            // so its height == the width
-      var h = parseInt(ifr.style.height, 10) || ifr.offsetHeight || 0;
-      if (!h) return;
-      ifr.style.marginTop = (-clip) + 'px';
-      wrap.style.height = Math.max(0, h - clip) + 'px';
-    }
-    try {
-      new MutationObserver(adjust).observe(ifr, { attributes: true, attributeFilter: ['style', 'height'] });
-    } catch (e) {}
-    window.addEventListener('resize', adjust);
-    setTimeout(adjust, 400);
-    setTimeout(adjust, 1200);
-    setInterval(adjust, 2000);
-  });
-
   // Reveal on scroll — only enable if the page is genuinely scrollable and IO exists.
   var reveals = document.querySelectorAll('.reveal');
   function revealAll() { reveals.forEach(function (el) { el.classList.add('in'); }); }

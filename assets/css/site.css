@@ -137,8 +137,7 @@ p:last-child{margin-bottom:0}
 .contact-grid .media-frame{aspect-ratio:4/5}
 .form-card{background:#fbf9f4;border:1px solid var(--hairline-gold);border-radius:16px;padding:10px;
   box-shadow:0 30px 70px -34px #000a}
-.form-clip{overflow:hidden;border-radius:10px;background:#fbf9f4}
-.form-card iframe{display:block;background:#fbf9f4}
+.form-card iframe{display:block;border-radius:10px;background:#fbf9f4}
 @media(max-width:820px){.contact-grid .media-frame{max-width:420px;margin:0 auto}}
 
 /* Podcast appearances grid */
