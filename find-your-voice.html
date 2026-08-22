@@ -40,6 +40,12 @@
   .fyv-card.alive .fyv-tag{color:var(--peacock-teal)}
   .fyv-caption{margin-top:22px;color:var(--muted);font-size:.95rem}
 
+  .fyv-story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,21rem);
+    gap:clamp(28px,5vw,64px);align-items:start}
+  .fyv-speaking{margin:0}
+  .fyv-speaking img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--hairline)}
+
+
   .fyv-phases{list-style:none;margin:38px 0 0;padding:0}
   .phase{display:grid;grid-template-columns:5rem 1fr;gap:0 18px;align-items:start;
     padding:26px 0;border-top:1px solid var(--hairline)}
@@ -81,7 +87,11 @@
     gap:clamp(28px,5vw,60px);align-items:center}
   .fyv-portrait img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--hairline)}
 
-  @media(max-width:900px){.fyv-gate{grid-template-columns:1fr}}
+  @media(max-width:900px){
+    .fyv-gate{grid-template-columns:1fr}
+    .fyv-story{grid-template-columns:1fr}
+    .fyv-speaking{max-width:22rem}
+  }
   @media(max-width:820px){
     .fyv-cta-grid{grid-template-columns:1fr}
     .fyv-portrait img{max-width:16rem}
@@ -142,11 +152,16 @@
 <section>
   <div class="container">
     <h2 class="reveal">Hundreds of hours, and it still <span class="italic-gold">wasn&rsquo;t me</span>.</h2>
+    <div class="fyv-story">
     <div class="fyv-prose reveal">
       <p>I can tell when something was written by AI, and I suspect most of us can by now. It&rsquo;s the em dashes, mostly, and the sentences built on a contrast, this thing and not that thing, over and over. It&rsquo;s the same rhythm every time, the same shape of paragraph, the same reach for a tidy line at the end.</p>
       <p>The writing isn&rsquo;t bad. It&rsquo;s competent. It just isn&rsquo;t mine, and anyone who has read me for a while would know it. That mattered more to me than I expected it to, because my writing is most of how people meet me.</p>
       <p>So I spent hundreds of hours trying to fix it. I fed my books into it, my blog posts, everything I&rsquo;d written. I edited its drafts line by line and handed the edits back. We set rules together and I asked it to follow its own rules. It didn&rsquo;t work.</p>
       <p>What finally worked was <strong>evidence</strong>. My sent emails, my quick replies, the note I wrote when I had to tell someone no. Those carry my voice whether I meant them to or not, and that is what this reads. It still isn&rsquo;t perfect. It&rsquo;s close enough that I&rsquo;m confident sending what comes out of it, and I want to share it.</p>
+    </div>
+    <figure class="fyv-speaking reveal">
+      <img src="assets/img/eric-stage-2.jpg" alt="Eric Farewell speaking on stage" loading="lazy">
+    </figure>
     </div>
 
     <div class="fyv-compare reveal">
