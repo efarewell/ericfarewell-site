@@ -64,7 +64,7 @@
     padding:16px 16px 2px;line-height:1.15}
   .fyv-gate .fc-sub{font-size:.88rem;color:#33474B;padding:0 16px 4px}
   .fyv-gate .fine{font-size:.78rem;color:#5c6f72;padding:6px 16px 12px;margin:0;line-height:1.55}
-  .fyv-gate iframe{width:100%;min-height:460px;border:none}
+  .fyv-gate iframe{width:100%;min-height:434px;border:none}
 
   .fyv-cta{background:var(--ink-2);border-top:1px solid var(--hairline-gold)}
   .fyv-cta-grid{display:grid;grid-template-columns:minmax(0,20rem) minmax(0,1fr);
@@ -279,21 +279,16 @@
         </ul>
       </div>
 
-      <!-- ============================================================
-           EMAIL CAPTURE — GoHighLevel / LeadConnector
-           BEFORE THIS GOES LIVE: create a "Weekly Harvest" form in GHL,
-           tag it weekly-harvest, set On Submit -> Redirect to
-               https://ericfarewell.com/the-harvest.html
-           then replace HARVEST_FORM_ID below in all three places
-           (src, id, data-form-id). Same pattern as find-your-voice.html.
-           ============================================================ -->
+      <!-- Email capture: GoHighLevel form "Weekly Harvest" (4tr8TrYuYb2Sfvao9eWW).
+           On Submit redirects to /the-harvest.html, which is what delivers the prompts. -->
       <div class="form-card reveal">
         <div class="fc-title">Get both prompts</div>
         <div class="fc-sub">They open on the next page, right away.</div>
-        <iframe src="https://api.leadconnectorhq.com/widget/form/HARVEST_FORM_ID"
-          id="inline-HARVEST_FORM_ID" data-form-id="HARVEST_FORM_ID"
-          title="Get the Weekly Harvest system" data-height="460"
-          style="width:100%;min-height:460px;border:none;background:transparent"></iframe>
+        <iframe src="https://api.leadconnectorhq.com/widget/form/4tr8TrYuYb2Sfvao9eWW"
+          id="inline-4tr8TrYuYb2Sfvao9eWW" data-form-id="4tr8TrYuYb2Sfvao9eWW"
+          data-layout="{'id':'INLINE'}" data-layout-iframe-id="inline-4tr8TrYuYb2Sfvao9eWW"
+          data-form-name="Weekly Harvest" title="Weekly Harvest" data-height="434"
+          style="width:100%;min-height:434px;border:none;background:transparent"></iframe>
         <p class="fine">No spam. Unsubscribe anytime.</p>
       </div>
     </div>
