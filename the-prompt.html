@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Prompt — Find Your Voice</title>
-<meta name="description" content="The Find Your Voice prompt. Paste it into any modern AI, Claude, ChatGPT, or Gemini, and it builds a writing-voice profile from your own writing.">
+<meta name="description" content="The Find Your Voice prompt. Paste it into a new Claude conversation and it builds a writing-voice skill from your own writing.">
 <meta name="robots" content="noindex,nofollow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Eric Farewell">
 <meta property="og:title" content="The Prompt — Find Your Voice">
-<meta property="og:description" content="The Find Your Voice prompt. Paste it into any modern AI, Claude, ChatGPT, or Gemini, and it builds a writing-voice profile from your own writing.">
+<meta property="og:description" content="The Find Your Voice prompt. Paste it into a new Claude conversation and it builds a writing-voice skill from your own writing.">
 <meta property="og:url" content="https://ericfarewell.com/the-prompt.html">
 <meta property="og:image" content="https://ericfarewell.com/assets/img/og-default.jpg">
 <meta property="og:image:width" content="1200">
@@ -17,7 +17,7 @@
 <meta property="og:image:alt" content="Eric Farewell — Find Your Voice">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Prompt — Find Your Voice">
-<meta name="twitter:description" content="The Find Your Voice prompt. Paste it into any modern AI, Claude, ChatGPT, or Gemini, and it builds a writing-voice profile from your own writing.">
+<meta name="twitter:description" content="The Find Your Voice prompt. Paste it into a new Claude conversation and it builds a writing-voice skill from your own writing.">
 <meta name="twitter:image" content="https://ericfarewell.com/assets/img/og-default.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,6 +39,12 @@
     color:var(--muted);display:block;margin-bottom:14px}
   .fyv-card.alive .fyv-tag{color:var(--peacock-teal)}
   .fyv-caption{margin-top:22px;color:var(--muted);font-size:.95rem}
+
+  .fyv-story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,21rem);
+    gap:clamp(28px,5vw,64px);align-items:start}
+  .fyv-speaking{margin:0}
+  .fyv-speaking img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--hairline)}
+
 
   .fyv-phases{list-style:none;margin:38px 0 0;padding:0}
   .phase{display:grid;grid-template-columns:5rem 1fr;gap:0 18px;align-items:start;
@@ -74,6 +80,10 @@
     padding:16px 16px 2px;line-height:1.15}
   .fyv-gate .fc-sub{font-size:.88rem;color:#33474B;padding:0 16px 4px}
   .fyv-gate .fine{font-size:.78rem;color:#5c6f72;padding:6px 16px 12px;margin:0;line-height:1.55}
+  .fyv-carddemo{margin:34px 0 0}
+  .fyv-carddemo img{width:100%;max-width:21rem;height:auto;display:block;
+    border-radius:var(--radius);border:1px solid var(--hairline)}
+  .fyv-carddemo figcaption{margin-top:16px;font-size:.9rem;color:var(--muted);max-width:23rem;line-height:1.6}
   .fyv-gate iframe{width:100%;min-height:460px;border:none}
 
   .fyv-cta{background:var(--ink-2);border-top:1px solid var(--hairline-gold)}
@@ -81,7 +91,11 @@
     gap:clamp(28px,5vw,60px);align-items:center}
   .fyv-portrait img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--hairline)}
 
-  @media(max-width:900px){.fyv-gate{grid-template-columns:1fr}}
+  @media(max-width:900px){
+    .fyv-gate{grid-template-columns:1fr}
+    .fyv-story{grid-template-columns:1fr}
+    .fyv-speaking{max-width:22rem}
+  }
   @media(max-width:820px){
     .fyv-cta-grid{grid-template-columns:1fr}
     .fyv-portrait img{max-width:16rem}
@@ -134,7 +148,7 @@
   <div class="container">
     <span class="eyebrow reveal">Find Your Voice</span>
     <h1 class="display reveal" style="font-size:clamp(2.6rem,6vw,4.6rem)">Here it <span class="italic-gold">is</span>.</h1>
-    <p class="lede reveal">Open whichever AI you use. Claude, ChatGPT, Gemini, any modern model will do. Start a new conversation and paste every word of this into it. It is written to the machine, not to you. A copy is on its way to your inbox as well, so you can come back to it whenever you have the hour.</p>
+    <p class="lede reveal">Open the Claude desktop app, start a new conversation, and paste every word of this into it. It is written to the machine, not to you. A copy is on its way to your inbox as well, so you can come back to it whenever you have the hour.</p>
   </div>
 </section>
 
@@ -148,11 +162,9 @@
           <button type="button" class="btn btn-teal" id="fyvCopy">Copy prompt</button>
         </span>
       </div>
-      <pre class="fyv-pre" id="fyvText">You are helping me build a personal writing-voice skill in my own voice. When it&#x27;s done, any future session with you, or with any other AI assistant I hand the file to, should be able to draft as me well enough that people who know me can&#x27;t tell I didn&#x27;t write it.
+      <pre class="fyv-pre" id="fyvText">You are helping me build a personal writing-voice skill in my own voice. When it&#x27;s done, any future Claude session should be able to draft as me well enough that people who know me can&#x27;t tell I didn&#x27;t write it.
 
 Read this entire brief before you say anything to me. Then run the process below.
-
-This brief mentions creating folders and files. If you can&#x27;t create files where we&#x27;re working, keep the same material as clearly labeled notes in the conversation instead, and where it says to re-read a file, re-read your notes. Nothing below depends on any one app.
 
 **First, one housekeeping item.** Before Phase 1, ask me my first name and how I want it to appear in writing. That&#x27;s all you need to start. Everywhere this brief says NAME, use my first name. The skill folder you create at the end is named `&lt;firstname&gt;-voice`, all lowercase, no spaces.
 
@@ -262,7 +274,7 @@ Up to 33 questions. **One per message.** Adapt wording to what the samples alrea
 **What&#x27;s underneath**
 
 28. Do I have sayings, mantras, or lines I repeat? The ones people quote back to me.
-29. What themes, beliefs, or stories show up in my writing over and over, whether I mean them to or not? *Follow-up, separate turn: when someone finishes reading me, what do I want them left with?*
+29. What themes, beliefs, or stories show up in my writing over and over, whether I mean them to or not?
 
 **Guardrails**
 
@@ -293,7 +305,6 @@ Put a **Never** section in the file. Seed it with these, then cut anything I dem
 - Aphoristic bow-tying: ending a section on a neat wisdom line that wasn&#x27;t earned.
 - Emoji used as bullet points.
 - Hedge stacking: &quot;it&#x27;s worth noting that it may potentially be the case that.&quot;
-- Filler sincerity: &quot;genuinely,&quot; &quot;honestly,&quot; &quot;truly&quot; doing no work in the sentence.
 - Announcing what&#x27;s about to happen: &quot;Let me be honest with you.&quot; &quot;Here&#x27;s what nobody tells you.&quot;
 - Saying the same fact twice in different words.
 
@@ -303,9 +314,9 @@ Then add: my answer to question 21 (words I&#x27;d never write), question 32 (wh
 
 Re-read `voice-samples/observations.md` before you write. Do not write Mechanics from memory.
 
-Create a folder named `&lt;firstname&gt;-voice` containing one file named `SKILL.md`. That exact shape is what lets Claude save it as a skill. Every other assistant just needs the contents. If you can&#x27;t create files, write the same document in one copyable markdown block instead.
+Create a folder named `&lt;firstname&gt;-voice` containing one file named `SKILL.md`. The folder name is the skill name and the filename must be exactly `SKILL.md`.
 
-Write it in the second person, addressed to whatever AI assistant reads it next. Structure:
+Write it in the second person, addressed to a future Claude. Structure:
 
 ```markdown
 ---
@@ -393,12 +404,12 @@ Two rounds is usually enough. Stop when I say it sounds like me, not when some t
 
 ## Phase 6: Save it, then tell me how to keep it alive
 
-Deliver the finished `SKILL.md` to me as a file if you can make one, otherwise as one copyable block. Then tell me plainly how to keep it where we&#x27;re working. In Claude, delivering it as a file should give me the option to save it as a skill, and if that option doesn&#x27;t appear, say so and give me the fallback rather than assuming it worked. In ChatGPT, it belongs in a Project&#x27;s instructions or a custom GPT. In Gemini, it becomes a Gem&#x27;s instructions. Anywhere else, I keep the file and paste it at the top of a session before asking for a draft.
+Deliver the finished `SKILL.md` to me as a file. That should give me the option to save it as a skill. Walk me through it plainly, and if the save option doesn&#x27;t appear, tell me so and give me the fallback rather than assuming it worked.
 
 Then tell me two things about how it actually behaves, because both surprise people:
 
-- Saved as a skill or as standing instructions, it works from my **next** session, not this one.
-- It&#x27;s for writing as me, so &quot;write this email&quot; or &quot;reply to her&quot; should use it and unrelated tasks shouldn&#x27;t.
+- It&#x27;s available from my **next** session, not this one.
+- It fires when what I ask matches its description, so asking Claude to &quot;write this email&quot; or &quot;reply to her&quot; triggers it and unrelated tasks don&#x27;t.
 
 Then, in a few sentences, how to keep improving it:
 
@@ -407,6 +418,168 @@ Then, in a few sentences, how to keep improving it:
 - Useful feedback is specific: &quot;I&#x27;d never use that word,&quot; not &quot;that doesn&#x27;t sound like me.&quot;
 
 Finally, tell me that `voice-samples/` holds my real writing, that it stays in this session and is not part of the skill, and offer to delete it.
+
+## Phase 7: The share card
+
+Offer this once the skill is saved. It is optional and it is a gift, not an upsell: one image that says what my voice is, drawn from what you just measured.
+
+Ask two things, one at a time:
+
+1. How I want my name to appear on it.
+2. A photo of me. A headshot, or anything with my face reasonably clear.
+
+### Step one: the portrait
+
+If you can generate images, or if I can run this somewhere myself, use the photo I gave you and this prompt. Substitute my name where it says NAME.
+
+```
+Create a premium cinematic editorial portrait in a vertical 4:5 composition, based on
+the photo provided. Preserve the subject&#x27;s real facial features, hair, skin tone, and
+expression. This should be recognisably the same person, cleaned up rather than replaced.
+
+Frame them from the chest up, centered, confident and warmly lit, in sophisticated,
+well-tailored dark clothing. Use a deep matte teal-black studio background with subtle
+shadows and a warm, luxurious atmosphere.
+
+Behind the subject, place the name &quot;NAME&quot; in extremely large, tall, narrow uppercase
+serif typography spanning nearly the full width and height of the background, positioned
+behind the person so parts of the letters are naturally obscured by their head and
+shoulders. Render the lettering in textured antique gold with subtle variation, realistic
+grain, soft highlights, and a premium embossed appearance.
+
+Use dramatic cinematic portrait lighting: a soft warm key light on the face, controlled
+shadows, a subtle golden rim light along the hair and shoulders, realistic skin texture,
+sharp facial detail, natural eyes, and magazine-quality colour grading. Keep the
+composition minimal, elegant, and powerful, with strong contrast between the dark ground
+and the gold typography.
+
+No additional text, captions, logos, icons, UI elements, borders, or decorative graphics.
+```
+
+Two things to hold to. The likeness has to stay mine, so if what comes back does not look like me, run it again rather than handing me a stranger. And the name in the image is the name that appears on the card, so it must match what I told you.
+
+If no image generation is available, say so and use my plain photo. The card has a layout for that.
+
+### Step two: what goes on the card
+
+Everything here traces to work already done. Do not flatter me and do not guess.
+
+- **Archetype.** Two or three words, in the form &quot;The Plainspoken Operator&quot; or &quot;The Long-Form Storyteller.&quot; Built from my strongest measured trait plus what I actually write. It should be recognisable to someone who knows me, not a horoscope. This is the line people most often want reworded, so offer to change it.
+- **The voice.** One sentence, two lines at most on the card, from the profile&#x27;s strongest rules. Concrete over abstract: &quot;Short declaratives, heavy contractions, and a habit of answering the question in the first line&quot; rather than &quot;clear and direct.&quot;
+- **What they write.** One sentence from my answer to question 2, in my own terms.
+- **Reads like.** Two to four authors. **Ground every one in a specific trait you actually observed**, and tell me the reason when you show me the card, even though the reason is not printed on it. Range beats prestige: a business writer, a memoirist, and an essayist is better than three literary giants. If you cannot name anyone honestly, use fewer. Never pad the list to look impressive.
+- **The rhythm strip.** This is the heart of the card and the reason it is worth sharing. Take thirty-four consecutive sentences from my real samples, weighted toward the surface I write most, and count the words in each. That list is the data. Bars are drawn on a fixed scale where 45 words is full height, so a short-sentence writer and a long-sentence writer produce visibly different pictures. Do not normalise to my own maximum, which would make everyone&#x27;s strip look identical. Print the average beside it.
+
+### Step three: build it
+
+Write this to a file, filling in the marked places. The signature and the URL stay exactly as they are.
+
+```html
+&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;&gt;
+&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&amp;family=DM+Sans:wght@400;500;700&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;style&gt;
+  :root{--ink:#0B2B2E;--parchment:#F8F6F2;--peacock:#0E7C86;--peacock-lt:#17A2A8;
+    --jade:#2E8B6F;--gold:#BC9329;--p40:rgba(248,246,242,.42);--p12:rgba(248,246,242,.13)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1080px;height:1350px;background:var(--ink);overflow:hidden;
+    font-family:&quot;DM Sans&quot;,sans-serif;color:var(--parchment);-webkit-font-smoothing:antialiased}
+  .card{position:relative;height:100%;display:flex;flex-direction:column}
+
+  .who img.portrait{width:472px;height:590px;object-fit:cover;object-position:center 22%;
+    border-radius:2px;border:1px solid var(--p12);flex:none}
+  .whoright{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:34px}
+  .fact.first{border-top:1px solid var(--p12);padding-top:22px}
+  .eyebrow{font-size:24px;letter-spacing:.26em;text-transform:uppercase;font-weight:700;
+    color:var(--peacock-lt)}
+
+
+  .card{padding:56px 76px 60px}
+  .body{display:flex;flex-direction:column;flex:1}
+  .arch{font-family:&quot;Cormorant Garamond&quot;,serif;font-style:italic;font-size:60px;
+    line-height:1.06;color:var(--gold)}
+
+
+  .who{display:flex;gap:44px;align-items:stretch;margin-top:38px}
+  .who img{width:300px;height:300px;object-fit:cover;object-position:center 28%;
+    border-radius:2px;border:1px solid var(--p12);flex:none}
+  .name{font-family:&quot;Cormorant Garamond&quot;,serif;font-size:var(--ns,92px);line-height:.98}
+  .arch.inline{font-size:48px;margin-top:12px}
+
+  .label{font-size:22px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;color:var(--p40)}
+  .striprow{display:flex;justify-content:space-between;align-items:baseline}
+  .avg{color:var(--peacock-lt);letter-spacing:.14em}
+  .strip{margin-top:44px}
+  .bars{display:flex;align-items:flex-end;gap:5px;height:104px;margin-top:18px;
+    border-bottom:1px solid rgba(248,246,242,.15)}
+  .bar{flex:1;border-radius:1px;opacity:.93;
+    background:color-mix(in oklab, var(--peacock) calc((1 - var(--t)) * 100%), var(--jade))}
+  .bar.peak{background:var(--gold);opacity:1}
+
+  .facts{margin-top:34px;display:flex;flex-direction:column;gap:26px}
+  .fact{border-top:1px solid var(--p12);padding-top:20px}
+  .fact .val{font-size:34px;line-height:1.36;margin-top:10px}
+  .fact .val.reads{color:var(--peacock-lt);font-weight:500}
+  .dot{color:var(--p40);margin:0 14px}
+
+  footer{margin-top:auto;border-top:1px solid rgba(188,147,41,.45);padding-top:30px;
+    display:flex;align-items:center;justify-content:space-between;gap:24px}
+  footer img{height:62px;width:auto;opacity:.95}
+  .url{font-size:28px;letter-spacing:.03em;color:var(--parchment);font-weight:500;text-align:right}
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;div class=&quot;card&quot;&gt;
+  &lt;div class=&quot;eyebrow&quot;&gt;Find Your Voice&lt;/div&gt;
+  &lt;div class=&quot;who&quot;&gt;
+    &lt;img class=&quot;portrait&quot; src=&quot;DATA_URI_OF_MY_PORTRAIT&quot; alt=&quot;&quot;&gt;
+    &lt;div class=&quot;whoright&quot;&gt;
+      &lt;div class=&quot;arch&quot;&gt;THE ARCHETYPE&lt;/div&gt;
+      &lt;div class=&quot;fact first&quot;&gt;&lt;div class=&quot;label&quot;&gt;The voice&lt;/div&gt;
+        &lt;div class=&quot;val&quot;&gt;ONE SENTENCE&lt;/div&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;body&quot;&gt;
+    &lt;div class=&quot;strip&quot;&gt;
+      &lt;div class=&quot;label striprow&quot;&gt;&lt;span&gt;How the sentences move&lt;/span&gt;&lt;span class=&quot;avg&quot;&gt;avg N words&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;bars&quot;&gt;BARS&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;facts&quot;&gt;
+      &lt;div class=&quot;fact&quot;&gt;&lt;div class=&quot;label&quot;&gt;What they write&lt;/div&gt;&lt;div class=&quot;val&quot;&gt;ONE SENTENCE&lt;/div&gt;&lt;/div&gt;
+      &lt;div class=&quot;fact&quot;&gt;&lt;div class=&quot;label&quot;&gt;Reads like&lt;/div&gt;
+        &lt;div class=&quot;val reads&quot;&gt;NAME&lt;span class=&quot;dot&quot;&gt;&amp;middot;&lt;/span&gt;NAME&lt;span class=&quot;dot&quot;&gt;&amp;middot;&lt;/span&gt;NAME&lt;/div&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;footer&gt;
+      &lt;img src=&quot;https://ericfarewell.com/assets/img/signature-white.png&quot; alt=&quot;Eric Farewell&quot;&gt;
+      &lt;div class=&quot;url&quot;&gt;ericfarewell.com/find-your-voice&lt;/div&gt;
+    &lt;/footer&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;
+```
+
+Rules for filling it in:
+
+- **Portrait:** embed the generated image as a base64 data URI so the file stands alone.
+- **No generated portrait?** The frame is the same. Swap the portrait for my plain photo and add my name above the archetype, since a plain photo carries no name of its own:
+  ```html
+  &lt;div class=&quot;whoright&quot;&gt;
+    &lt;div class=&quot;name&quot; style=&quot;font-size:76px&quot;&gt;MY NAME&lt;/div&gt;
+    &lt;div class=&quot;arch&quot;&gt;THE ARCHETYPE&lt;/div&gt;
+    &lt;div class=&quot;fact first&quot;&gt;...&lt;/div&gt;
+  &lt;/div&gt;
+  ```
+  Name sizing there: 92px up to 16 characters, 78px up to 22, 64px beyond. Two lines is fine, three is not.
+- **Bars:** one `&lt;span class=&quot;bar&quot; style=&quot;height:H%;--t:T&quot;&gt;&lt;/span&gt;` per sentence. `H` is `min(100, max(5, round(words / 45 * 100)))`. `T` runs 0 to 1 across the strip and shades peacock into jade. Give the single longest sentence `class=&quot;bar peak&quot;` so it lands in gold.
+- Keep the wording tight enough that no field wraps past two lines. The card is 1080 by 1350 and it will clip.
+
+### Step four: render and hand it over
+
+Produce a **PNG at 1080 by 1350**, the size the brand kit specifies for a portrait social graphic. Headless Chromium through Playwright or Puppeteer at that exact viewport is the reliable path. If you have no way to rasterise, say so plainly, hand me the HTML, and tell me to open it at that window size and screenshot it. Do not pretend you made an image you did not make.
+
+Then, in a few lines:
+
+- Name the authors you chose and the specific trait behind each, so I can argue with you.
+- Offer a caption I could post with it, in my voice, drawn from the profile you just built. Short, and mine to change.
+- Remind me the card is mine and I am under no obligation to post it.
 
 Now start. Say hello, tell me in three or four sentences what we&#x27;re about to do and roughly how long it&#x27;ll take, ask my first name, and then move to Phase 1. One question per message from here on.</pre>
     </div>
@@ -418,7 +591,6 @@ Now start. Say hello, tell me in three or four sentences what we&#x27;re about t
   <div class="container">
     <h2 class="reveal">Before you start</h2>
     <ul class="fyv-notes reveal">
-      <li>Any modern AI works. Claude, ChatGPT, Gemini, whichever you already use.</li>
       <li>About an hour. There is a checkpoint at the halfway mark, so you can stop early and still keep a working profile.</li>
       <li>Skip any question you want. Say &ldquo;just build it&rdquo; and it stops asking and writes the file.</li>
       <li>Your writing samples stay inside your own session. They are not part of the file you keep.</li>
