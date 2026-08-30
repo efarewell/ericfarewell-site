@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The First Hour — Eric Farewell</title>
+<meta name="description" content="An hour that sets up AI around your actual week. Finds where it saves you time, gives it a memory, does one real piece of work, and puts a weekly check-in on your goals.">
+<link rel="canonical" href="https://ericfarewell.com/first-hour.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eric Farewell">
+<meta property="og:title" content="The First Hour — Eric Farewell">
+<meta property="og:description" content="Everybody told you to use it. Nobody told you what for.">
+<meta property="og:url" content="https://ericfarewell.com/first-hour.html">
+<meta property="og:image" content="https://ericfarewell.com/assets/img/og-default.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The First Hour — setting up AI around your actual week">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The First Hour — Eric Farewell">
+<meta name="twitter:description" content="Everybody told you to use it. Nobody told you what for.">
+<meta name="twitter:image" content="https://ericfarewell.com/assets/img/og-default.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Great+Vibes&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<script>document.documentElement.classList.add('js')</script>
+
+<style>
+  .fyv-prose{max-width:40rem}
+  .fyv-prose p{color:var(--parchment)}
+  .fyv-prose strong{color:var(--ivory);font-weight:600}
+
+  .fyv-compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:38px}
+  .fyv-card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius);padding:26px 26px 28px}
+  .fyv-card p{margin:0;font-size:.98rem;line-height:1.66}
+  .fyv-card.dead p{color:var(--muted)}
+  .fyv-card.alive{border-left:2px solid var(--peacock-teal)}
+  .fyv-card.alive p{color:var(--ivory)}
+  .fyv-tag{font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+    color:var(--muted);display:block;margin-bottom:14px}
+  .fyv-card.alive .fyv-tag{color:var(--peacock-teal)}
+  .fyv-caption{margin-top:22px;color:var(--muted);font-size:.95rem}
+
+  .fyv-phases{list-style:none;margin:38px 0 0;padding:0}
+  .phase{display:grid;grid-template-columns:5rem 1fr;gap:0 18px;align-items:start;
+    padding:26px 0;border-top:1px solid var(--hairline)}
+  .phase:last-child{border-bottom:1px solid var(--hairline)}
+  .phase-num{font-family:var(--font-display);font-size:2.6rem;line-height:.85;
+    color:var(--gold);opacity:.6;font-variant-numeric:tabular-nums}
+  .phase h3{font-family:var(--font-body);font-size:1.02rem;font-weight:700;
+    color:var(--ivory);margin-bottom:.35em;line-height:1.4}
+  .phase p{margin:0;font-size:.97rem}
+
+  .fyv-notes{list-style:none;margin:34px 0 0;padding:0;max-width:40rem}
+  .fyv-notes li{position:relative;padding-left:26px;margin-bottom:18px;color:var(--parchment);font-size:.99rem}
+  .fyv-notes li::before{content:"";position:absolute;left:0;top:.72em;width:12px;height:1px;background:var(--gold)}
+  .fyv-notes li:last-child{margin-bottom:0}
+
+  .fyv-gate{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,26rem);
+    gap:clamp(28px,5vw,56px);align-items:start;margin-top:8px}
+  .fyv-gate .form-card{padding:12px}
+  .fyv-gate .fc-title{font-family:var(--font-display);font-size:1.5rem;color:#10262C;
+    padding:16px 16px 2px;line-height:1.15}
+  .fyv-gate .fc-sub{font-size:.88rem;color:#33474B;padding:0 16px 4px}
+  .fyv-gate .fine{font-size:.78rem;color:#5c6f72;padding:6px 16px 12px;margin:0;line-height:1.55}
+  .fyv-gate iframe{width:100%;min-height:434px;border:none}
+
+  .fyv-cta{background:var(--ink-2);border-top:1px solid var(--hairline-gold)}
+  .fyv-cta-grid{display:grid;grid-template-columns:minmax(0,20rem) minmax(0,1fr);
+    gap:clamp(28px,5vw,60px);align-items:center}
+  .fyv-portrait img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--hairline)}
+
+  /* the ladder: where this sits among the other tools */
+  .fh-ladder{list-style:none;margin:38px 0 0;padding:0;counter-reset:rung}
+  .fh-rung{display:grid;grid-template-columns:3.2rem 1fr;gap:0 18px;align-items:start;
+    padding:22px 0;border-top:1px solid var(--hairline)}
+  .fh-rung:last-child{border-bottom:1px solid var(--hairline)}
+  .fh-rung::before{counter-increment:rung;content:counter(rung);font-family:var(--font-display);
+    font-size:1.9rem;color:var(--gold);opacity:.55;line-height:1}
+  .fh-rung h3{font-family:var(--font-body);font-size:1rem;font-weight:700;color:var(--ivory);margin-bottom:.3em}
+  .fh-rung p{margin:0;font-size:.95rem}
+  .fh-rung.here{background:linear-gradient(90deg,#C6A15B12,transparent 60%)}
+  .fh-rung.here h3::after{content:"you are here";font-family:var(--font-body);font-size:.68rem;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-left:12px}
+
+  @media(max-width:900px){ .fyv-gate{grid-template-columns:1fr} }
+  @media(max-width:820px){ .fyv-cta-grid{grid-template-columns:1fr} .fyv-portrait img{max-width:16rem} }
+  @media(max-width:640px){
+    .fyv-compare{grid-template-columns:1fr}
+    .phase{grid-template-columns:3.4rem 1fr}
+    .phase-num{font-size:2rem}
+    .fh-rung{grid-template-columns:2.4rem 1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<header class="site-header">
+  <div class="container-wide nav">
+    <a class="brand" href="index.html" aria-label="Eric Farewell home">
+      <img class="sig-img" src="assets/img/signature-white.png" alt="Eric Farewell">
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="my-story.html">My Story</a>
+      <a href="coaching.html">Coaching</a>
+      <a href="programs.html">Programs</a>
+      <a href="speaking.html">Speaking</a>
+      <a href="podcasts.html">Podcasts</a>
+      <a href="blog.html">Blog</a>
+      <a class="nav-cta" href="https://api.leadconnectorhq.com/widget/survey/2xdpKkxkx8SL5p792z4W?notrack=true">Work With Me</a>
+    </nav>
+    <button class="menu-btn" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  </div>
+</header>
+<div class="mobile-menu">
+  <button class="mobile-close" aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <a href="index.html">Home</a>
+  <a href="my-story.html">My Story</a>
+  <a href="coaching.html">Coaching</a>
+  <a href="programs.html">Programs</a>
+  <a href="speaking.html">Speaking</a>
+  <a href="podcasts.html">Podcasts</a>
+  <a href="blog.html">Blog</a>
+  <a href="testimonials.html">Testimonials</a>
+  <a href="contact.html">Contact</a>
+  <a class="btn btn-gold" href="https://api.leadconnectorhq.com/widget/survey/2xdpKkxkx8SL5p792z4W?notrack=true">Work With Me</a>
+</div>
+
+<section class="hero">
+  <div class="hero-bg wash"></div>
+  <div class="container">
+    <span class="eyebrow reveal">The First Hour · Free</span>
+    <h1 class="display reveal">Everybody told you to use it. <span class="italic-gold">Nobody told you what for.</span></h1>
+    <p class="lede reveal">Most people open it, ask a couple of questions, get a decent answer, and quietly stop. Not because the thing is useless, but because nobody starts by looking at how their week actually goes. This is an hour that does.</p>
+    <div class="btns reveal">
+      <a class="btn btn-gold" href="#get-it">Get the hour</a>
+      <a class="btn btn-ghost" href="#how">See what happens</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <span class="eyebrow reveal">What I kept watching</span>
+    <h2 class="reveal">The problem isn't the tool. It's the blank box.</h2>
+    <div class="fyv-prose reveal">
+      <p>I've watched a lot of smart people bounce off this. They sign up, they get the blinking cursor, and the only thing that comes to mind is a question they could have googled. So they ask it, and they get a fine answer, and nothing about their week changes. A month later they've decided it's overhyped.</p>
+      <p>What I noticed is that none of them had a wrong idea about AI. They had no idea where it fit. And that's not something you solve by reading a list of use cases, because your week isn't on anybody's list.</p>
+      <p>So this starts somewhere else. Not with what the tool can do, with what you actually did last week.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec-deep" id="how">
+  <div class="container">
+    <span class="eyebrow reveal">The hour</span>
+    <h2 class="reveal">Eight phases, one sitting.</h2>
+    <p class="lede fyv-prose reveal">You answer questions, it does the work, and by the end there are things running that weren't running before.</p>
+
+    <div class="fyv-compare reveal">
+      <div class="fyv-card dead">
+        <span class="fyv-tag">The usual first hour</span>
+        <p>"What can you help me with?" A list of twelve generic capabilities. You pick one, try it, it's fine, you close the tab.</p>
+      </div>
+      <div class="fyv-card alive">
+        <span class="fyv-tag">This one</span>
+        <p>"What did you do more than twice last week? What did you do at 9pm that you resented?" Then a ranked table of where it genuinely helps, and the honest list of where it won't.</p>
+      </div>
+    </div>
+    <p class="fyv-caption reveal">One is a brochure. The other is a diagnosis.</p>
+
+    <ol class="fyv-phases reveal">
+      <li class="phase">
+        <div class="phase-num">1</div>
+        <div><h3>The audit</h3><p>Eight questions about your last seven days. Then a scored table: hours it costs you, how much you hate it, how well this actually works. Including a straight answer on what to skip.</p></div>
+      </li>
+      <li class="phase">
+        <div class="phase-num">2</div>
+        <div><h3>A memory</h3><p>The step nearly everyone misses. A context file holding who you are, what you're building, and the people you'll mention constantly, so you stop reintroducing yourself every conversation. Everything else gets better once this exists.</p></div>
+      </li>
+      <li class="phase">
+        <div class="phase-num">3</div>
+        <div><h3>What never gets pasted</h3><p>Client information, anything you're under obligation to protect, anything that would hurt if it surfaced. Three rules you can remember, plus the habit of checking anything you'd act on.</p></div>
+      </li>
+      <li class="phase">
+        <div class="phase-num">4</div>
+        <div><h3>One real win</h3><p>The top item from your own table, done for real with your own material. Not a demo. You need to feel it once.</p></div>
+      </li>
+      <li class="phase">
+        <div class="phase-num">5</div>
+        <div><h3>How to make it better</h3><p>You edit what it made. It reads your edits as rules and writes them down. This is the habit that separates people who get value from people who give up, and almost nobody stumbles into it.</p></div>
+      </li>
+      <li class="phase">
+        <div class="phase-num">6</div>
+        <div><h3>Goals, and something that holds you to them</h3><p>Three goals, what done looks like, and a weekly check-in that reads your calendar before it asks how the week went.</p></div>
+      </li>
+      <li class="phase">
+        <div class="phase-num">7</div>
+        <div><h3>The part of life that isn't work</h3><p>Travel, money, the kids' logistics, the research you've been meaning to do for months. One of them set up before you finish.</p></div>
+      </li>
+      <li class="phase">
+        <div class="phase-num">8</div>
+        <div><h3>What comes next</h3><p>Where to go after this, in order, based on what it learned about you. Including which things aren't for you.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <span class="eyebrow reveal">The accountability piece</span>
+    <h2 class="reveal">Your calendar doesn't lie.</h2>
+    <div class="fyv-prose reveal">
+      <p>Most goal trackers ask how the week went. You tell them what you wish were true, they record it, and everyone feels fine.</p>
+      <p>This one looks first. It reads where your hours actually went, works out which of your three goals got any of them, and then asks about the one that didn't. By name, specifically, and only one question.</p>
+      <p>When something has sat untouched for three weeks, it says so rather than letting it drift. And it holds open the possibility that you set the wrong goal in the first place. Dropping something on purpose gets recorded as a decision, not a failure, which is the part most systems get backwards.</p>
+    </div>
+    <ul class="fyv-notes reveal">
+      <li>Your goals live in a document you own. The dashboard is just the view of it.</li>
+      <li>The check-in runs whether you open the page or not, which is the whole point.</li>
+      <li>Two questions maximum. Nobody has ever been coached into action by a wall of prompts.</li>
+      <li>If the week was consumed by something that mattered more, it says that and lets the goals wait.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= OPT-IN GATE ================= -->
+<section id="get-it" class="sec-deep">
+  <div class="container">
+    <span class="eyebrow reveal">Free, and yours in about ten seconds</span>
+    <h2 class="reveal">Send it to me.</h2>
+    <div class="fyv-gate">
+      <div class="reveal">
+        <div class="fyv-prose">
+          <p>Two prompts. The first is the hour itself, and it sets up the second one as a weekly job before you finish. You need an account with Claude or something like it, and nothing else.</p>
+          <p>No course, no drip sequence. Drop your email and the next page has both of them.</p>
+        </div>
+        <ul class="fyv-notes">
+          <li>Set aside an hour. Most of it is answering questions about your own week.</li>
+          <li>Nothing to install. You'll finish with a context file, one piece of finished work, a goals dashboard, and two things running on a schedule.</li>
+          <li>Works whether you're starting from zero or you've been poking at this for a year without much to show for it.</li>
+        </ul>
+      </div>
+
+      <!-- ============================================================
+           EMAIL CAPTURE — GoHighLevel / LeadConnector
+           BEFORE THIS GOES LIVE: create a "First Hour" form in GHL,
+           set On Submit -> Redirect to
+               https://ericfarewell.com/the-first-hour.html
+           then replace FIRSTHOUR_FORM_ID below in all three places
+           (src, id, data-form-id). Tag via a workflow, not the form.
+           ============================================================ -->
+      <div class="form-card reveal">
+        <div class="fc-title">Get both prompts</div>
+        <div class="fc-sub">They open on the next page, right away.</div>
+        <iframe src="https://api.leadconnectorhq.com/widget/form/FIRSTHOUR_FORM_ID"
+          id="inline-FIRSTHOUR_FORM_ID" data-form-id="FIRSTHOUR_FORM_ID"
+          data-layout="{'id':'INLINE'}" data-layout-iframe-id="inline-FIRSTHOUR_FORM_ID"
+          data-form-name="First Hour" title="First Hour" data-height="434"
+          style="width:100%;min-height:434px;border:none;background:transparent"></iframe>
+        <p class="fine">No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <span class="eyebrow reveal">Where this sits</span>
+    <h2 class="reveal">There are four of these, and order matters.</h2>
+    <p class="lede fyv-prose reveal">Each one assumes the last. Doing them out of sequence is how people end up with a lot of setup and nothing running.</p>
+    <ol class="fh-ladder reveal">
+      <li class="fh-rung">
+        <div>
+          <h3>The Solo Hot Seat</h3>
+          <p>Twenty-five minutes with the questions nobody asks you anymore. No AI at all. Start here if what you need is a better question rather than a faster answer.</p>
+        </div>
+      </li>
+      <li class="fh-rung here">
+        <div>
+          <h3>The First Hour</h3>
+          <p>Where AI fits your week, a memory, one real win, and goals with a check-in that has teeth.</p>
+        </div>
+      </li>
+      <li class="fh-rung">
+        <div>
+          <h3>Find Your Voice</h3>
+          <p>An hour that builds a profile from your own writing, so drafts sound like you instead of like a machine. Do this before anything writes under your name.</p>
+        </div>
+      </li>
+      <li class="fh-rung">
+        <div>
+          <h3>The Weekly Harvest</h3>
+          <p>If you're recorded a lot, this reads your week of calls and turns what you already said into content. Needs the voice profile first.</p>
+        </div>
+      </li>
+    </ol>
+    <p class="fyv-caption reveal">All four are free. None of them require the others to be useful, but they compound in that order.</p>
+  </div>
+</section>
+
+<section class="fyv-cta">
+  <div class="container fyv-cta-grid">
+    <figure class="fyv-portrait reveal">
+      <img src="assets/img/eric-portrait-dock.jpg" alt="Eric Farewell" loading="lazy">
+    </figure>
+    <div class="reveal">
+      <h2>Rather do this with me in the room?</h2>
+      <p class="lede fyv-prose">The hour is free and it stands on its own. If what you actually want is someone in the room while you figure out what you're building and who you're becoming, that's the work I do.</p>
+      <div class="btns">
+        <a class="btn btn-gold" href="https://api.leadconnectorhq.com/widget/survey/2xdpKkxkx8SL5p792z4W?notrack=true">Work With Me</a>
+        <a class="btn btn-ghost" href="coaching.html">See the coaching</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container-wide">
+    <div class="foot-grid">
+      <div class="foot foot-brand">
+        <div class="brand" style="margin-bottom:18px">
+          <img class="sig-img foot-sig" src="assets/img/signature-white.png" alt="Eric Farewell">
+        </div>
+        <p class="muted" style="max-width:34ch">Somatic business coaching for founders. Reclaim your freedom. Realign your life.</p>
+        <p class="muted" style="margin-top:14px;font-size:.85rem">Farewell Holdings LLC · Austin, TX</p>
+      </div>
+      <div class="foot">
+        <h4>Explore</h4>
+        <a href="my-story.html">My Story</a>
+        <a href="coaching.html">Coaching</a>
+        <a href="programs.html">Programs</a>
+        <a href="speaking.html">Speaking</a>
+        <a href="podcasts.html">Podcasts</a>
+      </div>
+      <div class="foot">
+        <h4>Connect</h4>
+        <a href="https://api.leadconnectorhq.com/widget/survey/2xdpKkxkx8SL5p792z4W?notrack=true">Work With Me</a>
+        <a href="https://coaching.ericfarewell.com/assesment">Aligned Freedom Assessment</a>
+        <a href="blog.html">Blog</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Farewell Holdings LLC. All rights reserved.</span>
+      <span>
+        <a href="https://coaching.ericfarewell.com/terms-of-service" style="display:inline;margin-right:20px">Terms &amp; Conditions</a>
+        <a href="https://coaching.ericfarewell.com/privacy-policy" style="display:inline">Privacy Policy</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://link.msgsndr.com/js/form_embed.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>
