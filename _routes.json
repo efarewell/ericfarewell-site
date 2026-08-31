@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "include": [
+    "/time-audit",
+    "/time-audit/*",
+    "/signin-with-chatgpt",
+    "/signout-with-chatgpt",
+    "/callback",
+    "/_next/*",
+    "/api/audio/*",
+    "/api/google/*"
+  ],
+  "exclude": []
+}
