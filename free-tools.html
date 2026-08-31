@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Tools — Eric Farewell</title>
+<meta name="description" content="Four free tools for founders. A session with the questions nobody asks you, an hour that sets AI up around your actual week, a voice profile, and a weekly content harvest.">
+<link rel="canonical" href="https://ericfarewell.com/free-tools.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eric Farewell">
+<meta property="og:title" content="Free Tools — Eric Farewell">
+<meta property="og:description" content="Four things I built for my own week first, then handed to the founders in my room.">
+<meta property="og:url" content="https://ericfarewell.com/free-tools.html">
+<meta property="og:image" content="https://ericfarewell.com/assets/img/og-default.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Four free tools for founders, from Eric Farewell">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Tools — Eric Farewell">
+<meta name="twitter:description" content="Four things I built for my own week first, then handed to the founders in my room.">
+<meta name="twitter:image" content="https://ericfarewell.com/assets/img/og-default.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Great+Vibes&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<script>document.documentElement.classList.add('js')</script>
+
+<style>
+  .fyv-prose{max-width:40rem}
+  .fyv-prose p{color:var(--parchment)}
+  .fyv-prose strong{color:var(--ivory);font-weight:600}
+
+  .ft-list{list-style:none;margin:44px 0 0;padding:0;counter-reset:tool}
+  .ft-item{display:grid;grid-template-columns:4rem 1fr;gap:0 22px;align-items:start;
+    padding:34px 0;border-top:1px solid var(--hairline)}
+  .ft-item:last-child{border-bottom:1px solid var(--hairline)}
+  .ft-item::before{counter-increment:tool;content:counter(tool);font-family:var(--font-display);
+    font-size:2.6rem;color:var(--gold);opacity:.5;line-height:.9}
+  .ft-item h3{font-family:var(--font-display);font-size:1.6rem;font-weight:500;color:var(--ivory);
+    margin-bottom:.35em;line-height:1.2}
+  .ft-item h3 a{color:inherit;text-decoration:none;border-bottom:1px solid transparent;
+    transition:border-color .2s,color .2s}
+  .ft-item h3 a:hover{color:var(--gold-bright);border-bottom-color:var(--gold)}
+  .ft-item h3 a::after{content:"\2009\2192";color:var(--gold);opacity:.8}
+  .ft-item > div > p{margin:0 0 14px;color:var(--parchment);max-width:44rem}
+  .ft-meta{display:flex;flex-wrap:wrap;gap:10px 26px;margin:0 0 16px;padding:0;list-style:none}
+  .ft-meta li{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+  .ft-meta li b{color:var(--gold);font-weight:700}
+  .ft-fit{margin:14px 0 0;padding:0;list-style:none;max-width:44rem}
+  .ft-fit li{position:relative;padding-left:26px;margin-bottom:9px;color:var(--parchment);font-size:.95rem}
+  .ft-fit li::before{content:"";position:absolute;left:0;top:.72em;width:12px;height:1px;background:var(--gold)}
+  .ft-fit li:last-child{margin-bottom:0}
+  .ft-fit li.skip{color:var(--muted)}
+  .ft-fit li.skip::before{background:var(--muted);opacity:.6}
+  .ft-cta{margin-top:20px}
+  .ft-cta .btn{padding:11px 26px;font-size:.86rem}
+
+  .fyv-notes{list-style:none;margin:34px 0 0;padding:0;max-width:40rem}
+  .fyv-notes li{position:relative;padding-left:26px;margin-bottom:18px;color:var(--parchment);font-size:.99rem}
+  .fyv-notes li::before{content:"";position:absolute;left:0;top:.72em;width:12px;height:1px;background:var(--gold)}
+  .fyv-notes li:last-child{margin-bottom:0}
+
+  .fyv-cta{background:var(--ink-2);border-top:1px solid var(--hairline-gold)}
+  .fyv-cta-grid{display:grid;grid-template-columns:minmax(0,20rem) minmax(0,1fr);
+    gap:clamp(28px,5vw,60px);align-items:center}
+  .fyv-portrait img{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--hairline)}
+
+  @media(max-width:820px){ .fyv-cta-grid{grid-template-columns:1fr} .fyv-portrait img{max-width:16rem} }
+  @media(max-width:640px){
+    .ft-item{grid-template-columns:2.8rem 1fr;gap:0 16px;padding:28px 0}
+    .ft-item::before{font-size:2rem}
+    .ft-item h3{font-size:1.35rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<header class="site-header">
+  <div class="container-wide nav">
+    <a class="brand" href="index.html" aria-label="Eric Farewell home">
+      <img class="sig-img" src="assets/img/signature-white.png" alt="Eric Farewell">
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="my-story.html">My Story</a>
+      <a href="coaching.html">Coaching</a>
+      <a href="programs.html">Programs</a>
+      <a href="speaking.html">Speaking</a>
+      <a href="podcasts.html">Podcasts</a>
+      <a href="blog.html">Blog</a>
+      <a href="free-tools.html">Free Tools</a>
+      <a class="nav-cta" href="https://api.leadconnectorhq.com/widget/survey/2xdpKkxkx8SL5p792z4W?notrack=true">Work With Me</a>
+    </nav>
+    <button class="menu-btn" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  </div>
+</header>
+<div class="mobile-menu">
+  <button class="mobile-close" aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <a href="index.html">Home</a>
+  <a href="my-story.html">My Story</a>
+  <a href="coaching.html">Coaching</a>
+  <a href="programs.html">Programs</a>
+  <a href="speaking.html">Speaking</a>
+  <a href="podcasts.html">Podcasts</a>
+  <a href="blog.html">Blog</a>
+  <a href="free-tools.html">Free Tools</a>
+  <a href="testimonials.html">Testimonials</a>
+  <a href="contact.html">Contact</a>
+  <a class="btn btn-gold" href="https://api.leadconnectorhq.com/widget/survey/2xdpKkxkx8SL5p792z4W?notrack=true">Work With Me</a>
+</div>
+
+<section class="hero" style="min-height:52vh">
+  <div class="hero-bg wash"></div>
+  <div class="container">
+    <span class="eyebrow reveal">Free tools</span>
+    <h1 class="display reveal" style="font-size:clamp(2.6rem,6vw,5rem)">Four things I built for <span class="italic-gold">my own week first</span>.</h1>
+    <p class="lede reveal">Each one started as something that was costing me hours or quietly not getting done. I built the fix, lived with it for a few months, and then handed it to the founders in my room. Every one of them is free and none of them need me to work.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <span class="eyebrow reveal">Where to start</span>
+    <h2 class="reveal">Take the one that matches this week.</h2>
+    <div class="fyv-prose reveal">
+      <p>They are numbered because they compound in that order, though nobody has to do all four. Pick by what is actually true for you right now. Each one says who should skip it, and I mean those parts.</p>
+    </div>
+
+    <ol class="ft-list">
+      <li class="ft-item reveal">
+        <div>
+          <h3><a href="hotseat.html">The Solo Hot Seat</a></h3>
+          <ul class="ft-meta">
+            <li><b>25 minutes</b></li>
+            <li>Pen and paper</li>
+            <li>No AI at all</li>
+          </ul>
+          <p>I started my first company at thirteen, and somewhere along the way people quit asking me real questions. This is a piece of the room I run for founders, built for one person, alone, with the phone in another room.</p>
+          <ul class="ft-fit">
+            <li>Start here when what you need is a better question rather than a faster answer.</li>
+            <li class="skip">Skip it if you are looking for a system. This one is just you and three rounds of questions that get harder on purpose.</li>
+          </ul>
+          <div class="ft-cta"><a class="btn btn-ghost" href="hotseat.html">Get the session</a></div>
+        </div>
+      </li>
+
+      <li class="ft-item reveal">
+        <div>
+          <h3><a href="first-hour.html">The First Hour</a></h3>
+          <ul class="ft-meta">
+            <li><b>One hour</b></li>
+            <li>Two prompts</li>
+            <li>Sets itself up</li>
+          </ul>
+          <p>I had AI for a year before it was worth much. What finally moved was an hour spent on my own last seven days instead of on the tool. This walks through the audit, builds a memory so you stop reintroducing yourself every conversation, does one real piece of your work, and leaves a weekly check-in running that reads your calendar before it asks how the week went.</p>
+          <ul class="ft-fit">
+            <li>Start here if you are new to this, or if you have been poking at it for months without much to show.</li>
+            <li class="skip">Skip it if you already have a context file, a goals system you trust, and things running on a schedule.</li>
+          </ul>
+          <div class="ft-cta"><a class="btn btn-gold" href="first-hour.html">Get the hour</a></div>
+        </div>
+      </li>
+
+      <li class="ft-item reveal">
+        <div>
+          <h3><a href="find-your-voice.html">Find Your Voice</a></h3>
+          <ul class="ft-meta">
+            <li><b>About an hour</b></li>
+            <li>Uses your own writing</li>
+            <li>Done once</li>
+          </ul>
+          <p>AI drafts fast, and it drafts the same way for everyone. I spent hundreds of hours trying to teach it to sound like me before I found something that held. It builds a profile from what you have already written, and every draft after that starts from you.</p>
+          <ul class="ft-fit">
+            <li>Do this before anything goes out under your name. Posts, newsletters, client emails, a book.</li>
+            <li class="skip">Skip it if nothing you produce carries your name on it.</li>
+          </ul>
+          <div class="ft-cta"><a class="btn btn-ghost" href="find-your-voice.html">Send me the prompt</a></div>
+        </div>
+      </li>
+
+      <li class="ft-item reveal">
+        <div>
+          <h3><a href="harvest.html">The Weekly Harvest</a></h3>
+          <ul class="ft-meta">
+            <li><b>Runs weekly</b></li>
+            <li>Set up once</li>
+            <li>Wants the voice profile</li>
+          </ul>
+          <p>Somewhere in twenty hours of talking I say the truest version of something I believe, once, to one person, and then it is gone. This reads every conversation recorded that week, finds the moments worth saying again, and writes them the way I would have.</p>
+          <ul class="ft-fit">
+            <li>Do this if you are on calls constantly and the best things you say never make it past the call.</li>
+            <li class="skip">Skip it if you are not recorded much. There will be nothing for it to read.</li>
+          </ul>
+          <div class="ft-cta"><a class="btn btn-ghost" href="harvest.html">Get the system</a></div>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec-deep">
+  <div class="container">
+    <span class="eyebrow reveal">Before you start</span>
+    <h2 class="reveal">A few honest notes.</h2>
+    <ul class="fyv-notes reveal">
+      <li><strong>These are prompts, not products.</strong> You paste them into Claude or something like it and answer what they ask. Nothing to install, no account with me, no trial that expires.</li>
+      <li><strong>Three of the four need an AI subscription.</strong> The Hot Seat does not. It needs twenty-five minutes and a closed door.</li>
+      <li><strong>They ask real questions and they expect real answers.</strong> Vague in, vague out. The value lives in the specificity of what you tell them.</li>
+      <li><strong>Nothing here sells you the next thing.</strong> If one of them is wrong for you, it says so and tells you what to do instead.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="fyv-cta">
+  <div class="container fyv-cta-grid">
+    <figure class="fyv-portrait reveal">
+      <img src="assets/img/eric-portrait-dock.jpg" alt="Eric Farewell" loading="lazy">
+    </figure>
+    <div class="reveal">
+      <h2>Rather do this with me in the room?</h2>
+      <p class="lede fyv-prose">All four of these stand on their own. If what you actually want is someone in the room while you work out what you are building and who you are becoming, that is the work I do.</p>
+      <div class="btns">
+        <a class="btn btn-gold" href="https://api.leadconnectorhq.com/widget/survey/2xdpKkxkx8SL5p792z4W?notrack=true">Work With Me</a>
+        <a class="btn btn-ghost" href="coaching.html">See the coaching</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container-wide">
+    <div class="foot-grid">
+      <div class="foot foot-brand">
+        <div class="brand" style="margin-bottom:18px">
+          <img class="sig-img foot-sig" src="assets/img/signature-white.png" alt="Eric Farewell">
+        </div>
+        <p class="muted" style="max-width:34ch">Somatic business coaching for founders. Reclaim your freedom. Realign your life.</p>
+        <p class="muted" style="margin-top:14px;font-size:.85rem">Farewell Holdings LLC · Austin, TX</p>
+      </div>
+      <div class="foot">
+        <h4>Explore</h4>
+        <a href="my-story.html">My Story</a>
+        <a href="coaching.html">Coaching</a>
+        <a href="programs.html">Programs</a>
+        <a href="speaking.html">Speaking</a>
+        <a href="podcasts.html">Podcasts</a>
+        <a href="free-tools.html">Free Tools</a>
+      </div>
+      <div class="foot">
+        <h4>Connect</h4>
+        <a href="https://api.leadconnectorhq.com/widget/survey/2xdpKkxkx8SL5p792z4W?notrack=true">Work With Me</a>
+        <a href="https://coaching.ericfarewell.com/assesment">Aligned Freedom Assessment</a>
+        <a href="blog.html">Blog</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Farewell Holdings LLC. All rights reserved.</span>
+      <span>
+        <a href="https://coaching.ericfarewell.com/terms-of-service" style="display:inline;margin-right:20px">Terms &amp; Conditions</a>
+        <a href="https://coaching.ericfarewell.com/privacy-policy" style="display:inline">Privacy Policy</a>
+      </span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/site.js"></script>
+</body>
+</html>
