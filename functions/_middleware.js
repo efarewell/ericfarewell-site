@@ -8,6 +8,7 @@ function shouldProxy(pathname) {
     || pathname === '/callback'
     || pathname.startsWith('/_next/')
     || pathname.startsWith('/api/audio/')
+    || pathname.startsWith('/api/audit/')
     || pathname.startsWith('/api/google/');
 }
 
@@ -34,3 +35,4 @@ export async function onRequest(context) {
     headers,
   });
 }
+
