@@ -20,9 +20,20 @@ function shouldUseUpstreamAuth(pathname) {
     || pathname === '/callback';
 }
 
+function isTimeAuditSignatureRequest(url) {
+  return url.pathname === '/_next/image'
+    && url.searchParams.get('url') === '/eric-farewell-signature.png';
+}
+
 export async function onRequest(context) {
   const publicUrl = new URL(context.request.url);
   if (!shouldProxy(publicUrl.pathname)) return context.next();
+
+  // The Time Audit app references a root-level signature that does not exist on
+  // ericfarewell.com. Keep the site header and footer on Eric's existing mark.
+  if (isTimeAuditSignatureRequest(publicUrl)) {
+    return Response.redirect(new URL('/assets/img/signature-white.png', publicUrl), 302);
+  }
 
   const upstreamUrl = new URL(`${publicUrl.pathname}${publicUrl.search}`, TIME_AUDIT_ORIGIN);
   if (shouldUseUpstreamAuth(publicUrl.pathname)) return Response.redirect(upstreamUrl, 307);

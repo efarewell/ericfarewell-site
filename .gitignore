@@ -1,0 +1,14 @@
+# Private review and unfinished access-gated pages. These stay local until a
+# server-validated access layer and final GHL workflow are ready.
+journey-review.html
+coaching-system-lab.html
+royals-experience.html
+tools-library.html
+media.html
+assets/css/coaching-lab.css
+assets/css/review.css
+assets/js/coaching-system-lab.js
+assets/js/experience-application.js
+assets/js/review.js
+assets/js/tool-access.js
+assets/js/tools-library.js

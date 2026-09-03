@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Place to Begin | Eric Farewell</title>
+<meta name="description" content="Tell me what you are trying to change. I will offer one private tool that may help you begin.">
+<link rel="canonical" href="https://ericfarewell.com/start.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/journey.css">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+</head>
+<body class="wash">
+<div class="grain"></div>
+<header class="site-header scrolled">
+  <div class="container-wide nav">
+    <a class="brand" href="index.html" aria-label="Eric Farewell home"><img class="sig-img" src="assets/img/signature-white.png" alt="Eric Farewell"></a>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="my-story.html">Eric</a>
+      <a href="work-with-eric.html">Work with Eric</a>
+      <a href="royals.html">Royals</a>
+      <a href="blog.html">Writing</a>
+      <a href="speaking.html">Speaking</a>
+      <a class="nav-cta active" href="start.html">Start here</a>
+    </nav>
+    <button class="menu-btn" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  </div>
+</header>
+<div class="mobile-menu">
+  <button class="mobile-close" aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <a href="my-story.html">Eric</a><a href="work-with-eric.html">Work with Eric</a><a href="royals.html">Royals</a><a href="blog.html">Writing</a><a href="speaking.html">Speaking</a><a href="start.html">Start here</a>
+</div>
+
+<main class="journey-page">
+  <div class="journey-shell">
+    <div class="journey-top">
+      <span class="eyebrow">A place to begin</span>
+      <span class="prototype-badge">Four questions · No score</span>
+    </div>
+
+    <form data-guided-start novalidate>
+      <div class="journey-card">
+        <div class="journey-inner">
+          <div class="journey-progress" aria-label="Question progress">
+            <span>Guided start</span><span class="journey-progress-track"><span class="journey-progress-bar"></span></span><span data-step-count></span>
+          </div>
+
+          <section class="journey-step active">
+            <h1 class="journey-question">Tell me what you are trying to change.</h1>
+            <p class="journey-help">I have built a few tools for questions I have faced in my own companies, writing, decisions, and life. Tell me what is happening, and I will offer one place to begin. It is a perspective, not a verdict. You can choose differently.</p>
+            <span class="journey-label">What needs attention now?</span>
+            <div class="choice-grid">
+              <label class="choice"><input required type="radio" name="primary_need" value="decision"><span>A decision or conversation I keep circling.</span></label>
+              <label class="choice"><input required type="radio" name="primary_need" value="time"><span>My time, workload, or what I should stop carrying.</span></label>
+              <label class="choice"><input required type="radio" name="primary_need" value="ai"><span>How I am using AI and whether it knows enough to help.</span></label>
+              <label class="choice"><input required type="radio" name="primary_need" value="voice"><span>Writing or communication that no longer sounds like me.</span></label>
+              <label class="choice"><input required type="radio" name="primary_need" value="harvest"><span>Useful ideas from calls or recordings that keep disappearing.</span></label>
+              <label class="choice"><input required type="radio" name="primary_need" value="unsure"><span>I am not sure yet.</span></label>
+            </div>
+            <div class="journey-error" aria-live="polite"></div>
+            <div class="journey-actions"><span></span><button class="btn btn-gold" type="button" data-next>Continue</button></div>
+          </section>
+
+          <section class="journey-step">
+            <h2 class="journey-question">What is happening inside that?</h2>
+            <p class="journey-help">Choose the answer that comes closest. It does not need to contain the whole story.</p>
+            <div class="choice-grid" data-detail-choices></div>
+            <div class="journey-error" aria-live="polite"></div>
+            <div class="journey-actions"><button class="journey-back" type="button" data-back>Back</button><button class="btn btn-gold" type="button" data-next>Continue</button></div>
+          </section>
+
+          <section class="journey-step">
+            <h2 class="journey-question">What would useful movement look like in the next two weeks?</h2>
+            <p class="journey-help">Keep it small enough that you could notice whether it happened.</p>
+            <div class="journey-field"><label for="movement">Your words</label><textarea id="movement" name="movement" maxlength="300" placeholder="I would know something moved if..."></textarea><small>Optional. 300 characters.</small></div>
+            <div class="journey-error" aria-live="polite"></div>
+            <div class="journey-actions"><button class="journey-back" type="button" data-back>Back</button><button class="btn btn-gold" type="button" data-next>Continue</button></div>
+          </section>
+
+          <section class="journey-step">
+            <h2 class="journey-question">How would you rather begin?</h2>
+            <p class="journey-help">This helps me choose the version of the practice that creates the least friction.</p>
+            <div class="choice-grid">
+              <label class="choice"><input required type="radio" name="mode" value="voice"><span>Speak and let the tool help me organize it.</span></label>
+              <label class="choice"><input required type="radio" name="mode" value="write"><span>Work through a few written questions.</span></label>
+              <label class="choice"><input required type="radio" name="mode" value="connect"><span>Connect a calendar or existing source.</span></label>
+              <label class="choice"><input required type="radio" name="mode" value="system"><span>Set up a system I can return to.</span></label>
+              <label class="choice"><input required type="radio" name="mode" value="clear"><span>I do not care. Give me the clearest starting point.</span></label>
+            </div>
+            <div class="journey-error" aria-live="polite"></div>
+            <div class="journey-actions"><button class="journey-back" type="button" data-back>Back</button><button class="btn btn-gold" type="submit">Show me where to begin</button></div>
+          </section>
+        </div>
+      </div>
+    </form>
+
+    <section class="journey-card result-card" data-guided-result aria-live="polite">
+      <div class="journey-inner">
+        <span class="eyebrow">A place to begin</span>
+        <h2 class="result-name" data-result-name></h2>
+        <p class="result-reason" data-result-reason></p>
+        <div class="result-question" data-result-question></div>
+        <div class="btns"><a class="btn btn-gold" data-result-link href="#">Begin the tool</a><button class="btn btn-ghost" type="button" data-restart>Choose again</button></div>
+        <p class="privacy-note">The answers stay in this browser and are not submitted to Farewell Holdings. The recommended tool may ask for an email address or account before it opens. Recordings, transcripts, calendar details, and private tool entries are not collected here.</p>
+      </div>
+    </section>
+  </div>
+</main>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/guided-start.js"></script>
+</body>
+</html>
