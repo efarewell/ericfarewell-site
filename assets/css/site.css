@@ -97,6 +97,7 @@ p:last-child{margin-bottom:0}
 .scroll-cue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;color:var(--muted);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px}
 .scroll-cue .line{width:1px;height:40px;background:linear-gradient(var(--gold),transparent);animation:cue 2.2s var(--ease) infinite}
 @keyframes cue{0%{opacity:.2;transform:scaleY(.4)}50%{opacity:1}100%{opacity:.2;transform:scaleY(.4)}}
+@media(max-width:720px){.scroll-cue{display:none}}
 
 /* ---------- Section helpers ---------- */
 .sec-deep{background:linear-gradient(180deg,transparent,#0C232A88,transparent)}
