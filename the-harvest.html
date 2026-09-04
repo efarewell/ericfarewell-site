@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Prompts — The Weekly Harvest</title>
+<title>The Prompts | The Weekly Harvest</title>
 <meta name="description" content="Both prompts for the Weekly Harvest. Paste the first into a new Claude conversation and it sets up the rest.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://ericfarewell.com/the-harvest.html">
@@ -125,7 +125,7 @@ Work through the phases below in order. **Ask me one question at a time and wait
 
 ---
 
-## PHASE 0 — PREFLIGHT
+## PHASE 0: PREFLIGHT
 
 **Check for my voice skill first.** Look for a skill named `&lt;myfirstname&gt;-voice` (for example `sarah-voice`).
 
@@ -134,21 +134,21 @@ Work through the phases below in order. **Ask me one question at a time and wait
 
 ---
 
-## PHASE 1 — FIND MY RECORDINGS (do not ask me, go look)
+## PHASE 1: FIND MY RECORDINGS (do not ask me, go look)
 
 Do not ask me which tools I use. I will forget one. Go and check, then show me what you found.
 
 Probe every one of these that is connected, over the last 30 days:
 
-- **Fathom** — `list_meetings`
-- **Granola** — `list_meetings`
-- **Otter** — `search`
-- **Fireflies** — `get_transcripts`
-- **Grain** — `list_attended_meetings`
-- **tl;dv** — `search-meetings`
-- **Zoom** — `recordings_list`, and `my_notes_get_note_content` if AI Companion notes are on
-- **Google Drive** — search for recent transcript or recording documents
-- **Notion / Apple Notes / Obsidian** — anywhere voice notes might land
+- **Fathom**: `list_meetings`
+- **Granola**: `list_meetings`
+- **Otter**: `search`
+- **Fireflies**: `get_transcripts`
+- **Grain**: `list_attended_meetings`
+- **tl;dv**: `search-meetings`
+- **Zoom**: `recordings_list`, and `my_notes_get_note_content` if AI Companion notes are on
+- **Google Drive**: search for recent transcript or recording documents
+- **Notion / Apple Notes / Obsidian**: anywhere voice notes might land
 
 Then report back as a table: platform, connected yes or no, recordings found in the last 30 days, whether transcripts are actually readable, and any limitation you hit (paid tier walls, missing timestamps, unlabeled speakers).
 
@@ -162,7 +162,7 @@ If a tool I name has no connector available, tell me straight and suggest the cl
 
 ---
 
-## PHASE 2 — THE BRIEF
+## PHASE 2: THE BRIEF
 
 Ask these one at a time. Keep your responses short. Reflect each answer back in one line before moving on so I know you got it.
 
@@ -179,15 +179,15 @@ Ask these one at a time. Keep your responses short. Reflect each answer back in 
 
 ---
 
-## PHASE 3 — THE CONFIDENTIALITY CONTRACT
+## PHASE 3: THE CONFIDENTIALITY CONTRACT
 
 This is the part that protects me, so slow down here.
 
 Explain the three tiers to me, then build my list with me:
 
-- **RED** — never leaves the room. Discarded on sight.
-- **AMBER** — the pattern is usable, the particulars never are.
-- **GREEN** — mine, freely usable.
+- **RED**: never leaves the room. Discarded on sight.
+- **AMBER**: the pattern is usable, the particulars never are.
+- **GREEN**: mine, freely usable.
 
 Ask me, one at a time:
 
@@ -200,7 +200,7 @@ Then show me the finished list and ask me to confirm it before you write it anyw
 
 ---
 
-## PHASE 4 — DESTINATIONS AND TIMING
+## PHASE 4: DESTINATIONS AND TIMING
 
 Ask me, one at a time:
 
@@ -229,9 +229,9 @@ Since the whole weekend is off-peak, tell me I can move it anywhere on Saturday 
 
 ---
 
-## PHASE 5 — WRITE THE CONFIG
+## PHASE 5: WRITE THE CONFIG
 
-Create a Google Doc titled exactly `Content Harvest — Config` containing:
+Create a Google Doc titled exactly `Content Harvest: Config` containing:
 
 - My name and the exact name of my voice skill
 - Every connected platform with the specific tool calls that work for it, and every known limitation you found in Phase 1
@@ -244,13 +244,13 @@ Create a Google Doc titled exactly `Content Harvest — Config` containing:
 - Destinations, with exact folder names and database IDs
 - A calibration notes section, left empty for now
 
-Also create `Content Harvest — Ledger`, empty, with a note at the top explaining that it tracks what has already been used so weeks do not repeat each other.
+Also create `Content Harvest: Ledger`, empty, with a note at the top explaining that it tracks what has already been used so weeks do not repeat each other.
 
 Show me both docs and let me correct them.
 
 ---
 
-## PHASE 6 — THE CALIBRATION RUN (do not skip this)
+## PHASE 6: THE CALIBRATION RUN (do not skip this)
 
 Now run the harvest live, in front of me, over the **last 14 days**, using the weekly harvest prompt exactly as it will run on schedule.
 
@@ -267,18 +267,18 @@ Then ask me, one at a time:
 
 ---
 
-## PHASE 7 — FOLD THE CORRECTIONS BACK
+## PHASE 7: FOLD THE CORRECTIONS BACK
 
 Two places my corrections go, and they are different:
 
 - **Voice corrections** (a word I would never use, a rhythm that is off, a structure that is wrong) go into my `&lt;myfirstname&gt;-voice` skill. Show me exactly what you are adding, get my yes, then re-save the skill **under its existing exact name**. A new name creates a duplicate and burns my skill quota.
-- **Judgment corrections** (what counts as a real insight for me, what the gate missed, how much to draft) go into the calibration notes section of `Content Harvest — Config`.
+- **Judgment corrections** (what counts as a real insight for me, what the gate missed, how much to draft) go into the calibration notes section of `Content Harvest: Config`.
 
 Never change my voice profile silently.
 
 ---
 
-## PHASE 8 — SCHEDULE IT
+## PHASE 8: SCHEDULE IT
 
 Create the recurring scheduled task now.
 
@@ -332,12 +332,12 @@ You are not summarizing meetings. Meeting summaries are worthless as content. Yo
 
 ---
 
-## STEP 0 — LOAD STATE (do this before anything else)
+## STEP 0: LOAD STATE (do this before anything else)
 
-1. **Read the config.** Open the Google Doc titled `Content Harvest — Config`. It holds the platform list, the confidentiality rules, the block list, the destinations, and the calibration notes from setup. Everything in it overrides the defaults in this prompt.
+1. **Read the config.** Open the Google Doc titled `Content Harvest: Config`. It holds the platform list, the confidentiality rules, the block list, the destinations, and the calibration notes from setup. Everything in it overrides the defaults in this prompt.
    - If you cannot find or read it, notify [CLIENT FIRST NAME] that the config is missing and STOP. Do not guess at their confidentiality rules.
 
-2. **Read the ledger.** Open the Google Doc titled `Content Harvest — Ledger`. It lists every insight already harvested and every post already drafted, by week. You will check against it in Step 5 so this week does not repeat a previous week.
+2. **Read the ledger.** Open the Google Doc titled `Content Harvest: Ledger`. It lists every insight already harvested and every post already drafted, by week. You will check against it in Step 5 so this week does not repeat a previous week.
    - If it does not exist, create it. This is the only doc you may create without asking.
 
 3. **Load the voice skill.** Invoke the `[client-firstname]-voice` skill now, before you read a single transcript. It shapes what you notice, not just how you write. If the skill is not available, notify [CLIENT FIRST NAME] and STOP. Do not write in generic voice and hope. Generic drafts are worse than no drafts, because they cost trust.
@@ -346,7 +346,7 @@ You are not summarizing meetings. Meeting summaries are worthless as content. Yo
 
 ---
 
-## STEP 1 — SWEEP EVERY SOURCE
+## STEP 1: SWEEP EVERY SOURCE
 
 Check every platform listed in the config. Run these in parallel where you can. If a platform is not connected, skip it silently. If a platform is connected but errors, note it in the output and keep going. One dead connector never kills a run.
 
@@ -362,28 +362,28 @@ Check every platform listed in the config. Run these in parallel where you can. 
 - Known flaws: no timestamps, no deep links, speaker labels are often just "Me" and "Them" or unlabeled "Speaker A/B/C", and the speech-to-text garbles proper nouns and jargon badly. Treat every Granola quote as a lead to verify, not as a printable quote. Say so in the output.
 - If `query_granola_meetings` times out, fall back to `list_meetings` plus per-meeting transcript calls.
 
-**Zoom** — `recordings_list` for the window, then `get_meeting_assets` / `get_recording_resource` for transcripts. Also check `my_notes_get_note_content` if they use Zoom's AI Companion notes.
+**Zoom**: `recordings_list` for the window, then `get_meeting_assets` / `get_recording_resource` for transcripts. Also check `my_notes_get_note_content` if they use Zoom's AI Companion notes.
 
-**Otter** — `search` scoped to the window, then `fetch` each result.
+**Otter**: `search` scoped to the window, then `fetch` each result.
 
-**Fireflies** — `get_transcripts` for the window, then `get_transcript` per meeting.
+**Fireflies**: `get_transcripts` for the window, then `get_transcript` per meeting.
 
-**Grain** — `list_attended_meetings` for the window, then `fetch_meeting_transcript`.
+**Grain**: `list_attended_meetings` for the window, then `fetch_meeting_transcript`.
 
-**tl;dv** — `search-meetings` for the window, then `get-meeting-transcript`.
+**tl;dv**: `search-meetings` for the window, then `get-meeting-transcript`.
 
 **Voice notes and dictation (Wispr Flow, Superwhisper, voice memos, Apple Notes dictation)**
 - These are usually the richest source per word, because nobody performs while talking to themselves.
 - Wispr Flow has no public export API. If the config says they use it, read whatever they pipe into their notes app or a designated folder instead.
 - Check Apple Notes, Notion, Obsidian, or whatever the config names, filtered to the window.
 
-**Anything else in the config** — podcast recordings, YouTube uploads, Loom videos, webinar replays, voice messages. Follow whatever access path the config specifies.
+**Anything else in the config**: podcast recordings, YouTube uploads, Loom videos, webinar replays, voice messages. Follow whatever access path the config specifies.
 
 **Sweep report.** Before moving on, state plainly: which platforms answered, how many recordings each returned, and which platforms are configured but returned nothing. A silent week is real information. A broken connector is a different thing and [CLIENT FIRST NAME] needs to know which one happened.
 
 ---
 
-## STEP 2 — DEDUPE AND TRIAGE
+## STEP 2: DEDUPE AND TRIAGE
 
 The same call is frequently captured by two or three tools at once. This is normal and you must handle it.
 
@@ -396,7 +396,7 @@ State how many recordings you found, how many you read in full, and why you skip
 
 ---
 
-## STEP 3 — THE CONSENT GATE
+## STEP 3: THE CONSENT GATE
 
 **Run this before you mine anything. Not after. A single leaked detail costs more than a year of good posts is worth.**
 
@@ -404,7 +404,7 @@ State how many recordings you found, how many you read in full, and why you skip
 
 Sort every piece of candidate material into one of three tiers.
 
-**RED — never leaves the room. Discard on sight, do not quote, do not paraphrase, do not "inspire a post" with it.**
+**RED: never leaves the room. Discard on sight, do not quote, do not paraphrase, do not "inspire a post" with it.**
 - Anything from a medical, legal, financial, or therapeutic appointment.
 - Anyone's health, diagnosis, treatment, mental health, addiction, or grief, unless it is [CLIENT FIRST NAME]'s own and the config says their own is fair game.
 - Any named person's money: income, debt, valuation, deal terms, salary, what they paid, what they owe.
@@ -414,13 +414,13 @@ Sort every piece of candidate material into one of three tiers.
 - Anyone whose name appears on the block list in the config.
 - Anything a reasonable person in that room would be embarrassed or damaged to see quoted publicly.
 
-**AMBER — the pattern is usable, the particulars are not.**
+**AMBER: the pattern is usable, the particulars are not.**
 - The general shape of a problem many people have, stripped of every identifying detail.
 - Rule: change the industry, the numbers, the gender, and the specifics, and confirm the point survives. If the point only lands because of the specifics, it is RED.
 - Never write "a client of mine" about a story that is recognizable to that client. They will read it. Assume everyone reads everything.
 - Present AMBER material as a pattern [CLIENT FIRST NAME] observes, not as a story that happened.
 
-**GREEN — [CLIENT FIRST NAME]'s own material, freely usable.**
+**GREEN: [CLIENT FIRST NAME]'s own material, freely usable.**
 - Their own experience, their own history, their own scars, their own failures.
 - Their own frameworks, opinions, and arguments.
 - Things they said about their own work, their own beliefs, their own practice.
@@ -432,7 +432,7 @@ Sort every piece of candidate material into one of three tiers.
 
 ---
 
-## STEP 4 — MINE FOR WISDOM (the actual work)
+## STEP 4: MINE FOR WISDOM (the actual work)
 
 Now read the GREEN and AMBER material properly.
 
@@ -481,9 +481,9 @@ For every item that clears the bar:
 
 ---
 
-## STEP 5 — CHECK THE LEDGER
+## STEP 5: CHECK THE LEDGER
 
-Before drafting, compare this week's items against `Content Harvest — Ledger`.
+Before drafting, compare this week's items against `Content Harvest: Ledger`.
 
 - If an insight is substantively the same as one already used, do not draft it again.
 - The exception: a genuinely better telling of a previously used idea. Say so explicitly and explain what is better about it.
@@ -491,7 +491,7 @@ Before drafting, compare this week's items against `Content Harvest — Ledger`.
 
 ---
 
-## STEP 6 — DRAFT THE CONTENT
+## STEP 6: DRAFT THE CONTENT
 
 Use the `[client-firstname]-voice` skill for every word you write. Not as a filter applied at the end. As the thing you are writing from.
 
@@ -520,7 +520,7 @@ Return fewer, better pieces. Three posts built on real material beat seven built
 
 ---
 
-## STEP 7 — THE CALENDAR
+## STEP 7: THE CALENDAR
 
 Lay the week out. Keep it simple enough to act on without thinking.
 
@@ -531,9 +531,9 @@ Rules: no two posts on the same theme back to back. Put the strongest piece wher
 
 ---
 
-## STEP 8 — DELIVER AND RECORD
+## STEP 8: DELIVER AND RECORD
 
-1. **Create the Google Doc** titled `Content Harvest — [YYYY-MM-DD]`, in the folder named in the config. Structure it in this order:
+1. **Create the Google Doc** titled `Content Harvest: [YYYY-MM-DD]`, in the folder named in the config. Structure it in this order:
    - Header: window dates, platforms swept, recordings found and read
    - The finished posts, best first (they will read the top and stop, so earn the top slot)
    - The content calendar
@@ -544,7 +544,7 @@ Rules: no two posts on the same theme back to back. Put the strongest piece wher
 
 2. **Send it wherever the config says.** Email to themselves, Notion database row, Airtable record, or all three. Follow the config exactly.
 
-3. **Update `Content Harvest — Ledger`.** Append this week's date, every insight harvested in one line each, and every post drafted. This is what keeps week 30 from repeating week 4. Write the full updated document back.
+3. **Update `Content Harvest: Ledger`.** Append this week's date, every insight harvested in one line each, and every post drafted. This is what keeps week 30 from repeating week 4. Write the full updated document back.
 
 4. **Notify.** Short push notification: how many pieces, the single best one in one line, and the link. If the week was genuinely empty (no recordings, or everything RED), say that in one sentence instead. Never send a cheerful notification about nothing.
 
