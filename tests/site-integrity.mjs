@@ -10,6 +10,7 @@ const redirectLines = readFileSync(join(root, '_redirects'), 'utf8')
   .map((line) => line.trim())
   .filter((line) => line && !line.startsWith('#'));
 const redirectSources = new Set(redirectLines.map((line) => line.split(/\s+/)[0]));
+const sitemap = readFileSync(join(root, 'sitemap.xml'), 'utf8');
 
 function routeMatches(pathname) {
   return routes.include.some((pattern) => {
@@ -79,6 +80,28 @@ for (const required of [
   '/privacy-policy',
 ]) {
   assert(redirectSources.has(required), `_redirects is missing ${required}`);
+}
+
+for (const required of [
+  'https://ericfarewell.com/',
+  'https://ericfarewell.com/start.html',
+  'https://ericfarewell.com/work-with-eric.html',
+  'https://ericfarewell.com/royals.html',
+  'https://ericfarewell.com/royals-experience',
+  'https://ericfarewell.com/time-audit',
+]) {
+  assert(sitemap.includes(`<loc>${required}</loc>`), `sitemap.xml is missing ${required}`);
+}
+
+for (const privatePath of [
+  '/tools-library',
+  '/the-first-hour.html',
+  '/the-prompt.html',
+  '/the-harvest.html',
+  '/coaching-system-lab.html',
+  '/journey-review.html',
+]) {
+  assert(!sitemap.includes(`<loc>https://ericfarewell.com${privatePath}</loc>`), `sitemap.xml exposes ${privatePath}`);
 }
 
 console.log(`site integrity checks passed (${htmlFiles.length} HTML files)`);
