@@ -99,6 +99,12 @@ header .site-link {
 .form-card .fine {
   font-size: 12px; color: var(--muted-dark); margin-top: 14px; line-height: 1.6;
 }
+.journey-access[hidden] { display: none; }
+.journey-access .access-kicker { font-size: 11px; letter-spacing: .19em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 10px; }
+.journey-access h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 30px; line-height: 1.1; color: var(--cream-warm); margin-bottom: 14px; }
+.journey-access p { font-size: 14px; color: var(--on-dark); margin-bottom: 20px; }
+.journey-access .access-note { font-size: 12px; color: var(--muted-dark); margin: 16px 0 0; }
+.journey-access .access-library { display: inline-block; margin-top: 16px; color: var(--gold-light); font-size: 12px; font-weight: 600; letter-spacing: .06em; text-decoration: none; border-bottom: 1px solid rgba(230,199,132,.4); }
 
 /* session anatomy */
 .anatomy { padding: 72px 0; border-top: 1px solid var(--teal-rule); }
@@ -177,18 +183,21 @@ footer .foot-nav { display: flex; flex-wrap: wrap; gap: 22px; align-items: cente
         <p class="lede"><strong>The Solo Hot Seat</strong> is a twenty-five minute self-guided session built from the room I run for founders: a two-minute drop-in, three rounds of questions that get harder on purpose, and one sentence you'll say out loud before it's over.</p>
         <p class="sub-italic">Pen and paper required. Performance optional, and unwelcome.</p>
       </div>
-      <div class="form-card">
-        <div class="fc-title">Get the session</div>
-        <div class="fc-sub">It arrives in your inbox in about a minute.</div>
-        <div class="embed">
-          <iframe
-            src="https://api.leadconnectorhq.com/widget/form/FfGQe3t9jHDlSAlzUpUs"
-            style="width:100%;height:500px;min-height:500px;border:none;display:block;"
-            id="hotseat-form"
-            title="Solo Hot Seat — Download">
-          </iframe>
+      <div class="form-card" data-journey-tool="hotseat">
+        <div data-direct-optin>
+          <div class="fc-title">Get the session</div>
+          <div class="fc-sub">One private account opens this session and the rest of the tools.</div>
+          <a class="pill" href="/auth/sign-in?tool=hotseat&amp;need=decision&amp;next=/tools-library&amp;source=tool">Open my private access</a>
+          <p class="fine">I will send the session and a short series introducing the other tools. My occasional writing and text reminders remain separate choices.</p>
         </div>
-        <p class="fine">One email a week after that, with one question worth sitting with. Unsubscribe whenever it stops being that.</p>
+        <div class="journey-access" data-journey-access hidden>
+          <div class="access-kicker">Guided Start remembered</div>
+          <h3 data-access-name>Your recommendation is here.</h3>
+          <p>You already asked me to send the recommendation and help you use it. I will not ask for the same permission again.</p>
+          <a class="pill" data-access-link href="downloads/the-solo-hot-seat.pdf">Open the session</a>
+          <p class="access-note">This does not add you to my occasional writing or to text reminders. Those choices remain separate.</p>
+          <a class="access-library" href="/tools-library">See all your tools</a>
+        </div>
       </div>
     </div>
   </div>
@@ -240,7 +249,7 @@ footer .foot-nav { display: flex; flex-wrap: wrap; gap: 22px; align-items: cente
     <img loading="lazy" decoding="async" class="crown" src="assets/img/crown.png" alt="">
     <h2>Twenty-five minutes with the questions <span class="gold-i">nobody asks you anymore</span></h2>
     <p>Free, and not for everyone. If sitting alone with real questions sounds like a waste of an afternoon, it probably is, for you. If something in you leaned forward, that's worth noticing.</p>
-    <a class="pill" href="#top" onclick="document.querySelector('.form-card').scrollIntoView({behavior:'smooth'});return false;">Send me the session</a>
+    <a class="pill" data-tool-cta data-access-label="Open the session" href="#top" onclick="document.querySelector('.form-card').scrollIntoView({behavior:'smooth'});return false;">Send me the session</a>
   </div>
 </section>
 

@@ -6,7 +6,14 @@
   const counter=form.querySelector('[data-step-count]');
   const result=document.querySelector('[data-guided-result]');
   let index=0;
+  let startMeasured=false;
   function errorBox(){return steps[index].querySelector('.journey-error')}
+
+  function measure(eventName,toolId){
+    const payload={eventName:eventName,source:'guided-start'};
+    if(toolId)payload.toolId=toolId;
+    fetch('/api/journey/event',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload),keepalive:true}).catch(()=>undefined);
+  }
 
   const details={
     decision:['I know the options and cannot hear my own answer.','I am avoiding a conversation.','I want advice, but I may first need to understand the question.','The decision affects people I care about.'],
@@ -55,6 +62,7 @@
     const back=e.target.closest('[data-back]');
     if(next){
       if(!valid())return;
+      if(!startMeasured){startMeasured=true;measure('guided_start_started')}
       if(index===0)renderDetails();
       show(index+1);
     }
@@ -65,10 +73,17 @@
     if(!valid())return;
     const need=selected('primary_need')||'unsure';
     const rec=recommendations[need];
+    if(!startMeasured){startMeasured=true;measure('guided_start_started')}
+    measure('guided_start_completed',rec.id);
     result.querySelector('[data-result-name]').textContent=rec.name;
     result.querySelector('[data-result-reason]').textContent=rec.reason;
     result.querySelector('[data-result-question]').textContent=rec.question;
-    result.querySelector('[data-result-link]').setAttribute('href',rec.url);
+    const access=new URL('/auth/sign-in',window.location.origin);
+    access.searchParams.set('tool',rec.id);
+    access.searchParams.set('need',need);
+    access.searchParams.set('next','/tools-library');
+    access.searchParams.set('source','guided-start');
+    result.querySelector('[data-result-link]').setAttribute('href',`${access.pathname}${access.search}`);
     form.style.display='none';
     result.classList.add('active');
     result.scrollIntoView({behavior:'smooth',block:'start'});

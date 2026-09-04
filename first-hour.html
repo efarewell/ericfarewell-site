@@ -114,7 +114,7 @@
       <a href="podcasts.html">Podcasts</a>
       <a href="blog.html">Blog</a>
       <a href="free-tools.html">Free Tools</a>
-      <a class="nav-cta" href="https://api.leadconnectorhq.com/widget/survey/2xdpKkxkx8SL5p792z4W?notrack=true">Work With Me</a>
+      <a class="nav-cta" href="/royals-experience">Work With Me</a>
     </nav>
     <button class="menu-btn" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   </div>
@@ -131,7 +131,7 @@
   <a href="free-tools.html">Free Tools</a>
   <a href="testimonials.html">Testimonials</a>
   <a href="contact.html">Contact</a>
-  <a class="btn btn-gold" href="https://api.leadconnectorhq.com/widget/survey/2xdpKkxkx8SL5p792z4W?notrack=true">Work With Me</a>
+  <a class="btn btn-gold" href="/royals-experience">Work With Me</a>
 </div>
 
 <section class="hero">
@@ -141,7 +141,7 @@
     <h1 class="display reveal">Everybody told you to use it. <span class="italic-gold">Nobody told you what for.</span></h1>
     <p class="lede reveal">I had it for a year before it was worth much. It answered whatever I asked, and none of it touched the parts of my week that were actually expensive. What finally moved was starting with the week instead of the tool. This is that hour.</p>
     <div class="btns reveal">
-      <a class="btn btn-gold" href="#get-it">Get the hour</a>
+      <a class="btn btn-gold" data-tool-cta data-access-label="Open the prompts" href="#get-it">Get the hour</a>
       <a class="btn btn-ghost" href="#how">See what happens</a>
     </div>
   </div>
@@ -251,15 +251,21 @@
       </div>
 
       <!-- Email capture — GoHighLevel form "First Hour" -->
-      <div class="form-card reveal">
-        <div class="fc-title">Get both prompts</div>
-        <div class="fc-sub">They open on the next page, right away.</div>
-        <iframe src="https://api.leadconnectorhq.com/widget/form/WJVAKw5FH82JSRnAaUe6"
-          id="inline-WJVAKw5FH82JSRnAaUe6" data-form-id="WJVAKw5FH82JSRnAaUe6"
-          data-layout="{'id':'INLINE'}" data-layout-iframe-id="inline-WJVAKw5FH82JSRnAaUe6"
-          data-form-name="First Hour" title="First Hour" data-height="434"
-          style="width:100%;min-height:434px;border:none;background:transparent"></iframe>
-        <p class="fine">No spam. Unsubscribe anytime.</p>
+      <div class="form-card reveal" data-journey-tool="first-hour">
+        <div data-direct-optin>
+          <div class="fc-title">Get both prompts</div>
+          <div class="fc-sub">One private account opens both prompts and the rest of the tools.</div>
+          <a class="btn btn-gold" href="/auth/sign-in?tool=first-hour&amp;need=ai&amp;next=/tools-library&amp;source=tool">Open my private access</a>
+          <p class="fine">I will send the prompts and a short series introducing the other tools. My occasional writing and text reminders remain separate choices.</p>
+        </div>
+        <div class="journey-access" data-journey-access hidden>
+          <div class="access-kicker">Guided Start remembered</div>
+          <h3 data-access-name>Your recommendation is here.</h3>
+          <p>You already asked me to send the recommendation and help you use it. I will not ask for the same permission again.</p>
+          <a class="btn btn-gold" data-access-link href="the-first-hour.html">Open both prompts</a>
+          <p class="access-note">This does not add you to my occasional writing or to text reminders. Those choices remain separate.</p>
+          <a class="access-library" href="/tools-library">See all your tools</a>
+        </div>
       </div>
     </div>
   </div>
@@ -337,7 +343,7 @@
       </div>
       <div class="foot">
         <h4>Connect</h4>
-        <a href="https://api.leadconnectorhq.com/widget/survey/2xdpKkxkx8SL5p792z4W?notrack=true">Work With Me</a>
+        <a href="/royals-experience">Work With Me</a>
         <a href="https://coaching.ericfarewell.com/assesment">Aligned Freedom Assessment</a>
         <a href="blog.html">Blog</a>
         <a href="testimonials.html">Testimonials</a>

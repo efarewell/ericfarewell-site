@@ -125,7 +125,7 @@
       <a href="podcasts.html">Podcasts</a>
       <a href="blog.html">Blog</a>
       <a href="free-tools.html">Free Tools</a>
-      <a class="nav-cta" href="https://api.leadconnectorhq.com/widget/survey/2xdpKkxkx8SL5p792z4W?notrack=true">Work With Me</a>
+      <a class="nav-cta" href="/royals-experience">Work With Me</a>
     </nav>
     <button class="menu-btn" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   </div>
@@ -142,7 +142,7 @@
   <a href="free-tools.html">Free Tools</a>
   <a href="testimonials.html">Testimonials</a>
   <a href="contact.html">Contact</a>
-  <a class="btn btn-gold" href="https://api.leadconnectorhq.com/widget/survey/2xdpKkxkx8SL5p792z4W?notrack=true">Work With Me</a>
+  <a class="btn btn-gold" href="/royals-experience">Work With Me</a>
 </div>
 
 <section class="hero" style="min-height:66vh">
@@ -151,7 +151,7 @@
     <span class="eyebrow reveal">A tool for the Royals</span>
     <h1 class="display reveal" style="font-size:clamp(2.9rem,7vw,5.6rem)">Find Your <span class="italic-gold">Voice</span></h1>
     <p class="lede reveal">AI drafts fast, and it drafts the same way for everyone. I spent hundreds of hours trying to teach it to sound like me before I found something that held. This is that process. It takes about an hour.</p>
-    <div class="btns reveal"><a class="btn btn-gold" href="#get">Send me the prompt</a></div>
+    <div class="btns reveal"><a class="btn btn-gold" data-tool-cta data-access-label="Open the prompt" href="#get">Send me the prompt</a></div>
   </div>
 </section>
 
@@ -256,29 +256,21 @@
           <figcaption>At the end it makes you one of these. The bars are your real sentence lengths, measured from your own writing. This one is mine.</figcaption>
         </figure>
       </div>
-      <div class="form-card reveal">
-        <div class="fc-title">Where should I send it?</div>
-        <div class="fc-sub">Name and email. It arrives in about a minute.</div>
-        <div class="embed">
-          <iframe
-            src="https://api.leadconnectorhq.com/widget/form/QBzI555OuYZNRYB8evJf"
-            style="width:100%;height:100%;border:none;border-radius:8px"
-            id="inline-QBzI555OuYZNRYB8evJf"
-            data-layout="{'id':'INLINE'}"
-            data-trigger-type="alwaysShow"
-            data-trigger-value=""
-            data-activation-type="alwaysActivated"
-            data-activation-value=""
-            data-deactivation-type="neverDeactivate"
-            data-deactivation-value=""
-            data-form-name="Find Your Voice - Get The Prompt"
-            data-height="undefined"
-            data-layout-iframe-id="inline-QBzI555OuYZNRYB8evJf"
-            data-form-id="QBzI555OuYZNRYB8evJf"
-            title="Find Your Voice - Get The Prompt">
-          </iframe>
+      <div class="form-card reveal" data-journey-tool="find-your-voice">
+        <div data-direct-optin>
+          <div class="fc-title">Where should I send it?</div>
+          <div class="fc-sub">One private account opens the prompt and the rest of the tools.</div>
+          <a class="btn btn-gold" href="/auth/sign-in?tool=find-your-voice&amp;need=voice&amp;next=/tools-library&amp;source=tool">Open my private access</a>
+          <p class="fine">I will send the prompt and a short series introducing the other tools. My occasional writing and text reminders remain separate choices.</p>
         </div>
-        <p class="fine">One email a week after that, with one question worth sitting with. Unsubscribe whenever it stops being that.</p>
+        <div class="journey-access" data-journey-access hidden>
+          <div class="access-kicker">Guided Start remembered</div>
+          <h3 data-access-name>Your recommendation is here.</h3>
+          <p>You already asked me to send the recommendation and help you use it. I will not ask for the same permission again.</p>
+          <a class="btn btn-gold" data-access-link href="the-prompt.html">Open the prompt</a>
+          <p class="access-note">This does not add you to my occasional writing or to text reminders. Those choices remain separate.</p>
+          <a class="access-library" href="/tools-library">See all your tools</a>
+        </div>
       </div>
     </div>
   </div>
@@ -321,7 +313,7 @@
       </div>
       <div class="foot">
         <h4>Connect</h4>
-        <a href="https://api.leadconnectorhq.com/widget/survey/2xdpKkxkx8SL5p792z4W?notrack=true">Work With Me</a>
+        <a href="/royals-experience">Work With Me</a>
         <a href="https://coaching.ericfarewell.com/assesment">Aligned Freedom Assessment</a>
         <a href="blog.html">Blog</a>
         <a href="testimonials.html">Testimonials</a>
