@@ -81,10 +81,6 @@ export async function onRequest(context) {
 
   const upstreamUrl = new URL(`${publicUrl.pathname}${publicUrl.search}`, TIME_AUDIT_ORIGIN);
   if (shouldUseUpstreamAuth(publicUrl.pathname)) return Response.redirect(upstreamUrl, 307);
-  if ((publicUrl.pathname === '/time-audit/app' || publicUrl.pathname.startsWith('/time-audit/app/'))
-    && !hasSupabaseSession(context.request)) {
-    return Response.redirect(upstreamUrl, 307);
-  }
   const upstreamRequest = new Request(upstreamUrl, context.request);
   upstreamRequest.headers.set('x-forwarded-host', publicUrl.host);
   upstreamRequest.headers.set('x-forwarded-proto', publicUrl.protocol.replace(':', ''));
