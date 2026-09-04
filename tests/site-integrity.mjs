@@ -11,6 +11,7 @@ const redirectLines = readFileSync(join(root, '_redirects'), 'utf8')
   .filter((line) => line && !line.startsWith('#'));
 const redirectSources = new Set(redirectLines.map((line) => line.split(/\s+/)[0]));
 const sitemap = readFileSync(join(root, 'sitemap.xml'), 'utf8');
+assert(existsSync(join(root, 'assets/img/og-default-v2.jpg')), 'The current social-share image is missing');
 
 function routeMatches(pathname) {
   return routes.include.some((pattern) => {
@@ -48,6 +49,7 @@ for (const file of htmlFiles) {
     .join('\n');
   assert.doesNotMatch(metadata, /—/, `${file} contains an em dash in customer-facing metadata`);
   assert.doesNotMatch(metadata, /Somatic business coaching/i, `${file} contains the retired narrow positioning in metadata`);
+  assert.doesNotMatch(metadata, /\/assets\/img\/og-default\.jpg/, `${file} still references the retired social-share image`);
 }
 
 assert.deepEqual(broken, [], `Broken local links or assets:\n${broken.join('\n')}`);
