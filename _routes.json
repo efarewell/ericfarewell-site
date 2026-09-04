@@ -3,13 +3,26 @@
   "include": [
     "/time-audit",
     "/time-audit/*",
+    "/tools-library",
+    "/tools-library/*",
+    "/auth/*",
+    "/royals-experience",
+    "/royals-experience/*",
     "/signin-with-chatgpt",
     "/signout-with-chatgpt",
     "/callback",
     "/_next/*",
+    "/api/auth/*",
     "/api/audio/*",
     "/api/audit/*",
-    "/api/google/*"
+    "/api/experience/*",
+    "/api/google/*",
+    "/api/journey/*",
+    "/assets/img/eric-signature.png",
+    "/downloads/the-solo-hot-seat.pdf",
+    "/the-first-hour.html",
+    "/the-prompt.html",
+    "/the-harvest.html"
   ],
   "exclude": []
 }
