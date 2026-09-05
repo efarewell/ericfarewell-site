@@ -47,6 +47,21 @@ async function run(url, { cookie = '', upstreamResponse, nextResponse } = {}) {
   assert.equal(location.searchParams.get('next'), '/the-prompt.html');
 }
 
+for (const [pathname, tool, need] of [
+  ['/the-first-hour', 'first-hour', 'ai'],
+  ['/the-prompt', 'find-your-voice', 'voice'],
+  ['/the-harvest', 'harvest', 'harvest'],
+]) {
+  const { response, fetched } = await run(`https://ericfarewell.com${pathname}`);
+  assert.equal(response.status, 307);
+  assert.equal(fetched, null);
+  const location = new URL(response.headers.get('location'));
+  assert.equal(location.pathname, '/auth/sign-in');
+  assert.equal(location.searchParams.get('tool'), tool);
+  assert.equal(location.searchParams.get('need'), need);
+  assert.equal(location.searchParams.get('next'), pathname);
+}
+
 {
   const { response } = await run('https://ericfarewell.com/_next/image?url=%2Feric-farewell-signature.png');
   assert.equal(response.status, 302);
@@ -56,6 +71,16 @@ async function run(url, { cookie = '', upstreamResponse, nextResponse } = {}) {
 {
   const { response, fetched } = await run('https://ericfarewell.com/blog.html');
   assert.equal(await response.text(), 'static');
+  assert.equal(fetched, null);
+}
+
+for (const [pathname, expected] of [
+  ['/terms-of-service', 'https://coaching.ericfarewell.com/terms-of-service'],
+  ['/privacy-policy', 'https://coaching.ericfarewell.com/privacy-policy'],
+]) {
+  const { response, fetched } = await run(`https://ericfarewell.com${pathname}`);
+  assert.equal(response.status, 302);
+  assert.equal(response.headers.get('location'), expected);
   assert.equal(fetched, null);
 }
 

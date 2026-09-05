@@ -67,8 +67,13 @@ for (const required of [
   '/api/auth/*',
   '/api/journey/*',
   '/api/experience/*',
+  '/terms-of-service',
+  '/privacy-policy',
+  '/the-first-hour',
   '/the-first-hour.html',
+  '/the-prompt',
   '/the-prompt.html',
+  '/the-harvest',
   '/the-harvest.html',
   '/downloads/the-solo-hot-seat.pdf',
 ]) {
