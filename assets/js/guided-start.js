@@ -78,13 +78,12 @@
     result.querySelector('[data-result-name]').textContent=rec.name;
     result.querySelector('[data-result-reason]').textContent=rec.reason;
     result.querySelector('[data-result-question]').textContent=rec.question;
-    const localReview=window.location.hostname==='127.0.0.1'||window.location.hostname==='localhost';
-    const access=new URL('/auth/sign-in',localReview?'https://royals-time-audit.ericfarewell.chatgpt.site':window.location.origin);
+    const access=new URL('/auth/sign-in','https://tools.ericfarewell.com');
     access.searchParams.set('tool',rec.id);
     access.searchParams.set('need',need);
     access.searchParams.set('next','/tools-library');
     access.searchParams.set('source','guided-start');
-    result.querySelector('[data-result-link]').setAttribute('href',localReview?access.href:`${access.pathname}${access.search}`);
+    result.querySelector('[data-result-link]').setAttribute('href',access.href);
     form.style.display='none';
     result.classList.add('active');
     result.scrollIntoView({behavior:'smooth',block:'start'});

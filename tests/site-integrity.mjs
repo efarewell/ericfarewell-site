@@ -15,8 +15,8 @@ const guidedStartScript = readFileSync(join(root, 'assets/js/guided-start.js'), 
 const siteScript = readFileSync(join(root, 'assets/js/site.js'), 'utf8');
 const securityHeaders = readFileSync(join(root, '_headers'), 'utf8');
 assert(existsSync(join(root, 'assets/img/og-default-v2.jpg')), 'The current social-share image is missing');
-assert(guidedStartScript.includes('https://royals-time-audit.ericfarewell.chatgpt.site'), 'The local Guided Start preview does not hand authentication to the hosted app');
-assert(siteScript.includes('a[href^="/auth/"]'), 'Static local tool links are not rewritten to the hosted authentication app');
+assert(guidedStartScript.includes('https://tools.ericfarewell.com'), 'Guided Start does not hand authentication to the branded tools app');
+assert(siteScript.includes("var toolAppOrigin = 'https://tools.ericfarewell.com'"), 'Private tool links do not use the branded tools domain');
 for (const requiredHeader of [
   'Content-Security-Policy:',
   'Permissions-Policy:',
