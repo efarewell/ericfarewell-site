@@ -48,6 +48,7 @@ async function run(url, { cookie = '', upstreamResponse, nextResponse } = {}) {
 }
 
 for (const [pathname, tool, need] of [
+  ['/downloads/the-solo-hot-seat.pdf', 'hotseat', 'decision'],
   ['/the-first-hour', 'first-hour', 'ai'],
   ['/the-prompt', 'find-your-voice', 'voice'],
   ['/the-harvest', 'harvest', 'harvest'],
