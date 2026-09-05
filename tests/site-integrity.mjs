@@ -13,9 +13,20 @@ const redirectSources = new Set(redirectLines.map((line) => line.split(/\s+/)[0]
 const sitemap = readFileSync(join(root, 'sitemap.xml'), 'utf8');
 const guidedStartScript = readFileSync(join(root, 'assets/js/guided-start.js'), 'utf8');
 const siteScript = readFileSync(join(root, 'assets/js/site.js'), 'utf8');
+const securityHeaders = readFileSync(join(root, '_headers'), 'utf8');
 assert(existsSync(join(root, 'assets/img/og-default-v2.jpg')), 'The current social-share image is missing');
 assert(guidedStartScript.includes('https://royals-time-audit.ericfarewell.chatgpt.site'), 'The local Guided Start preview does not hand authentication to the hosted app');
 assert(siteScript.includes('a[href^="/auth/"]'), 'Static local tool links are not rewritten to the hosted authentication app');
+for (const requiredHeader of [
+  'Content-Security-Policy:',
+  'Permissions-Policy:',
+  'Referrer-Policy:',
+  'Strict-Transport-Security:',
+  'X-Content-Type-Options:',
+  'X-Frame-Options:',
+]) {
+  assert(securityHeaders.includes(requiredHeader), `_headers is missing ${requiredHeader}`);
+}
 
 function routeMatches(pathname) {
   return routes.include.some((pattern) => {
