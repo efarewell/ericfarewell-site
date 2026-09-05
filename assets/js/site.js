@@ -2,6 +2,15 @@
 (function () {
   var docEl = document.documentElement;
 
+  // The local review is a static server. Authentication and the Time Audit run on the hosted app.
+  var localReview = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
+  var toolAppOrigin = 'https://royals-time-audit.ericfarewell.chatgpt.site';
+  if (localReview) {
+    document.querySelectorAll('a[href^="/auth/"], a[href^="/time-audit"], a[href^="/tools-library"]').forEach(function (link) {
+      link.href = new URL(link.getAttribute('href'), toolAppOrigin).href;
+    });
+  }
+
   // Header background on scroll
   var header = document.querySelector('.site-header');
   function onScroll() {
