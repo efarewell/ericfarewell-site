@@ -78,8 +78,6 @@ for (const required of [
   '/api/auth/*',
   '/api/journey/*',
   '/api/experience/*',
-  '/terms-of-service',
-  '/privacy-policy',
   '/the-first-hour',
   '/the-first-hour.html',
   '/the-prompt',
@@ -98,10 +96,12 @@ for (const required of [
   '/mastermind',
   '/assessment',
   '/assesment',
-  '/terms-of-service',
-  '/privacy-policy',
 ]) {
   assert(redirectSources.has(required), `_redirects is missing ${required}`);
+}
+
+for (const required of ['privacy-policy.html', 'terms-of-service.html']) {
+  assert(existsSync(join(root, required)), `The first-party legal page ${required} is missing`);
 }
 
 for (const required of [

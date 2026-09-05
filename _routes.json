@@ -18,8 +18,6 @@
     "/api/experience/*",
     "/api/google/*",
     "/api/journey/*",
-    "/terms-of-service",
-    "/privacy-policy",
     "/assets/img/eric-signature.png",
     "/downloads/the-solo-hot-seat.pdf",
     "/the-first-hour",

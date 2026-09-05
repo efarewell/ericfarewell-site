@@ -75,13 +75,9 @@ for (const [pathname, tool, need] of [
   assert.equal(fetched, null);
 }
 
-for (const [pathname, expected] of [
-  ['/terms-of-service', 'https://coaching.ericfarewell.com/terms-of-service'],
-  ['/privacy-policy', 'https://coaching.ericfarewell.com/privacy-policy'],
-]) {
+for (const pathname of ['/terms-of-service', '/privacy-policy']) {
   const { response, fetched } = await run(`https://ericfarewell.com${pathname}`);
-  assert.equal(response.status, 302);
-  assert.equal(response.headers.get('location'), expected);
+  assert.equal(await response.text(), 'static');
   assert.equal(fetched, null);
 }
 

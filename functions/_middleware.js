@@ -10,11 +10,6 @@ const PRIVATE_TOOL_PATHS = new Map([
   ['/the-harvest.html', { tool: 'harvest', need: 'harvest' }],
 ]);
 
-const LEGAL_PATHS = new Map([
-  ['/terms-of-service', 'https://coaching.ericfarewell.com/terms-of-service'],
-  ['/privacy-policy', 'https://coaching.ericfarewell.com/privacy-policy'],
-]);
-
 function shouldProxy(pathname) {
   return pathname === '/time-audit'
     || pathname.startsWith('/time-audit/')
@@ -72,8 +67,6 @@ function isTimeAuditSignatureRequest(url) {
 
 export async function onRequest(context) {
   const publicUrl = new URL(context.request.url);
-  const legalDestination = LEGAL_PATHS.get(publicUrl.pathname);
-  if (legalDestination) return Response.redirect(legalDestination, 302);
   const privateTool = PRIVATE_TOOL_PATHS.get(publicUrl.pathname);
   if (privateTool) {
     if (!hasSupabaseSession(context.request) || !(await hasPrivateLibraryAccess(context.request, publicUrl))) {
