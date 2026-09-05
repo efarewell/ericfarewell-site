@@ -317,6 +317,54 @@ p:last-child{margin-bottom:0}
 .legal-copy p,.legal-copy li{color:var(--parchment)}.legal-copy ul{padding-left:1.2em;margin:0 0 1.15em}.legal-copy li{margin:.5em 0}.legal-copy a{color:var(--gold-bright);text-decoration:underline;text-underline-offset:3px}.legal-note{padding:24px 26px;border:1px solid var(--hairline-gold);border-radius:var(--radius);background:rgba(18,49,56,.46);margin:8px 0 32px}.legal-note p{margin:0}
 @media(max-width:820px){.legal-layout{grid-template-columns:1fr}.legal-nav{position:static;display:none}.legal-copy section{padding-bottom:42px}}
 
+/* ---------- Readability floor ----------
+   Decorative type can stay restrained without becoming hard to read. These
+   rules also override older page-local styles that predate the shared scale. */
+.scroll-cue,
+.journey-access .access-kicker,
+.library-card-label,
+.home-question-kicker,
+.path-stage > span,
+.foot h4,
+.legal-nav span,
+.fyv-tag,
+.review-kicker,
+.review-progress-row,
+.review-table th,
+.status-pill,
+.prototype-badge,
+.journey-progress,
+.journey-field small,
+.application-section .section-number,
+.fact,
+.fh-rung.here h3::after,
+.lab-nav,
+.lab-hero aside strong,
+.tool-index a,
+.metric-grid span,
+.bar-row,
+.proof-name span,
+.proof-ledger a,
+.lab-footer {
+  font-size: .8rem !important;
+}
+
+.journey-access .access-note,
+.journey-access .access-library,
+.fyv-gate .fine,
+.ft-meta li,
+.review-nav a,
+.journey-node span,
+.review-footer,
+.lab-hero aside,
+.proof-ledger ul,
+footer .fine,
+footer a {
+  font-size: .875rem !important;
+}
+
+.fyv-pre { font-size: .875rem !important; }
+
 /* ---------- Reveal on scroll ----------
    Content is visible by DEFAULT. Hiding only happens once JS confirms it is
    running AND the page is actually scrollable (html.js.can-animate), so a

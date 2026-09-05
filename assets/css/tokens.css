@@ -46,7 +46,7 @@
   --step-h2:    clamp(1.9rem, 3.4vw, 2.9rem);
   --step-h3:    clamp(1.35rem, 2vw, 1.7rem);
   --step-body:  clamp(1.02rem, 1.15vw, 1.18rem);
-  --step-small: 0.86rem;
+  --step-small: 0.9rem;
 
   /* ---- Space & shape ---- */
   --container: 1180px;
