@@ -132,6 +132,14 @@ header .site-link {
 .bottom-cta img.crown { width: 64px; height: auto; margin: 0 auto 22px; display: block; }
 .bottom-cta h2 { font-size: clamp(28px, 4vw, 38px); margin-bottom: 14px; }
 .bottom-cta p { max-width: 38em; margin: 0 auto 26px; font-size: 15.5px; }
+.hotseat-proof { padding: 78px 0; border-top: 1px solid var(--teal-rule); border-bottom: 1px solid var(--teal-rule); background: var(--panel); }
+.hotseat-proof .proof-grid { display: grid; grid-template-columns: 180px minmax(0, 640px); gap: 48px; align-items: center; justify-content: center; }
+.hotseat-proof img { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(198,161,91,.55); }
+.hotseat-proof blockquote { margin: 0; font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(26px, 3.4vw, 38px); line-height: 1.28; color: var(--cream-warm); }
+.hotseat-proof figcaption { margin-top: 20px; color: var(--cream-warm); font-weight: 700; }
+.hotseat-proof figcaption span { display: block; color: var(--muted-dark); font-size: 14px; font-weight: 400; }
+.hotseat-proof a { display: inline-block; margin-top: 18px; color: var(--gold-light); font-size: 14px; font-weight: 700; text-decoration: none; border-bottom: 1px solid rgba(198,161,91,.5); }
+@media (max-width: 680px) { .hotseat-proof .proof-grid { grid-template-columns: 1fr; text-align: center; gap: 28px; } .hotseat-proof img { margin: 0 auto; } }
 .pill {
   display: inline-block;
   background: linear-gradient(180deg, var(--gold-light), var(--gold));
@@ -178,10 +186,10 @@ footer .foot-nav { display: flex; flex-wrap: wrap; gap: 22px; align-items: cente
           <div class="rule"></div>
           <div class="label">A Session for One · Free Download</div>
         </div>
-        <h1>The questions <span class="gold-i">stopped.</span></h1>
-        <p class="lede">I started my first company at thirteen, and somewhere along the way people quit asking me real questions. My team brought me problems shaped like requests. My friends asked how business was going and accepted whatever I said. If you've built something real, I'd bet it's happened to you too.</p>
-        <p class="lede"><strong>The Solo Hot Seat</strong> is a twenty-five minute self-guided session built from the room I run for founders: a two-minute drop-in, three rounds of questions that get harder on purpose, and one sentence you'll say out loud before it's over.</p>
-        <p class="sub-italic">Pen and paper required. Performance optional, and unwelcome.</p>
+        <h1>Everyone has a good answer.<br><span class="gold-i">That may be the problem.</span></h1>
+        <p class="lede">There is a particular kind of stuck that comes after success. Your team has an opinion. Your friends have one. The people you trust can all make a good case. The more voices you bring into the room, the harder it becomes to hear your own.</p>
+        <p class="lede"><strong>The Solo Hot Seat</strong> creates twenty-five quiet minutes between the noise and the next decision: a two-minute drop-in, three rounds of questions that get harder on purpose, and one sentence spoken out loud before the session ends.</p>
+        <p class="sub-italic">Pen and paper. Phone in another room. Nothing to perform.</p>
       </div>
       <div class="form-card" data-journey-tool="hotseat">
         <div data-direct-optin>
@@ -244,11 +252,22 @@ footer .foot-nav { display: flex; flex-wrap: wrap; gap: 22px; align-items: cente
   </div>
 </section>
 
+<section class="hotseat-proof">
+  <div class="wrap proof-grid">
+    <img src="assets/img/testimonials/valori.jpg" alt="Valori Booth" loading="lazy">
+    <figure>
+      <blockquote>“Eric is one of those rare individuals who can meet you exactly where you are and guide you toward a version of yourself you had not yet imagined.”</blockquote>
+      <figcaption>Valori Booth<span>Founder</span></figcaption>
+      <a href="testimonials.html">Read more stories from the work</a>
+    </figure>
+  </div>
+</section>
+
 <section class="bottom-cta">
   <div class="wrap">
     <img loading="lazy" decoding="async" class="crown" src="assets/img/crown.png" alt="">
-    <h2>Twenty-five minutes with the questions <span class="gold-i">nobody asks you anymore</span></h2>
-    <p>Free, and not for everyone. If sitting alone with real questions sounds like a waste of an afternoon, it probably is, for you. If something in you leaned forward, that's worth noticing.</p>
+    <h2>Slow the room down enough to hear <span class="gold-i">what is already yours</span></h2>
+    <p>The session will not make the decision for you. It gives you a quieter place to notice the answer, the fear around it, and the next move you can actually make.</p>
     <a class="pill" data-tool-cta data-access-label="Open the session" href="#top" onclick="document.querySelector('.form-card').scrollIntoView({behavior:'smooth'});return false;">Send me the session</a>
   </div>
 </section>

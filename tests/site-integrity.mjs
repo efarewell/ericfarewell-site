@@ -52,6 +52,7 @@ function localTargetExists(file, rawTarget) {
 }
 
 const broken = [];
+const placedQuotes = new Map();
 for (const file of htmlFiles) {
   const source = readFileSync(join(root, file), 'utf8');
   for (const match of source.matchAll(/\b(?:href|src)=["']([^"']+)["']/gi)) {
@@ -65,9 +66,45 @@ for (const file of htmlFiles) {
   assert.doesNotMatch(metadata, /—/, `${file} contains an em dash in customer-facing metadata`);
   assert.doesNotMatch(metadata, /Somatic business coaching/i, `${file} contains the retired narrow positioning in metadata`);
   assert.doesNotMatch(metadata, /\/assets\/img\/og-default\.jpg/, `${file} still references the retired social-share image`);
+  assert.doesNotMatch(source, />Aligned Freedom Assessment</, `${file} still uses the retired assessment label`);
+
+  if (file !== 'testimonials.html') {
+    for (const match of source.matchAll(/<blockquote>([\s\S]*?)<\/blockquote>/gi)) {
+      const quote = match[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+      assert(!placedQuotes.has(quote), `${file} repeats a testimonial already placed on ${placedQuotes.get(quote)}`);
+      placedQuotes.set(quote, file);
+    }
+  }
 }
 
 assert.deepEqual(broken, [], `Broken local links or assets:\n${broken.join('\n')}`);
+
+for (const file of [
+  'index.html',
+  'start.html',
+  'my-story.html',
+  'work-with-eric.html',
+  'coaching.html',
+  'programs.html',
+  'private-coaching.html',
+  'royals.html',
+  'speaking.html',
+  'podcasts.html',
+  'blog.html',
+  'free-tools.html',
+  'contact.html',
+  'hotseat.html',
+  'first-hour.html',
+  'find-your-voice.html',
+  'harvest.html',
+  'the-prompt.html',
+]) {
+  const source = readFileSync(join(root, file), 'utf8');
+  assert.match(source, /class=["'][^"']*(?:proof-band|hotseat-proof)/, `${file} is missing page-level proof`);
+  assert.match(source, /assets\/img\/testimonials\/|class=["'][^"']*proof-video|data-yt=|data-src=/, `${file} is missing a portrait or video with its proof`);
+}
+
+assert(siteScript.includes("proofLink.textContent = 'Stories'"), 'The primary navigation does not surface the testimonial library');
 
 for (const required of [
   '/time-audit',

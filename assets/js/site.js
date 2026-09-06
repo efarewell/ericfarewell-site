@@ -2,6 +2,18 @@
 (function () {
   var docEl = document.documentElement;
 
+  // Proof is a primary part of the journey. Keep it visible even on older pages
+  // whose static navigation predates the current, smaller menu.
+  document.querySelectorAll('.nav-links').forEach(function (nav) {
+    if (nav.querySelector('a[href*="testimonials"]')) return;
+    var proofLink = document.createElement('a');
+    proofLink.href = 'testimonials.html';
+    proofLink.textContent = 'Stories';
+    if (window.location.pathname.endsWith('/testimonials.html')) proofLink.className = 'active';
+    var cta = nav.querySelector('.nav-cta');
+    nav.insertBefore(proofLink, cta || null);
+  });
+
   // Keep the private tools journey on its branded, authentication-aware origin.
   var toolAppOrigin = 'https://tools.ericfarewell.com';
   document.querySelectorAll('a[href^="/auth/"], a[href^="/time-audit"], a[href^="/tools-library"]').forEach(function (link) {
