@@ -117,7 +117,7 @@ for (const file of [
   'the-prompt.html',
 ]) {
   const source = readFileSync(join(root, file), 'utf8');
-  assert.match(source, /class=["'][^"']*(?:proof-band|hotseat-proof)/, `${file} is missing page-level proof`);
+  assert.match(source, /class=["'][^"']*(?:proof-band|hotseat-proof|path-proof)/, `${file} is missing page-level proof`);
   assert.match(source, /assets\/img\/testimonials\/|class=["'][^"']*proof-video|data-yt=|data-src=/, `${file} is missing a portrait or video with its proof`);
 }
 
