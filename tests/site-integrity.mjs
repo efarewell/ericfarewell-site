@@ -79,6 +79,23 @@ for (const file of htmlFiles) {
 
 assert.deepEqual(broken, [], `Broken local links or assets:\n${broken.join('\n')}`);
 
+const conversionCopy = [
+  'index.html', 'start.html', 'work-with-eric.html', 'coaching.html', 'programs.html',
+  'private-coaching.html', 'royals.html', 'speaking.html', 'contact.html', 'free-tools.html',
+  'hotseat.html', 'first-hour.html', 'find-your-voice.html', 'harvest.html',
+].map((file) => readFileSync(join(root, file), 'utf8')).join('\n');
+for (const retiredPhrase of [
+  'Start with the thing that keeps returning',
+  'name what is actually here',
+  'See what is here',
+  'The next tool should follow the truth you found',
+  'No drip sequence',
+  'There are four of these',
+  'All four are free',
+]) {
+  assert(!conversionCopy.includes(retiredPhrase), `Core copy still contains the retired phrase: ${retiredPhrase}`);
+}
+
 for (const file of [
   'index.html',
   'start.html',
