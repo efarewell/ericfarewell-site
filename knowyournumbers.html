@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Know Your Numbers | Eric Farewell</title>
+<meta name="description" content="A private worksheet for founders. Your net worth, your real monthly net, and the order to kill your debt in. Nothing leaves your browser.">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Mulish:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --deep:#08171B;
+  --panel:#0C232A;
+  --tint:#123138;
+  --teal-rule:rgba(44,78,85,.4);
+  --teal-rule-soft:rgba(44,78,85,.22);
+  --teal:#0E7C86;
+  --gold:#C6A15B;
+  --gold-light:#E6C784;
+  --gold-faint:rgba(198,161,91,.14);
+  --cream-warm:#F5EFE3;
+  --on-dark:#CDD6D2;
+  --muted-dark:#8FA6A4;
+  --field:#0A1D22;
+  --jade:#6FBF9E;
+  --clay:#E0906E;
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'Mulish',system-ui,-apple-system,sans-serif;
+  background:var(--deep);
+  background-image:
+    radial-gradient(60% 55% at 12% 12%,rgba(14,124,134,.16) 0%,transparent 60%),
+    radial-gradient(55% 60% at 88% 6%,rgba(28,107,91,.13) 0%,transparent 58%),
+    radial-gradient(70% 70% at 78% 96%,rgba(36,75,120,.15) 0%,transparent 62%);
+  background-attachment:fixed;
+  color:var(--on-dark);
+  line-height:1.7;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+
+h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;color:var(--cream-warm);line-height:1.08}
+.gold-i{font-style:italic;color:var(--gold)}
+
+.eyebrow{margin-bottom:18px}
+.eyebrow .rule{width:20px;height:2px;background:var(--gold);margin-bottom:9px}
+.eyebrow .label{font-weight:600;font-size:12.8px;letter-spacing:.19em;text-transform:uppercase;color:var(--gold)}
+
+/* header */
+header{border-bottom:1px solid var(--teal-rule);padding:18px 0}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
+header .brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+header .brand img{height:34px;width:auto;display:block}
+header .brand .name{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:20px;color:var(--cream-warm);letter-spacing:.02em}
+header .site-link{font-weight:600;font-size:12.8px;letter-spacing:.19em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+header .site-link:hover{color:var(--gold-light)}
+
+/* hero */
+.hero{padding:78px 0 56px}
+.hero h1{font-size:clamp(42px,6.4vw,68px);line-height:1.04;margin-bottom:24px}
+.hero .lede{font-size:17px;max-width:38em;margin-bottom:16px}
+.hero .lede strong{color:var(--cream-warm);font-weight:600}
+.hero .sub-italic{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:22px;color:var(--gold);margin:26px 0 0;max-width:30em}
+
+section.blk{padding:54px 0;border-top:1px solid var(--teal-rule-soft)}
+section.blk > .wrap > h2{font-size:clamp(28px,3.6vw,40px);margin-bottom:8px}
+.sec-note{font-size:14.5px;color:var(--muted-dark);max-width:66ch;margin-bottom:24px}
+p{margin-bottom:1.1em}
+p:last-child{margin-bottom:0}
+strong{color:var(--cream-warm);font-weight:600}
+
+/* rules card */
+.rules{background:var(--panel);border:1px solid var(--teal-rule);border-radius:14px;padding:26px 28px}
+.rules ol{list-style:none;counter-reset:r;margin:0;padding:0}
+.rules li{counter-increment:r;position:relative;padding-left:38px;margin-bottom:13px;font-size:15.5px}
+.rules li:last-child{margin-bottom:0}
+.rules li::before{content:"0" counter(r);position:absolute;left:0;top:2px;font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:var(--gold);letter-spacing:.05em}
+
+/* summary tiles */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tile{background:rgba(18,49,56,.5);border:1px solid var(--teal-rule);border-radius:14px;padding:22px 22px 20px}
+.tile .k{font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--muted-dark);font-weight:700;margin-bottom:8px}
+.tile .v{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(28px,4.6vw,40px);line-height:1;color:var(--cream-warm);font-variant-numeric:tabular-nums}
+.tile .f{font-size:12.5px;color:var(--muted-dark);margin-top:9px;line-height:1.45}
+.pos{color:var(--jade)}
+.neg{color:var(--clay)}
+
+.verdict{margin-top:16px;background:var(--panel);border:1px solid var(--teal-rule);border-left:3px solid var(--gold);border-radius:0 14px 14px 0;padding:24px 26px}
+.verdict .vlabel{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--gold);margin-bottom:10px}
+.verdict.crit{border-left-color:var(--clay)}
+.verdict.crit .vlabel{color:var(--clay)}
+.verdict.good{border-left-color:var(--jade)}
+.verdict.good .vlabel{color:var(--jade)}
+.verdict p{font-size:15.5px;margin-bottom:11px}
+
+/* ledgers */
+.ledger{border-top:1px solid var(--teal-rule)}
+.row{display:grid;grid-template-columns:1fr 170px;gap:18px;align-items:center;padding:11px 0;border-bottom:1px solid var(--teal-rule-soft)}
+.row > label{font-size:15.5px;line-height:1.4}
+.hint{display:block;font-size:12.5px;color:var(--muted-dark);line-height:1.4;margin-top:3px}
+.fld{position:relative}
+.fld .cur{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted-dark);font-size:14px;pointer-events:none}
+.fld.pct .cur{left:auto;right:11px}
+.fld input{width:100%;background:var(--field);color:var(--cream-warm);border:1px solid var(--teal-rule);border-radius:8px;
+  padding:9px 11px 9px 25px;font:inherit;font-size:15px;text-align:right;font-variant-numeric:tabular-nums}
+.fld.pct input{padding:9px 26px 9px 10px}
+.fld input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-faint)}
+.fld input:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+
+.dhead,.drow{display:grid;grid-template-columns:1fr 140px 84px 126px;gap:12px;align-items:center}
+.dhead{padding:0 0 9px;border-bottom:1px solid var(--teal-rule)}
+.dhead span{font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted-dark);font-weight:700;text-align:right}
+.dhead span:first-child{text-align:left}
+.drow{padding:11px 0;border-bottom:1px solid var(--teal-rule-soft)}
+.drow > label{font-size:15.5px;line-height:1.4}
+
+.subtotal{display:grid;grid-template-columns:1fr 170px;gap:18px;align-items:baseline;padding:16px 0 0;border-top:1px solid var(--gold);margin-top:4px}
+.subtotal .sl{font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;font-weight:700;color:var(--gold)}
+.subtotal .sv{text-align:right;font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:28px;line-height:1;color:var(--cream-warm);font-variant-numeric:tabular-nums}
+.carried{display:grid;grid-template-columns:1fr 170px;gap:18px;align-items:center;padding:13px 0;border-bottom:1px solid var(--teal-rule-soft);background:rgba(18,49,56,.4);border-radius:8px}
+.carried .cl{font-size:15px;padding-left:14px;color:var(--muted-dark)}
+.carried .cv{text-align:right;padding-right:14px;font-weight:700;color:var(--cream-warm);font-variant-numeric:tabular-nums}
+
+/* readouts */
+.readouts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ro{background:rgba(18,49,56,.5);border:1px solid var(--teal-rule);border-radius:14px;padding:20px}
+.ro .k{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-dark);font-weight:700}
+.ro .v{font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;font-weight:400;line-height:1.05;margin-top:7px;color:var(--cream-warm);font-variant-numeric:tabular-nums}
+.ro .n{font-size:12.5px;color:var(--muted-dark);margin-top:7px;line-height:1.45}
+
+/* payoff */
+.methods{display:inline-flex;border:1px solid var(--teal-rule);border-radius:60px;overflow:hidden;margin-bottom:22px}
+.methods button{border:0;background:transparent;color:var(--on-dark);font-family:inherit;font-size:13.5px;font-weight:600;padding:11px 22px;cursor:pointer;transition:.3s}
+.methods button[aria-pressed="true"]{background:linear-gradient(135deg,var(--gold),#A8763E);color:#1a1207;font-weight:700}
+.ptable-wrap{overflow-x:auto;border:1px solid var(--teal-rule);border-radius:14px;background:rgba(18,49,56,.42)}
+table.payoff{width:100%;border-collapse:collapse;font-size:14.5px;min-width:580px}
+table.payoff th{text-align:right;font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted-dark);font-weight:700;padding:15px 16px 11px;border-bottom:1px solid var(--teal-rule);white-space:nowrap}
+table.payoff th:first-child,table.payoff th:nth-child(2){text-align:left}
+table.payoff td{padding:13px 16px;border-bottom:1px solid var(--teal-rule-soft);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.payoff td:nth-child(2){text-align:left;white-space:normal;color:var(--cream-warm);font-weight:600}
+table.payoff td:first-child{text-align:left;color:var(--gold);font-weight:700;width:36px;font-family:'Cormorant Garamond',Georgia,serif;font-size:17px}
+table.payoff tr:last-child td{border-bottom:none}
+table.payoff tr.first td{background:var(--gold-faint)}
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+.compare div{background:rgba(18,49,56,.5);border:1px solid var(--teal-rule);border-radius:14px;padding:18px 20px}
+.compare .k{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-dark);font-weight:700}
+.compare .v{font-family:'Cormorant Garamond',Georgia,serif;font-size:27px;font-weight:400;margin-top:5px;color:var(--cream-warm);font-variant-numeric:tabular-nums}
+.pnote{margin-top:20px;font-size:15px;max-width:70ch}
+
+/* three */
+.three-card{background:var(--panel);border:1px solid var(--gold);border-radius:14px;padding:30px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:20px}
+.three > div{border-top:1px solid var(--gold);padding-top:12px}
+.three .k{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted-dark);font-weight:700}
+.three .v{font-family:'Cormorant Garamond',Georgia,serif;font-size:32px;font-weight:400;line-height:1.1;margin-top:5px;color:var(--cream-warm);font-variant-numeric:tabular-nums}
+
+/* questions */
+.qs{list-style:none;counter-reset:q;margin:0;padding:0}
+.qs li{counter-increment:q;border-top:1px solid var(--teal-rule-soft);padding:20px 0 20px 46px;position:relative;
+  font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;line-height:1.35;color:var(--cream-warm)}
+.qs li:last-child{border-bottom:1px solid var(--teal-rule-soft)}
+.qs li::before{content:"0" counter(q);position:absolute;left:0;top:24px;font-family:'Mulish',sans-serif;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em}
+.qs .writeline{display:block;height:1px;background:var(--teal-rule-soft);margin-top:16px}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px;align-items:center}
+.pill{font-family:inherit;font-weight:700;font-size:14.5px;letter-spacing:.02em;padding:14px 30px;border-radius:60px;cursor:pointer;
+  border:1px solid transparent;background:linear-gradient(135deg,var(--gold),#A8763E);color:#1a1207;transition:.35s}
+.pill:hover{filter:brightness(1.07);transform:translateY(-2px)}
+.pill.ghost{background:transparent;border-color:var(--gold);color:var(--gold-light)}
+.pill.ghost:hover{background:var(--gold-faint);transform:none}
+.pill:focus-visible{outline:2px solid var(--gold-light);outline-offset:3px}
+.privacy{font-size:13px;color:var(--muted-dark);margin-top:16px;max-width:64ch}
+
+.banner{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;
+  background:var(--gold-faint);border:1px solid var(--gold);border-radius:14px;padding:14px 20px;margin:0 0 30px;font-size:14.5px;color:var(--cream-warm)}
+.banner .pill{padding:9px 20px;font-size:13px}
+
+/* bottom */
+.bottom-cta{padding:70px 0;text-align:center;border-top:1px solid var(--teal-rule-soft)}
+.bottom-cta .crown{width:44px;height:auto;margin:0 auto 22px;opacity:.85}
+.bottom-cta h2{font-size:clamp(30px,4.2vw,46px);max-width:19ch;margin:0 auto 18px}
+.bottom-cta p{max-width:56ch;margin:0 auto}
+.sig{width:150px;height:auto;margin-top:26px;opacity:.9}
+
+footer{border-top:1px solid var(--teal-rule);padding:30px 0 46px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+footer .fine{font-size:12.5px;color:var(--muted-dark)}
+footer .foot-nav{display:flex;flex-wrap:wrap;gap:22px}
+footer .foot-nav a{font-size:12.5px;color:var(--muted-dark);text-decoration:none}
+footer .foot-nav a:hover{color:var(--gold-light)}
+.disclaimer{font-size:12px;color:var(--muted-dark);max-width:76ch;margin-top:14px;line-height:1.7}
+
+@media(max-width:820px){
+  .dhead{display:none}
+  .drow{grid-template-columns:repeat(3,1fr);gap:9px;padding-top:26px}
+  .drow > label{grid-column:1 / -1;margin-bottom:4px}
+  .fld[data-lab]::after{content:attr(data-lab);position:absolute;top:-16px;left:2px;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-dark)}
+  .readouts{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:680px){
+  .tiles{grid-template-columns:1fr}
+  .readouts{grid-template-columns:1fr}
+  .compare{grid-template-columns:1fr}
+  .three{grid-template-columns:1fr}
+  .row,.subtotal,.carried{grid-template-columns:1fr 132px;gap:12px}
+  .hero{padding:54px 0 42px}
+  header .brand .name{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+@page{margin:13mm}
+@media print{
+  body{background:#fff!important;background-image:none!important;color:#111;font-size:11pt}
+  :root{--cream-warm:#000;--on-dark:#222;--muted-dark:#555;--teal-rule:#999;--teal-rule-soft:#ccc;--gold:#8a6d1e;--panel:#fff;--field:#fff;--jade:#1d6b4f;--clay:#9c4326;--gold-faint:#f2ece0}
+  header{border-bottom:2px solid #000}
+  header .brand img,.bottom-cta .crown,.sig{filter:invert(1)}
+  .noprint{display:none!important}
+  section.blk{padding:20px 0;break-inside:avoid}
+  .row,.drow{padding:6px 0;break-inside:avoid}
+  .fld input{border:0;border-bottom:1px solid #888;border-radius:0;background:transparent;color:#000}
+  .tile,.ro,.compare div,.rules,.verdict,.three-card,.ptable-wrap{background:#fff!important;border-color:#999}
+  .qs .writeline{height:0;border-bottom:1px solid #bbb;margin-top:24px}
+  .pagebreak{break-before:page}
+  footer{border-top:1px solid #999}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="https://ericfarewell.com">
+      <img src="assets/img/signature-white.png" alt="Eric Farewell">
+      <span class="name">Eric Farewell</span>
+    </a>
+    <a class="site-link" href="https://ericfarewell.com">ericfarewell.com</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><div class="rule"></div><div class="label">Private Worksheet</div></div>
+    <h1>Know your <span class="gold-i">numbers</span></h1>
+    <p class="lede">Most founders I know can quote last quarter's revenue to the dollar and could not tell you their own net worth inside fifty thousand. <strong>This is the sheet that closes that gap.</strong></p>
+    <p class="lede">Forty-five minutes, one sitting, statements open. It gives you back your net worth, what your month actually nets after everything, and the order to kill your debt in, ranked by what each one costs you.</p>
+    <p class="sub-italic">Nothing you type here leaves your browser.</p>
+  </div>
+</div>
+
+<section class="blk">
+  <div class="wrap">
+    <div class="banner noprint" id="banner">
+      <span><strong>These are example figures</strong>, here so you can see what the sheet does before you start.</span>
+      <button type="button" class="pill" id="clearEx">Clear and use mine</button>
+    </div>
+    <h2>Before you start</h2>
+    <p class="sec-note">Six rules. They exist because a sheet of comfortable numbers is worse than no sheet at all.</p>
+    <div class="rules">
+      <ol>
+        <li><strong>Balances and rates, not just payments.</strong> A payment is what you were sold. A balance at a rate is what you owe. The sheet asks for all three, because the rate decides the order you kill them in.</li>
+        <li><strong>Open the statements.</strong> Every figure comes off an actual account, not memory. The gap between what you remember and what the statement says is the point of the exercise.</li>
+        <li><strong>Price what you own at what it would sell for this month.</strong> Not what you paid. Not what it is worth to you.</li>
+        <li><strong>Price the business at what a buyer would wire you</strong> after the debt is cleared and the tax comes out. That is usually a long way from the number you say at dinner.</li>
+        <li><strong>Guessing is allowed once.</strong> Mark a guess with a G. A sheet covered in Gs is not a failure, it is the finding.</li>
+        <li><strong>Finish it in one sitting.</strong> A sheet built over four days gets edited by the part of you that wants it to look better.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="blk">
+  <div class="wrap">
+    <h2>Where you stand right now</h2>
+    <p class="sec-note">These three update as you fill the sheet.</p>
+    <div class="tiles">
+      <div class="tile"><div class="k">Net worth</div><div class="v" id="t-nw">&mdash;</div><div class="f" id="t-nw-f">Everything you own, less everything you owe</div></div>
+      <div class="tile"><div class="k">Debt that isn't a house</div><div class="v" id="t-debt">&mdash;</div><div class="f" id="t-debt-f">Cards, notes, guarantees, tax owed</div></div>
+      <div class="tile"><div class="k">Monthly net</div><div class="v" id="t-net">&mdash;</div><div class="f" id="t-net-f">What the month leaves behind</div></div>
+    </div>
+    <div class="verdict" id="verdict">
+      <div class="vlabel" id="v-label">Read</div>
+      <div id="v-body"><p>Fill the sheet and this reads back what the numbers actually say.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk">
+  <div class="wrap">
+    <h2>One. What you own</h2>
+    <p class="sec-note">Balances as of today.</p>
+    <div class="ledger">
+      <div class="row"><label for="a1">Cash in checking</label><div class="fld"><span class="cur">$</span><input id="a1" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="a2">Savings and money market<span class="hint">Anything you would actually touch in an emergency</span></label><div class="fld"><span class="cur">$</span><input id="a2" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="a3">Retirement accounts<span class="hint">401k, IRA, SEP, solo 401k, pension cash value</span></label><div class="fld"><span class="cur">$</span><input id="a3" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="a4">HSA<span class="hint">Cash plus anything invested inside it. Most people forget the invested part.</span></label><div class="fld"><span class="cur">$</span><input id="a4" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="a5">Taxable investments<span class="hint">Brokerage, index funds, individual positions</span></label><div class="fld"><span class="cur">$</span><input id="a5" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="a6">Whole life cash value<span class="hint">Cash surrender value, not the death benefit. Call the carrier if you are not certain.</span></label><div class="fld"><span class="cur">$</span><input id="a6" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="a7">Your equity in the business<span class="hint">What a buyer wires you, after debt and after tax</span></label><div class="fld"><span class="cur">$</span><input id="a7" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="a8">Primary residence<span class="hint">What it sells for in 90 days, not the Zestimate</span></label><div class="fld"><span class="cur">$</span><input id="a8" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="a9">Other real estate</label><div class="fld"><span class="cur">$</span><input id="a9" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="a10">Vehicles, aircraft, trailers, toys<span class="hint">Private party value this month</span></label><div class="fld"><span class="cur">$</span><input id="a10" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="a11">Everything else<span class="hint">Crypto, notes owed to you, collectibles</span></label><div class="fld"><span class="cur">$</span><input id="a11" type="text" inputmode="decimal"></div></div>
+      <div class="subtotal"><div class="sl">Total assets</div><div class="sv" id="s-assets">$0</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk pagebreak">
+  <div class="wrap">
+    <h2>Two. What you owe</h2>
+    <p class="sec-note">Balance, rate and payment for every one. If you do not know a rate, go find it. Not knowing what a debt costs you is how it stays.</p>
+    <div class="ledger">
+      <div class="dhead"><span>Debt</span><span>Balance</span><span>APR</span><span>Monthly payment</span></div>
+
+      <div class="drow"><label for="l1b">Mortgage on your home</label>
+        <div class="fld" data-lab="Balance"><span class="cur">$</span><input id="l1b" type="text" inputmode="decimal"></div>
+        <div class="fld pct" data-lab="APR"><span class="cur">%</span><input id="l1r" type="text" inputmode="decimal"></div>
+        <div class="fld" data-lab="Payment"><span class="cur">$</span><input id="l1p" type="text" inputmode="decimal"></div></div>
+
+      <div class="drow"><label for="l2b">Loans on other real estate</label>
+        <div class="fld" data-lab="Balance"><span class="cur">$</span><input id="l2b" type="text" inputmode="decimal"></div>
+        <div class="fld pct" data-lab="APR"><span class="cur">%</span><input id="l2r" type="text" inputmode="decimal"></div>
+        <div class="fld" data-lab="Payment"><span class="cur">$</span><input id="l2p" type="text" inputmode="decimal"></div></div>
+
+      <div class="drow"><label for="l3b">HELOC and lines of credit<span class="hint">Drawn balance, not the limit. The rate is usually variable, use today's.</span></label>
+        <div class="fld" data-lab="Balance"><span class="cur">$</span><input id="l3b" type="text" inputmode="decimal"></div>
+        <div class="fld pct" data-lab="APR"><span class="cur">%</span><input id="l3r" type="text" inputmode="decimal"></div>
+        <div class="fld" data-lab="Payment"><span class="cur">$</span><input id="l3p" type="text" inputmode="decimal"></div></div>
+
+      <div class="drow"><label for="l4b">Credit card, highest balance<span class="hint">Purchase APR off the statement, not the teaser rate</span></label>
+        <div class="fld" data-lab="Balance"><span class="cur">$</span><input id="l4b" type="text" inputmode="decimal"></div>
+        <div class="fld pct" data-lab="APR"><span class="cur">%</span><input id="l4r" type="text" inputmode="decimal"></div>
+        <div class="fld" data-lab="Payment"><span class="cur">$</span><input id="l4p" type="text" inputmode="decimal"></div></div>
+
+      <div class="drow"><label for="l5b">Second card or line<span class="hint">Leave blank if you only carry one. Separate lines matter when the rates differ.</span></label>
+        <div class="fld" data-lab="Balance"><span class="cur">$</span><input id="l5b" type="text" inputmode="decimal"></div>
+        <div class="fld pct" data-lab="APR"><span class="cur">%</span><input id="l5r" type="text" inputmode="decimal"></div>
+        <div class="fld" data-lab="Payment"><span class="cur">$</span><input id="l5p" type="text" inputmode="decimal"></div></div>
+
+      <div class="drow"><label for="l6b">Auto, aircraft and toy loans</label>
+        <div class="fld" data-lab="Balance"><span class="cur">$</span><input id="l6b" type="text" inputmode="decimal"></div>
+        <div class="fld pct" data-lab="APR"><span class="cur">%</span><input id="l6r" type="text" inputmode="decimal"></div>
+        <div class="fld" data-lab="Payment"><span class="cur">$</span><input id="l6p" type="text" inputmode="decimal"></div></div>
+
+      <div class="drow"><label for="l7b">Student loans</label>
+        <div class="fld" data-lab="Balance"><span class="cur">$</span><input id="l7b" type="text" inputmode="decimal"></div>
+        <div class="fld pct" data-lab="APR"><span class="cur">%</span><input id="l7r" type="text" inputmode="decimal"></div>
+        <div class="fld" data-lab="Payment"><span class="cur">$</span><input id="l7p" type="text" inputmode="decimal"></div></div>
+
+      <div class="drow"><label for="l8b">Business debt you personally guaranteed<span class="hint">SBA notes, equipment, anything with your signature behind it</span></label>
+        <div class="fld" data-lab="Balance"><span class="cur">$</span><input id="l8b" type="text" inputmode="decimal"></div>
+        <div class="fld pct" data-lab="APR"><span class="cur">%</span><input id="l8r" type="text" inputmode="decimal"></div>
+        <div class="fld" data-lab="Payment"><span class="cur">$</span><input id="l8p" type="text" inputmode="decimal"></div></div>
+
+      <div class="drow"><label for="l9b">Business debt without your guarantee</label>
+        <div class="fld" data-lab="Balance"><span class="cur">$</span><input id="l9b" type="text" inputmode="decimal"></div>
+        <div class="fld pct" data-lab="APR"><span class="cur">%</span><input id="l9r" type="text" inputmode="decimal"></div>
+        <div class="fld" data-lab="Payment"><span class="cur">$</span><input id="l9p" type="text" inputmode="decimal"></div></div>
+
+      <div class="drow"><label for="l10b">Tax owed and not yet funded<span class="hint">Back taxes, this year's estimates. The IRS rate plus penalties runs high, do not leave it at zero.</span></label>
+        <div class="fld" data-lab="Balance"><span class="cur">$</span><input id="l10b" type="text" inputmode="decimal"></div>
+        <div class="fld pct" data-lab="APR"><span class="cur">%</span><input id="l10r" type="text" inputmode="decimal"></div>
+        <div class="fld" data-lab="Payment"><span class="cur">$</span><input id="l10p" type="text" inputmode="decimal"></div></div>
+
+      <div class="drow"><label for="l11b">Money owed to family or friends<span class="hint">Including the ones with no paperwork. The rate is usually zero and the cost is not.</span></label>
+        <div class="fld" data-lab="Balance"><span class="cur">$</span><input id="l11b" type="text" inputmode="decimal"></div>
+        <div class="fld pct" data-lab="APR"><span class="cur">%</span><input id="l11r" type="text" inputmode="decimal"></div>
+        <div class="fld" data-lab="Payment"><span class="cur">$</span><input id="l11p" type="text" inputmode="decimal"></div></div>
+
+      <div class="subtotal"><div class="sl">Total owed</div><div class="sv" id="s-liabs">$0</div></div>
+      <div class="subtotal"><div class="sl">Net worth</div><div class="sv" id="s-nw">$0</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk">
+  <div class="wrap">
+    <h2>Three. What comes in</h2>
+    <p class="sec-note">Average the last three months of money that actually hit your account. Not what you are owed, not what you expect.</p>
+    <div class="ledger">
+      <div class="row"><label for="i1">Take-home pay<span class="hint">After tax and withholding</span></label><div class="fld"><span class="cur">$</span><input id="i1" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="i2">Owner draws and distributions<span class="hint">Actual deposits, averaged</span></label><div class="fld"><span class="cur">$</span><input id="i2" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="i3">Net rental income<span class="hint">After the mortgage and the management</span></label><div class="fld"><span class="cur">$</span><input id="i3" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="i4">Everything else</label><div class="fld"><span class="cur">$</span><input id="i4" type="text" inputmode="decimal"></div></div>
+      <div class="subtotal"><div class="sl">Monthly in</div><div class="sv" id="s-in">$0</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk">
+  <div class="wrap">
+    <h2>Four. What goes out</h2>
+    <p class="sec-note">Same three months, off the statement. Debt payments carry over from section two, so keep every loan payment out of the lines below.</p>
+    <div class="ledger">
+      <div class="row"><label for="o1">Housing, without the mortgage payment<span class="hint">Property tax, insurance, HOA, maintenance</span></label><div class="fld"><span class="cur">$</span><input id="o1" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="o2">Utilities and connectivity</label><div class="fld"><span class="cur">$</span><input id="o2" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="o3">Food<span class="hint">Groceries and restaurants together, no separating them</span></label><div class="fld"><span class="cur">$</span><input id="o3" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="o4">Transportation, without the loan payments<span class="hint">Fuel, insurance, maintenance, hangar, storage</span></label><div class="fld"><span class="cur">$</span><input id="o4" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="o5">Insurance premiums<span class="hint">Health, disability, umbrella, and the whole life premium</span></label><div class="fld"><span class="cur">$</span><input id="o5" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="o6">Kids<span class="hint">Tuition, childcare, activities, support</span></label><div class="fld"><span class="cur">$</span><input id="o6" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="o7">Tax you set aside yourself<span class="hint">If nobody withholds it for you</span></label><div class="fld"><span class="cur">$</span><input id="o7" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="o8">Everything else<span class="hint">Subscriptions, travel, gifts, gear, the drift. Take the real total.</span></label><div class="fld"><span class="cur">$</span><input id="o8" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="o9">What you actually saved or invested<span class="hint">Counts as an outflow here so the month balances honestly</span></label><div class="fld"><span class="cur">$</span><input id="o9" type="text" inputmode="decimal"></div></div>
+      <div class="carried"><div class="cl">Debt payments, carried from section two</div><div class="cv" id="c-debtpay">$0</div></div>
+      <div class="subtotal"><div class="sl">Monthly out</div><div class="sv" id="s-out">$0</div></div>
+      <div class="subtotal"><div class="sl">Monthly net</div><div class="sv" id="s-net">$0</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk">
+  <div class="wrap">
+    <h2>Five. Two more</h2>
+    <div class="ledger">
+      <div class="row"><label for="x1">Your net worth one year ago<span class="hint">Best honest estimate. The direction matters more than the precision.</span></label><div class="fld"><span class="cur">$</span><input id="x1" type="text" inputmode="decimal"></div></div>
+      <div class="row"><label for="x2">Extra you can send at debt each month<span class="hint">On top of the minimums. Leave it blank and the sheet uses your monthly net.</span></label><div class="fld"><span class="cur">$</span><input id="x2" type="text" inputmode="decimal"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk pagebreak">
+  <div class="wrap">
+    <h2>What it adds up to</h2>
+    <p class="sec-note">Nothing here is an opinion. It is arithmetic on what you just entered.</p>
+    <div class="readouts">
+      <div class="ro"><div class="k">Runway</div><div class="v" id="r-runway">&mdash;</div><div class="n">Months you cover the bills if the income stops Friday</div></div>
+      <div class="ro"><div class="k">Savings rate</div><div class="v" id="r-save">&mdash;</div><div class="n">Of everything that came in, what you kept</div></div>
+      <div class="ro"><div class="k">Interest bleed</div><div class="v" id="r-bleed">&mdash;</div><div class="n">Per month on debt that isn't the house, at your own rates</div></div>
+      <div class="ro"><div class="k">Blended rate</div><div class="v" id="r-rate">&mdash;</div><div class="n">What that debt costs you, weighted by balance</div></div>
+      <div class="ro"><div class="k">Twelve month change</div><div class="v" id="r-delta">&mdash;</div><div class="n">Net worth, this year against last</div></div>
+      <div class="ro"><div class="k">Liquid net worth</div><div class="v" id="r-liquid">&mdash;</div><div class="n">Cash and investments, less the debt that isn't a house</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk">
+  <div class="wrap">
+    <h2>The order to kill them in</h2>
+    <p class="sec-note">Your debts, ranked and then simulated month by month at the rates and payments you entered, with your extra sent at whichever one sits on top.</p>
+    <div class="methods noprint" role="group" aria-label="Payoff method">
+      <button type="button" id="m-cost" aria-pressed="true">Most expensive first</button>
+      <button type="button" id="m-snow" aria-pressed="false">Smallest balance first</button>
+    </div>
+    <div class="ptable-wrap">
+      <table class="payoff">
+        <thead><tr><th></th><th>Debt</th><th>Balance</th><th>APR</th><th>Costs you a year</th><th>Payment</th></tr></thead>
+        <tbody id="p-body"><tr><td></td><td>Nothing entered yet</td><td></td><td></td><td></td><td></td></tr></tbody>
+      </table>
+    </div>
+    <div class="compare">
+      <div><div class="k">Clear in</div><div class="v" id="p-months">&mdash;</div></div>
+      <div><div class="k">Interest you pay getting there</div><div class="v" id="p-interest">&mdash;</div></div>
+      <div><div class="k">Against the other order</div><div class="v" id="p-diff">&mdash;</div></div>
+    </div>
+    <p class="pnote" id="p-note"></p>
+    <p class="pnote"><strong>The honest version of the argument.</strong> Ranking by rate costs the least money, and on a big balance at a high rate it is not close. Ranking by smallest balance costs more and clears accounts sooner, and for some people watching an account hit zero is the thing that keeps them going. The sheet runs both so you can see the actual price of that momentum, in dollars and in months, instead of arguing about it. Real estate loans stay out of this table on purpose. They behave differently, and including them would tell you to ignore everything else for a decade.</p>
+  </div>
+</section>
+
+<section class="blk">
+  <div class="wrap">
+    <h2>The three that matter</h2>
+    <div class="three-card">
+      <p>If you only carry three numbers out of this, carry these. They are the ones worth saying out loud to someone who will not flinch.</p>
+      <div class="three">
+        <div><div class="k">Net worth</div><div class="v" id="w-nw">&mdash;</div></div>
+        <div><div class="k">Debt that isn't a house</div><div class="v" id="w-debt">&mdash;</div></div>
+        <div><div class="k">Monthly net</div><div class="v" id="w-net">&mdash;</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk">
+  <div class="wrap">
+    <h2>Four questions with no dollar signs</h2>
+    <p class="sec-note">Answer these after the math, not before. They are what this is actually about.</p>
+    <ol class="qs">
+      <li>Which of these did you have to go look up, and which did you already know to the dollar?<span class="writeline"></span></li>
+      <li>Which line made you flinch?<span class="writeline"></span></li>
+      <li>Who else knows the number at the bottom of section two?<span class="writeline"></span></li>
+      <li>What did you think it was before you added it up, and what does that gap tell you about yourself?<span class="writeline"></span></li>
+    </ol>
+    <div class="controls noprint">
+      <button type="button" class="pill" id="printBtn">Print the worksheet</button>
+      <button type="button" class="pill ghost" id="resetBtn">Clear every field</button>
+    </div>
+    <p class="privacy noprint">Everything you type stays in this browser on this device. It is never sent anywhere, it is not saved to any account, and nobody else can see it, including me. Print it blank if you would rather work it out with a pen.</p>
+  </div>
+</section>
+
+<section class="bottom-cta">
+  <div class="wrap">
+    <img class="crown" src="assets/img/crown.png" alt="" loading="lazy" decoding="async">
+    <h2>The number is not the work. <span class="gold-i">Saying it out loud is.</span></h2>
+    <p>I have watched men carry a figure alone for years, certain it said something about who they are. It never survives contact with a room that will not flinch. That is the whole reason the sheet ends in questions instead of a score.</p>
+    <img class="sig" src="assets/img/signature-white.png" alt="Eric Farewell" loading="lazy" decoding="async">
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fine">&copy; 2026 Eric Farewell &middot; Presence over performance</div>
+    <nav class="foot-nav">
+      <a href="https://ericfarewell.com/start.html">Free tools</a>
+      <a href="https://ericfarewell.com/work-with-eric.html">Work with Eric</a>
+      <a href="https://ericfarewell.com">ericfarewell.com</a>
+    </nav>
+  </div>
+  <div class="wrap">
+    <p class="disclaimer">This worksheet is a structure for a conversation, not financial, tax or legal advice. The projections are arithmetic on the figures you entered and assume nothing changes, which is never true. For decisions with real consequences, take these numbers to a professional who knows your whole situation.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var KEY='efc-knowyournumbers-v1';
+  var A=['a1','a2','a3','a4','a5','a6','a7','a8','a9','a10','a11'];
+  var DEBTS=[
+    {k:'l1',name:'Mortgage',re:true},
+    {k:'l2',name:'Other real estate',re:true},
+    {k:'l3',name:'HELOC and lines'},
+    {k:'l4',name:'Credit card'},
+    {k:'l5',name:'Second card or line'},
+    {k:'l6',name:'Auto, aircraft and toys'},
+    {k:'l7',name:'Student loans'},
+    {k:'l8',name:'Business debt, guaranteed'},
+    {k:'l9',name:'Business debt, no guarantee'},
+    {k:'l10',name:'Tax owed'},
+    {k:'l11',name:'Owed to family or friends'}
+  ];
+  var L=[]; DEBTS.forEach(function(d){ L.push(d.k+'b',d.k+'r',d.k+'p'); });
+  var I=['i1','i2','i3','i4'];
+  var O=['o1','o2','o3','o4','o5','o6','o7','o8','o9'];
+  var X=['x1','x2'];
+  var ALL=A.concat(L,I,O,X);
+
+  var EXAMPLE={
+    a1:18000,a2:42000,a3:310000,a4:14000,a5:95000,a6:38000,a7:850000,a8:1150000,a10:68000,a11:12000,
+    l1b:640000,l1r:3.25,l1p:3350,
+    l3b:22000,l3r:9.5,l3p:260,
+    l4b:38000,l4r:24.99,l4p:950,
+    l6b:41000,l6r:7.4,l6p:880,
+    l8b:180000,l8r:11.5,l8p:2400,
+    l10b:26000,l10r:8,l10p:500,
+    i2:28000,
+    o1:2200,o2:750,o3:2600,o4:900,o5:1250,o6:2200,o7:4000,o8:2900,o9:1500,
+    x1:1540000
+  };
+
+  var method='cost';
+  function $(id){return document.getElementById(id);}
+  function num(id){
+    var el=$(id); if(!el) return 0;
+    var v=parseFloat(String(el.value).replace(/[^0-9.\-]/g,''));
+    return isFinite(v)?v:0;
+  }
+  function sum(ids){var t=0;for(var i=0;i<ids.length;i++)t+=num(ids[i]);return t;}
+  function money(n){
+    if(!isFinite(n)) return '—';
+    var r=Math.round(n);
+    return (r<0?'-$':'$')+Math.abs(r).toLocaleString('en-US');
+  }
+  function months(n){
+    if(!isFinite(n)||n<=0) return '—';
+    if(n>=12){
+      var y=Math.floor(n/12), m=Math.round(n%12);
+      if(m===12){y+=1;m=0;}
+      return y+' yr'+(y>1?'s':'')+(m?' '+m+' mo':'');
+    }
+    return Math.round(n)+' mo';
+  }
+  function pct(n){ if(!isFinite(n)) return '—'; return (Math.round(n*10)/10)+'%'; }
+  function apr(n){ if(!isFinite(n)) return '—'; return (Math.round(n*100)/100)+'%'; }
+  function cls(el,n,invert){
+    el.classList.remove('pos','neg');
+    if(n>0) el.classList.add(invert?'neg':'pos');
+    else if(n<0) el.classList.add(invert?'pos':'neg');
+  }
+  function readDebts(){
+    var out=[];
+    DEBTS.forEach(function(d){
+      if(d.re) return;
+      var bal=num(d.k+'b');
+      if(bal<=0) return;
+      out.push({name:d.name,bal:bal,rate:num(d.k+'r')/100,pay:num(d.k+'p')});
+    });
+    return out;
+  }
+  function sortDebts(list,how){
+    var c=list.slice();
+    c.sort(function(a,b){
+      if(how==='cost'){ return (b.rate-a.rate)||(a.bal-b.bal); }
+      return (a.bal-b.bal)||(b.rate-a.rate);
+    });
+    return c;
+  }
+  function simulate(list,extra,how){
+    var d=sortDebts(list,how).map(function(x){return {bal:x.bal,rate:x.rate,pay:x.pay};});
+    if(!d.length) return {months:0,interest:0,ok:true};
+    var m=0,tot=0,MAX=600,i,k;
+    function live(){ for(i=0;i<d.length;i++){ if(d[i].bal>0.005) return true; } return false; }
+    while(live() && m<MAX){
+      m++;
+      for(i=0;i<d.length;i++){
+        if(d[i].bal>0.005){ var ac=d[i].bal*d[i].rate/12; d[i].bal+=ac; tot+=ac; }
+      }
+      var pool=extra;
+      for(i=0;i<d.length;i++){ if(d[i].bal>0.005) pool+=d[i].pay; }
+      for(i=0;i<d.length;i++){
+        if(d[i].bal>0.005){ var p=Math.min(d[i].pay,d[i].bal); d[i].bal-=p; pool-=p; }
+      }
+      if(pool<0) pool=0;
+      for(k=0;k<d.length && pool>0.005;k++){
+        if(d[k].bal>0.005){ var q=Math.min(pool,d[k].bal); d[k].bal-=q; pool-=q; }
+      }
+    }
+    return {months:m,interest:tot,ok:m<MAX};
+  }
+
+  function verdict(dd){
+    var lab,body=[],tone='';
+    if(dd.monthlyIn===0 && dd.monthlyOut===0 && dd.assets===0){
+      return {label:'Read',tone:'',body:['Fill the sheet and this reads back what the numbers actually say.']};
+    }
+    if(dd.net<0){
+      tone='crit'; lab='You are shrinking';
+      body.push('You are down '+money(Math.abs(dd.net))+' a month. Over a year that is '+money(Math.abs(dd.net)*12)+', and you are covering it with savings, with credit, or by pulling harder on the business. At this rate the cushion is gone in '+months(dd.runway)+'.');
+      if(dd.delta>0){
+        body.push('Your net worth went up '+money(dd.delta)+' this year, and that does not cancel the leak. It means the asset column is outrunning a hole you have not closed. Assets can stop climbing. The hole does not stop on its own.');
+      }
+    } else if(dd.runway>0 && dd.runway<3){
+      tone='crit'; lab='Thin';
+      body.push('The month clears '+money(dd.net)+' and you are carrying '+months(dd.runway)+' of runway. One slow quarter, one lost client, one health event, and you are borrowing to eat. Runway is what turns a problem into an emergency, and you do not have much of it.');
+    } else if(dd.topRate>=10 && dd.topBal>0){
+      lab='One thing first';
+      body.push(money(dd.topBal)+' sitting at '+apr(dd.topRate)+' is the most expensive money you own. It costs you '+money(dd.topBal*dd.topRate/100/12)+' a month and you get nothing for it. Paying it off is a guaranteed '+apr(dd.topRate)+' return, and nothing else on this page comes close to that.');
+      if(dd.cashAndInvest>dd.topBal){
+        body.push('You also have '+money(dd.cashAndInvest)+' in cash and investments. The arithmetic here is not difficult. The reason it has not happened yet is not arithmetic.');
+      }
+    } else if(dd.net>0 && dd.runway>=6 && dd.nonMortgage<=0){
+      tone='good'; lab='You are building';
+      body.push('The month clears '+money(dd.net)+', you are carrying '+months(dd.runway)+' of runway, and you owe nothing outside the house. That is rare, and most people who get here never say it out loud because they are already looking at the next problem.');
+      body.push('Say this one out loud first: you built something that works. Then go find the thing you are avoiding, because it is not the money.');
+    } else {
+      lab='Holding';
+      body.push('The month clears '+money(dd.net)+' with '+months(dd.runway)+' of runway. Nothing is on fire and nothing is compounding either. Holding is a decision, same as any other. Worth knowing whether you chose it.');
+    }
+    if(dd.guaranteed>0){
+      body.push('Separate from all of it: '+money(dd.guaranteed)+' of business debt has your personal signature behind it. If the business stops, that debt does not. Carry it as a personal number, not a company one.');
+    }
+    return {label:lab,tone:tone,body:body};
+  }
+
+  function renderPayoff(extra){
+    var list=readDebts();
+    var tb=$('p-body');
+    while(tb.firstChild) tb.removeChild(tb.firstChild);
+    if(!list.length){
+      var tr=document.createElement('tr');
+      tr.appendChild(document.createElement('td'));
+      var td2=document.createElement('td'); td2.textContent='Nothing outside the house. There is no order to run.'; tr.appendChild(td2);
+      for(var z=0;z<4;z++) tr.appendChild(document.createElement('td'));
+      tb.appendChild(tr);
+      $('p-months').textContent='Clear';
+      $('p-interest').textContent=money(0);
+      $('p-diff').textContent='—';
+      $('p-note').textContent='';
+      return {topBal:0,topRate:0};
+    }
+    var sorted=sortDebts(list,method);
+    sorted.forEach(function(x,ix){
+      var tr=document.createElement('tr');
+      if(ix===0) tr.className='first';
+      [String(ix+1),x.name,money(x.bal),x.rate>0?apr(x.rate*100):'not set',money(x.bal*x.rate),money(x.pay)]
+        .forEach(function(c){ var td=document.createElement('td'); td.textContent=c; tr.appendChild(td); });
+      tb.appendChild(tr);
+    });
+    var a=simulate(list,extra,method);
+    var b=simulate(list,extra,method==='cost'?'momentum':'cost');
+    $('p-months').textContent = a.ok ? months(a.months) : 'Not at these payments';
+    $('p-interest').textContent = a.ok ? money(a.interest) : '—';
+    var diff=$('p-diff');
+    diff.classList.remove('pos','neg');
+    if(a.ok && b.ok){
+      var dInt=b.interest-a.interest;
+      if(Math.abs(dInt)<1){ diff.textContent='Same either way'; }
+      else if(dInt>0){ diff.textContent=money(dInt)+' cheaper'; diff.classList.add('pos'); }
+      else { diff.textContent=money(Math.abs(dInt))+' dearer'; diff.classList.add('neg'); }
+    } else { diff.textContent='—'; }
+    var note;
+    if(!a.ok){
+      note='At these payments the balances never clear. The minimums you entered are not keeping ahead of the interest, which means the debt grows while you pay it. That is the finding, and it is the one to take to someone this week.';
+    } else {
+      note='Start at the top of that list. Send every extra dollar there and pay the minimum on everything else. When it clears, its payment rolls down onto the next one and you do not take the raise. ';
+      note += extra>0 ? ('You are sending '+money(extra)+' a month on top of the minimums.')
+                      : 'You have nothing spare to send at it right now, so that timeline is on minimums alone. Find the extra and it moves fast.';
+    }
+    $('p-note').textContent=note;
+    var top=sortDebts(list,'cost')[0];
+    return {topBal:top.bal,topRate:top.rate*100};
+  }
+
+  function calc(){
+    var d={assets:sum(A),liabs:0,debtPay:0,nonMortgage:0,nonMortInterest:0};
+    d.guaranteed=num('l8b');
+    DEBTS.forEach(function(x){
+      var b=num(x.k+'b');
+      d.liabs+=b; d.debtPay+=num(x.k+'p');
+      if(!x.re){ d.nonMortgage+=b; d.nonMortInterest+=b*num(x.k+'r')/100; }
+    });
+    d.nw=d.assets-d.liabs;
+    d.monthlyIn=sum(I);
+    d.monthlyOut=sum(O)+d.debtPay;
+    d.net=d.monthlyIn-d.monthlyOut;
+    d.saved=num('o9');
+    d.cashAndInvest=num('a1')+num('a2')+num('a5');
+    d.liquid=d.cashAndInvest-d.nonMortgage;
+    d.runway=d.monthlyOut>0 ? d.cashAndInvest/d.monthlyOut : 0;
+    d.saveRate=d.monthlyIn>0 ? (d.saved/d.monthlyIn)*100 : NaN;
+    d.bleedMonthly=d.nonMortInterest/12;
+    d.blended=d.nonMortgage>0 ? (d.nonMortInterest/d.nonMortgage)*100 : NaN;
+    d.lastYear=num('x1');
+    d.delta=d.lastYear>0 ? d.nw-d.lastYear : NaN;
+    d.deltaPct=d.lastYear>0 ? (d.delta/Math.abs(d.lastYear))*100 : NaN;
+    var typedExtra=num('x2');
+    d.extra = typedExtra>0 ? typedExtra : Math.max(0,d.net);
+
+    $('s-assets').textContent=money(d.assets);
+    $('s-liabs').textContent=money(d.liabs);
+    $('s-nw').textContent=money(d.nw);
+    $('s-in').textContent=money(d.monthlyIn);
+    $('c-debtpay').textContent=money(d.debtPay);
+    $('s-out').textContent=money(d.monthlyOut);
+    $('s-net').textContent=money(d.net); cls($('s-net'),d.net);
+
+    $('t-nw').textContent=money(d.nw); cls($('t-nw'),d.nw);
+    $('t-debt').textContent=money(d.nonMortgage); cls($('t-debt'),d.nonMortgage,true);
+    $('t-net').textContent=money(d.net); cls($('t-net'),d.net);
+    $('t-net-f').textContent = d.net<0 ? 'Every month at this rate costs you '+money(Math.abs(d.net)) : 'What the month leaves behind';
+    $('t-debt-f').textContent = d.nonMortgage>0 ? 'Costing you '+money(d.nonMortInterest)+' a year in interest' : 'Nothing outside the house';
+
+    $('w-nw').textContent=money(d.nw); cls($('w-nw'),d.nw);
+    $('w-debt').textContent=money(d.nonMortgage); cls($('w-debt'),d.nonMortgage,true);
+    $('w-net').textContent=money(d.net); cls($('w-net'),d.net);
+
+    $('r-runway').textContent=months(d.runway); cls($('r-runway'), d.runway>=6?1:(d.runway>0&&d.runway<3?-1:0));
+    $('r-save').textContent=isFinite(d.saveRate)?pct(d.saveRate):'—';
+    $('r-bleed').textContent=d.bleedMonthly>0?money(d.bleedMonthly):'—';
+    if(d.bleedMonthly>0) $('r-bleed').classList.add('neg'); else $('r-bleed').classList.remove('neg');
+    $('r-rate').textContent=isFinite(d.blended)?pct(d.blended):'—';
+    if(isFinite(d.blended)&&d.blended>=10) $('r-rate').classList.add('neg'); else $('r-rate').classList.remove('neg');
+    $('r-delta').textContent = isFinite(d.delta) ? money(d.delta)+'  ('+pct(d.deltaPct)+')' : '—';
+    if(isFinite(d.delta)) cls($('r-delta'),d.delta);
+    $('r-liquid').textContent = (d.cashAndInvest||d.nonMortgage) ? money(d.liquid) : '—';
+    cls($('r-liquid'),d.liquid);
+
+    var top=renderPayoff(d.extra);
+    d.topBal=top.topBal; d.topRate=top.topRate;
+
+    var v=verdict(d);
+    var box=$('verdict');
+    box.classList.remove('crit','good');
+    if(v.tone) box.classList.add(v.tone);
+    $('v-label').textContent=v.label;
+    var bodyEl=$('v-body');
+    while(bodyEl.firstChild) bodyEl.removeChild(bodyEl.firstChild);
+    v.body.forEach(function(t){ var p=document.createElement('p'); p.textContent=t; bodyEl.appendChild(p); });
+  }
+
+  function save(){
+    try{
+      var o={}; ALL.forEach(function(k){o[k]=$(k).value;});
+      o._method=method;
+      localStorage.setItem(KEY,JSON.stringify(o));
+    }catch(e){}
+  }
+  function load(){
+    try{
+      var raw=localStorage.getItem(KEY);
+      if(!raw) return false;
+      var o=JSON.parse(raw);
+      ALL.forEach(function(k){ if(typeof o[k]==='string') $(k).value=o[k]; });
+      if(o._method) method=o._method;
+      return true;
+    }catch(e){ return false; }
+  }
+  function fillExample(){ ALL.forEach(function(k){ $(k).value = EXAMPLE[k] ? String(EXAMPLE[k]) : ''; }); }
+  function clearAll(){
+    ALL.forEach(function(k){ $(k).value=''; });
+    try{ localStorage.removeItem(KEY); }catch(e){}
+  }
+  function setMethod(m){
+    method=m;
+    $('m-cost').setAttribute('aria-pressed', m==='cost'?'true':'false');
+    $('m-snow').setAttribute('aria-pressed', m==='cost'?'false':'true');
+    save(); calc();
+  }
+
+  var hadSaved=load();
+  if(!hadSaved){ fillExample(); } else { $('banner').hidden=true; $('banner').style.display='none'; }
+
+  ALL.forEach(function(k){
+    $(k).addEventListener('input',function(){ $('banner').style.display='none'; save(); calc(); });
+  });
+  $('m-cost').addEventListener('click',function(){ setMethod('cost'); });
+  $('m-snow').addEventListener('click',function(){ setMethod('momentum'); });
+  $('clearEx').addEventListener('click',function(){ clearAll(); $('banner').style.display='none'; calc(); $('a1').focus(); });
+  $('resetBtn').addEventListener('click',function(){ clearAll(); $('banner').style.display='none'; calc(); window.scrollTo({top:0,behavior:'smooth'}); });
+  $('printBtn').addEventListener('click',function(){ window.print(); });
+
+  setMethod(method);
+})();
+</script>
+
+</body>
+</html>
