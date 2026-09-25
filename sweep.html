@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Sweep | Eric Farewell</title>
+<meta name="description" content="A private practice for founders. Everything you are still holding, out of your head and onto one page, so the rest of you can arrive.">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Mulish:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --deep:#08171B;
+  --panel:#0C232A;
+  --tint:#123138;
+  --teal-rule:rgba(44,78,85,.4);
+  --teal-rule-soft:rgba(44,78,85,.22);
+  --teal:#0E7C86;
+  --gold:#C6A15B;
+  --gold-light:#E6C784;
+  --gold-faint:rgba(198,161,91,.14);
+  --cream-warm:#F5EFE3;
+  --on-dark:#CDD6D2;
+  --muted-dark:#8FA6A4;
+  --field:#0A1D22;
+  --jade:#6FBF9E;
+  --clay:#E0906E;
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'Mulish',system-ui,-apple-system,sans-serif;
+  background:var(--deep);
+  background-image:
+    radial-gradient(60% 55% at 12% 12%,rgba(14,124,134,.16) 0%,transparent 60%),
+    radial-gradient(55% 60% at 88% 6%,rgba(28,107,91,.13) 0%,transparent 58%),
+    radial-gradient(70% 70% at 78% 96%,rgba(36,75,120,.15) 0%,transparent 62%);
+  background-attachment:fixed;
+  color:var(--on-dark);
+  line-height:1.7;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+.narrow{max-width:760px}
+
+h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;color:var(--cream-warm);line-height:1.08}
+.gold-i{font-style:italic;color:var(--gold)}
+
+.eyebrow{margin-bottom:18px}
+.eyebrow .rule{width:20px;height:2px;background:var(--gold);margin-bottom:9px}
+.eyebrow .label{font-weight:600;font-size:12.8px;letter-spacing:.19em;text-transform:uppercase;color:var(--gold)}
+
+header{border-bottom:1px solid var(--teal-rule);padding:18px 0}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
+header .brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+header .brand img{height:34px;width:auto;display:block}
+header .brand .name{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:20px;color:var(--cream-warm);letter-spacing:.02em}
+header .site-link{font-weight:600;font-size:12.8px;letter-spacing:.19em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+header .site-link:hover{color:var(--gold-light)}
+
+.hero{padding:78px 0 56px}
+.hero h1{font-size:clamp(42px,6.4vw,68px);line-height:1.04;margin-bottom:24px}
+.hero .lede{font-size:17px;max-width:38em;margin-bottom:16px}
+.hero .lede strong{color:var(--cream-warm);font-weight:600}
+.hero .sub-italic{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:22px;color:var(--gold);margin:26px 0 0;max-width:32em}
+
+section.blk{padding:54px 0;border-top:1px solid var(--teal-rule-soft)}
+section.blk > .wrap > h2{font-size:clamp(28px,3.6vw,40px);margin-bottom:8px}
+.sec-note{font-size:14.5px;color:var(--muted-dark);max-width:66ch;margin-bottom:24px}
+p{margin-bottom:1.1em}
+p:last-child{margin-bottom:0}
+strong{color:var(--cream-warm);font-weight:600}
+
+.setup{background:var(--panel);border:1px solid var(--teal-rule);border-radius:14px;padding:26px 28px}
+.setup ol{list-style:none;counter-reset:s;margin:0;padding:0}
+.setup li{counter-increment:s;position:relative;padding-left:38px;margin-bottom:13px;font-size:15.5px}
+.setup li:last-child{margin-bottom:0}
+.setup li::before{content:"0" counter(s);position:absolute;left:0;top:2px;font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:var(--gold);letter-spacing:.05em}
+
+/* prompt runner */
+.runner{background:var(--panel);border:1px solid var(--teal-rule);border-radius:14px;padding:34px 32px;position:relative;overflow:hidden}
+.runner .meta{display:flex;align-items:baseline;gap:14px;margin-bottom:18px}
+.runner .count{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-dark);font-weight:700}
+.runner .clock{margin-left:auto;font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;color:var(--gold);font-variant-numeric:tabular-nums;line-height:1}
+.runner .prompt{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(26px,4vw,38px);line-height:1.2;color:var(--cream-warm);min-height:2.4em;display:flex;align-items:center}
+.bar{height:2px;background:var(--teal-rule);margin:20px 0 22px;border-radius:2px;overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--gold);transition:width .95s linear}
+.runner .controls{display:flex;flex-wrap:wrap;gap:12px}
+.hintline{font-size:13.5px;color:var(--muted-dark);margin-top:18px}
+
+.pill{font-family:inherit;font-weight:700;font-size:14.5px;letter-spacing:.02em;padding:13px 28px;border-radius:60px;cursor:pointer;
+  border:1px solid transparent;background:linear-gradient(135deg,var(--gold),#A8763E);color:#1a1207;transition:.35s}
+.pill:hover{filter:brightness(1.07);transform:translateY(-2px)}
+.pill.ghost{background:transparent;border-color:var(--gold);color:var(--gold-light)}
+.pill.ghost:hover{background:var(--gold-faint);transform:none}
+.pill:focus-visible{outline:2px solid var(--gold-light);outline-offset:3px}
+.pill[disabled]{opacity:.4;cursor:default;transform:none;filter:none}
+
+.alllist{margin-top:22px;border-top:1px solid var(--teal-rule-soft);padding-top:20px}
+.alllist ol{list-style:none;counter-reset:p;margin:0;padding:0;columns:2;column-gap:34px}
+.alllist li{counter-increment:p;position:relative;padding-left:30px;margin-bottom:10px;font-size:14.5px;break-inside:avoid}
+.alllist li::before{content:counter(p);position:absolute;left:0;top:1px;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.08em}
+@media(max-width:680px){.alllist ol{columns:1}}
+
+/* capture table */
+.caphead,.caprow{display:grid;grid-template-columns:54px 1fr 300px;gap:12px;align-items:center}
+.caphead{padding:0 0 9px;border-bottom:1px solid var(--teal-rule);margin-bottom:4px}
+.caphead span{font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted-dark);font-weight:700}
+.caphead span:first-child{text-align:center;letter-spacing:.1em}
+.caprow{padding:5px 0}
+.caprow input[type=text]{width:100%;background:var(--field);color:var(--cream-warm);border:1px solid var(--teal-rule);border-radius:8px;
+  padding:9px 12px;font:inherit;font-size:15px}
+.caprow input[type=text]:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-faint)}
+.caprow input[type=text].next{font-size:14px;color:var(--on-dark)}
+.mine{width:20px;height:20px;accent-color:var(--gold);cursor:pointer;margin:0 auto;display:block}
+.caprow.struck input.item{text-decoration:line-through;opacity:.45}
+
+.tally{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:24px;
+  background:rgba(18,49,56,.5);border:1px solid var(--teal-rule);border-radius:14px;padding:18px 22px}
+.tally .k{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-dark);font-weight:700}
+.tally .v{font-family:'Cormorant Garamond',Georgia,serif;font-size:34px;color:var(--cream-warm);line-height:1;font-variant-numeric:tabular-nums}
+.tally .grp{display:flex;align-items:baseline;gap:12px}
+.tally .grp+.grp{margin-left:6px}
+
+.twoq{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:8px}
+.q{border:1px solid var(--teal-rule);border-radius:14px;padding:20px 22px;background:var(--panel)}
+.q .qlab{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px}
+.q .qtext{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;line-height:1.28;color:var(--cream-warm);margin-bottom:16px}
+.q input{width:100%;background:var(--field);color:var(--cream-warm);border:1px solid var(--teal-rule);border-radius:8px;padding:11px 13px;font:inherit;font-size:15px}
+.q input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-faint)}
+@media(max-width:680px){.twoq{grid-template-columns:1fr}}
+
+.controls-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px;align-items:center}
+.privacy{font-size:13px;color:var(--muted-dark);margin-top:16px;max-width:64ch}
+
+.bottom-cta{padding:70px 0;text-align:center;border-top:1px solid var(--teal-rule-soft)}
+.bottom-cta .crown{width:44px;height:auto;margin:0 auto 22px;opacity:.85}
+.bottom-cta h2{font-size:clamp(30px,4.2vw,46px);max-width:20ch;margin:0 auto 18px}
+.bottom-cta p{max-width:58ch;margin:0 auto}
+.sig{width:150px;height:auto;margin-top:26px;opacity:.9}
+
+footer{border-top:1px solid var(--teal-rule);padding:30px 0 46px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+footer .fine{font-size:12.5px;color:var(--muted-dark)}
+footer .foot-nav{display:flex;flex-wrap:wrap;gap:22px}
+footer .foot-nav a{font-size:12.5px;color:var(--muted-dark);text-decoration:none}
+footer .foot-nav a:hover{color:var(--gold-light)}
+.credit{font-size:12px;color:var(--muted-dark);max-width:76ch;margin-top:14px;line-height:1.7}
+
+@media(max-width:760px){
+  .caphead{display:none}
+  .caprow{grid-template-columns:40px 1fr;gap:9px;padding:9px 0;border-bottom:1px solid var(--teal-rule-soft)}
+  .caprow input.next{grid-column:2 / -1}
+  .hero{padding:54px 0 42px}
+  header .brand .name{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+@page{size:letter;margin:13mm}
+@media print{
+  body{background:#fff!important;background-image:none!important;color:#111;font-size:10.5pt}
+  :root{--cream-warm:#000;--on-dark:#222;--muted-dark:#555;--teal-rule:#999;--teal-rule-soft:#ccc;--gold:#8a6d1e;--panel:#fff;--field:#fff;--gold-faint:#f2ece0}
+  header{border-bottom:2px solid #000}
+  header .brand img,.bottom-cta .crown,.sig{filter:invert(1)}
+  .noprint{display:none!important}
+  section.blk{padding:18px 0;break-inside:avoid;border-top:0}
+  .hero{padding:0 0 14px}
+  .setup,.runner,.q,.tally{background:#fff!important;border-color:#999}
+  .caprow{padding:4px 0;break-inside:avoid}
+  .caprow input[type=text]{border:0;border-bottom:1px solid #999;border-radius:0;background:transparent;color:#000}
+  .pagebreak{break-before:page}
+  .bottom-cta{padding:24px 0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="https://ericfarewell.com">
+      <img src="assets/img/signature-white.png" alt="Eric Farewell">
+      <span class="name">Eric Farewell</span>
+    </a>
+    <a class="site-link" href="https://ericfarewell.com">ericfarewell.com</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><div class="rule"></div><div class="label">Private Practice</div></div>
+    <h1>The <span class="gold-i">Sweep</span></h1>
+    <p class="lede">You are in the room and you are not in the room. Part of you is still holding a list, and that part does not get quiet just because you asked it to. <strong>So we put the list down.</strong></p>
+    <p class="lede">Forty-five minutes, one sitting. Everything you are carrying comes out of your head and onto one page. You are not solving any of it today.</p>
+    <p class="sub-italic">Nothing you type here leaves your browser.</p>
+  </div>
+</div>
+
+<section class="blk">
+  <div class="wrap">
+    <h2>Before you start</h2>
+    <p class="sec-note">Five things. The practice does not work without the first one and the last one.</p>
+    <div class="setup">
+      <ol>
+        <li><strong>Sit down and breathe first.</strong> Feet flat, hands open, three slow rounds. Then notice what your mind reaches for the second it has nothing to do. That is the doorway, and it only opens when you stop moving.</li>
+        <li><strong>One line per item.</strong> No order. No editing. No deciding whether something is too small or too big to write. If you thought it, write it.</li>
+        <li><strong>Nobody reads this.</strong> Not your wife, not your team, not me. If something belongs to nobody else, write it anyway. A page you curated is a page that does nothing.</li>
+        <li><strong>You are not solving today.</strong> The urge to start fixing is the same urge that keeps the list in your head. Set it down and keep sweeping.</li>
+        <li><strong>Let the silences run long.</strong> Your head does not empty in one pass. You will stall, look up, and then start writing again. The second wave is the part worth having.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="blk">
+  <div class="wrap">
+    <h2>The prompts</h2>
+    <p class="sec-note">Twelve of them, ninety seconds each. The timer is not a stopwatch, it is permission to sit there after you think you are finished.</p>
+    <div class="runner">
+      <div class="meta">
+        <span class="count" id="r-count">Not started</span>
+        <span class="clock" id="r-clock">1:30</span>
+      </div>
+      <div class="prompt" id="r-prompt">Sit down, breathe, and press start when you are actually ready.</div>
+      <div class="bar"><span id="r-bar"></span></div>
+      <div class="controls noprint">
+        <button type="button" class="pill" id="r-start">Start</button>
+        <button type="button" class="pill ghost" id="r-next" disabled>Next prompt</button>
+        <button type="button" class="pill ghost" id="r-reset" disabled>Reset</button>
+      </div>
+      <p class="hintline noprint">Write in the page below while each prompt sits. When the last one is done, sit for two more minutes and ask yourself once more whether there is anything else. There always is.</p>
+    </div>
+
+    <div class="alllist">
+      <p class="sec-note" style="margin-bottom:14px">All twelve, if you would rather work at your own pace.</p>
+      <ol id="all-prompts"></ol>
+    </div>
+  </div>
+</section>
+
+<section class="blk">
+  <div class="wrap">
+    <h2>The page</h2>
+    <p class="sec-note">Write as it comes. Rows appear as you need them. Leave the right column alone until the sweep is finished.</p>
+    <div class="caphead">
+      <span>Mine</span>
+      <span>What is on your mind</span>
+      <span>The next move</span>
+    </div>
+    <div id="rows"></div>
+    <div class="controls-row noprint">
+      <button type="button" class="pill ghost" id="add-rows">Add ten more lines</button>
+    </div>
+    <div class="tally">
+      <div class="grp"><span class="k">Items</span><span class="v" id="t-items">0</span></div>
+      <div class="grp"><span class="k">Actually yours</span><span class="v" id="t-mine">0</span></div>
+      <div class="grp"><span class="k">With a next move</span><span class="v" id="t-next">0</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk">
+  <div class="wrap">
+    <h2>Two passes</h2>
+    <p class="sec-note">Only when the page has stopped filling.</p>
+    <p><strong>One.</strong> Go down the page and tick everything that is actually yours. Leave the rest. Some of these belong to someone else. Some belong to nobody. Some you have been carrying for a person who never asked you to.</p>
+    <p><strong>Two.</strong> Beside everything you ticked, write the very next physical thing. Not the project, the next move, small enough to do in one sitting. Make the call. Find the file. Send one text.</p>
+    <p>The point is not productivity. Write the next move and you will find that half the list was never heavy, it was only vague.</p>
+  </div>
+</section>
+
+<section class="blk">
+  <div class="wrap narrow">
+    <h2>Two lines</h2>
+    <p class="sec-note">Answer these after the page is done, not before. Then carry them.</p>
+    <div class="twoq">
+      <div class="q">
+        <div class="qlab">One</div>
+        <div class="qtext">Which one has been on there the longest?</div>
+        <input id="q1" type="text" placeholder="Write it here">
+      </div>
+      <div class="q">
+        <div class="qlab">Two</div>
+        <div class="qtext">Which one did you feel in your body when you wrote it?</div>
+        <input id="q2" type="text" placeholder="Write it here">
+      </div>
+    </div>
+    <p style="margin-top:22px">Neither of those gets solved today. Put them somewhere you will see them this week and let them work on you instead.</p>
+    <div class="controls-row noprint">
+      <button type="button" class="pill" id="printBtn">Print the page</button>
+      <button type="button" class="pill ghost" id="clearBtn">Clear everything</button>
+    </div>
+    <p class="privacy noprint">Everything you type stays in this browser on this device. It is never sent anywhere, it is not saved to any account, and nobody else can see it, including me. Print it blank if you would rather do the whole thing with a pen.</p>
+  </div>
+</section>
+
+<section class="bottom-cta">
+  <div class="wrap">
+    <img class="crown" src="assets/img/crown.png" alt="" loading="lazy" decoding="async">
+    <h2>An empty head is not the point. <span class="gold-i">Being here is.</span></h2>
+    <p>I do not run this to get more done. I run it because I cannot be present with anyone while some part of me is rehearsing a list, and neither can you. The page is just where the list goes so the rest of you can show up.</p>
+    <img class="sig" src="assets/img/signature-white.png" alt="Eric Farewell" loading="lazy" decoding="async">
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fine">&copy; 2026 Eric Farewell &middot; Presence over performance</div>
+    <nav class="foot-nav">
+      <a href="https://ericfarewell.com/start.html">Free tools</a>
+      <a href="https://ericfarewell.com/work-with-eric.html">Work with Eric</a>
+      <a href="https://ericfarewell.com">ericfarewell.com</a>
+    </nav>
+  </div>
+  <div class="wrap">
+    <p class="credit">The capture practice at the centre of this page is adapted from David Allen's work on getting everything out of your head and into a system you trust. The framing, the prompts and the two questions at the end are mine. If the practice does something for you, go read him.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var KEY='efc-sweep-v1';
+  var SECONDS=90;
+  var PROMPTS=[
+    "What is unfinished at work.",
+    "What you owe someone, and what someone owes you.",
+    "Decisions waiting on you, and only you.",
+    "Anyone you are avoiding.",
+    "Money. Bills, filings, conversations you have not had.",
+    "The house. Repairs, the thing you said you would fix, the drawer.",
+    "Your kids. What you promised, what you keep postponing.",
+    "Your wife. The conversation you have been rehearsing.",
+    "Your body. The appointment, the thing you have been meaning to get looked at.",
+    "What you said you would start.",
+    "What you said you would stop.",
+    "Anything you are afraid you will forget."
+  ];
+
+  function $(id){return document.getElementById(id);}
+  var rowsEl=$('rows'), idx=-1, timer=null, left=SECONDS;
+
+  function mmss(s){ var m=Math.floor(s/60); var r=s%60; return m+':'+(r<10?'0':'')+r; }
+
+  function makeRow(i){
+    var d=document.createElement('div');
+    d.className='caprow';
+    var cb=document.createElement('input');
+    cb.type='checkbox'; cb.className='mine'; cb.id='m'+i;
+    cb.setAttribute('aria-label','This one is actually mine');
+    var it=document.createElement('input');
+    it.type='text'; it.className='item'; it.id='i'+i; it.setAttribute('aria-label','Item '+(i+1));
+    var nx=document.createElement('input');
+    nx.type='text'; nx.className='next'; nx.id='n'+i; nx.placeholder=''; nx.setAttribute('aria-label','Next move for item '+(i+1));
+    d.appendChild(cb); d.appendChild(it); d.appendChild(nx);
+    [cb,it,nx].forEach(function(el){
+      el.addEventListener('input',function(){ tally(); grow(); save(); });
+      el.addEventListener('change',function(){ tally(); save(); });
+    });
+    return d;
+  }
+  function addRows(n){
+    var start=rowsEl.children.length;
+    for(var i=start;i<start+n;i++) rowsEl.appendChild(makeRow(i));
+  }
+  function grow(){
+    var kids=rowsEl.children;
+    var lastFew=0;
+    for(var i=Math.max(0,kids.length-3);i<kids.length;i++){
+      if(kids[i].querySelector('.item').value.trim()) lastFew++;
+    }
+    if(lastFew>0) addRows(6);
+  }
+  function tally(){
+    var items=0, mine=0, nexts=0, anyTicked=false;
+    Array.prototype.forEach.call(rowsEl.children,function(r){
+      if(r.querySelector('.mine').checked) anyTicked=true;
+    });
+    Array.prototype.forEach.call(rowsEl.children,function(r){
+      var t=r.querySelector('.item').value.trim();
+      var m=r.querySelector('.mine').checked;
+      var n=r.querySelector('.next').value.trim();
+      if(t){ items++; if(m) mine++; if(n) nexts++; }
+      if(anyTicked && t && !m) r.classList.add('struck'); else r.classList.remove('struck');
+    });
+    $('t-items').textContent=items;
+    $('t-mine').textContent=mine;
+    $('t-next').textContent=nexts;
+  }
+
+  function paint(){
+    if(idx<0){
+      $('r-count').textContent='Not started';
+      $('r-prompt').textContent='Sit down, breathe, and press start when you are actually ready.';
+      $('r-clock').textContent=mmss(SECONDS);
+      $('r-bar').style.width='0%';
+      return;
+    }
+    if(idx>=PROMPTS.length){
+      $('r-count').textContent='Done';
+      $('r-prompt').textContent='Anything else. Sit with that for two more minutes before you get up.';
+      $('r-clock').textContent='';
+      $('r-bar').style.width='100%';
+      $('r-next').disabled=true;
+      return;
+    }
+    $('r-count').textContent='Prompt '+(idx+1)+' of '+PROMPTS.length;
+    $('r-prompt').textContent=PROMPTS[idx];
+    $('r-clock').textContent=mmss(left);
+    $('r-bar').style.width=Math.round(((SECONDS-left)/SECONDS)*100)+'%';
+  }
+  function tick(){
+    left--;
+    if(left<=0){ next(); return; }
+    paint();
+  }
+  function next(){
+    idx++; left=SECONDS;
+    if(timer) clearInterval(timer);
+    if(idx>=PROMPTS.length){ paint(); return; }
+    timer=setInterval(tick,1000);
+    paint();
+  }
+  function start(){
+    idx=-1; next();
+    $('r-start').disabled=true;
+    $('r-next').disabled=false;
+    $('r-reset').disabled=false;
+  }
+  function reset(){
+    if(timer) clearInterval(timer);
+    idx=-1; left=SECONDS;
+    $('r-start').disabled=false;
+    $('r-next').disabled=true;
+    $('r-reset').disabled=true;
+    paint();
+  }
+
+  function save(){
+    try{
+      var o={items:[],q1:$('q1').value,q2:$('q2').value};
+      Array.prototype.forEach.call(rowsEl.children,function(r){
+        o.items.push([r.querySelector('.item').value, r.querySelector('.mine').checked?1:0, r.querySelector('.next').value]);
+      });
+      localStorage.setItem(KEY,JSON.stringify(o));
+    }catch(e){}
+  }
+  function load(){
+    try{
+      var raw=localStorage.getItem(KEY);
+      if(!raw) return false;
+      var o=JSON.parse(raw);
+      if(!o||!o.items) return false;
+      while(rowsEl.children.length<o.items.length) addRows(1);
+      o.items.forEach(function(v,i){
+        var r=rowsEl.children[i]; if(!r) return;
+        r.querySelector('.item').value=v[0]||'';
+        r.querySelector('.mine').checked=!!v[1];
+        r.querySelector('.next').value=v[2]||'';
+      });
+      $('q1').value=o.q1||''; $('q2').value=o.q2||'';
+      return true;
+    }catch(e){ return false; }
+  }
+
+  // build
+  addRows(14);
+  var ol=$('all-prompts');
+  PROMPTS.forEach(function(p){ var li=document.createElement('li'); li.textContent=p; ol.appendChild(li); });
+  load();
+  tally();
+  paint();
+
+  $('q1').addEventListener('input',save);
+  $('q2').addEventListener('input',save);
+  $('add-rows').addEventListener('click',function(){ addRows(10); });
+  $('r-start').addEventListener('click',start);
+  $('r-next').addEventListener('click',next);
+  $('r-reset').addEventListener('click',reset);
+  $('printBtn').addEventListener('click',function(){ window.print(); });
+  $('clearBtn').addEventListener('click',function(){
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    while(rowsEl.firstChild) rowsEl.removeChild(rowsEl.firstChild);
+    addRows(14);
+    $('q1').value=''; $('q2').value='';
+    tally(); reset();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+})();
+</script>
+
+</body>
+</html>
