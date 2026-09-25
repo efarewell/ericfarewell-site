@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Royal Measure Alpha | Eric Farewell</title>
+  <meta name="description" content="A private invitation to help test the Royal Measure.">
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&amp;family=Mulish:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--ink:#08171b;--panel:#0c232a;--surface:#123138;--gold:#c6a15b;--gold-light:#e6c784;--cream:#f5efe3;--body:#cdd6d2;--muted:#8fa6a4;--line:rgba(143,166,164,.22)}
+    body{min-height:100vh;background:var(--ink);background-image:radial-gradient(60% 55% at 12% 12%,rgba(14,124,134,.16),transparent 60%),radial-gradient(55% 60% at 88% 6%,rgba(28,107,91,.13),transparent 58%),radial-gradient(70% 70% at 78% 96%,rgba(36,75,120,.15),transparent 62%);color:var(--body);font-family:Mulish,system-ui,sans-serif;font-size:17px;line-height:1.72;-webkit-font-smoothing:antialiased}
+    .wrap{width:min(1120px,calc(100% - 48px));margin:0 auto}
+    header{padding:22px 0;border-bottom:1px solid var(--line)}
+    .brand{display:flex;align-items:center;justify-content:space-between;gap:20px;color:var(--cream);text-decoration:none}
+    .brand img{width:148px;height:auto}.brand span{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+    main{padding:clamp(70px,10vw,128px) 0}
+    .grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(350px,.82fr);gap:clamp(48px,8vw,100px);align-items:start}
+    .eyebrow{margin-bottom:22px;color:var(--gold-light);font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+    .eyebrow::before{content:"";display:block;width:34px;height:1px;margin-bottom:13px;background:var(--gold)}
+    h1,h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:300;color:var(--cream);line-height:1.03}
+    h1{max-width:10ch;margin-bottom:28px;font-size:clamp(52px,7vw,84px);letter-spacing:-.025em}
+    h2{margin-bottom:12px;font-size:clamp(30px,4vw,42px)}
+    .lede{max-width:39em;margin-bottom:23px;font-size:clamp(18px,2vw,21px);color:var(--cream)}
+    p+p{margin-top:1em}
+    .sessions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:36px 0 0;list-style:none}
+    .sessions li{min-height:122px;padding:20px;border:1px solid var(--line);background:rgba(18,49,56,.38)}
+    .sessions strong{display:block;margin-bottom:6px;color:var(--gold-light);font-size:12px;letter-spacing:.14em;text-transform:uppercase}.sessions span{color:var(--cream);font-family:"Cormorant Garamond",Georgia,serif;font-size:22px;line-height:1.2}
+    .form-card{position:sticky;top:24px;padding:10px;border:1px solid rgba(198,161,91,.38);border-radius:16px;background:#fbf9f4;box-shadow:0 30px 70px -34px rgba(0,0,0,.75)}
+    .form-card iframe{display:block;width:100%;min-height:650px;border:0;border-radius:10px;background:#fbf9f4}
+    .fine{margin:18px 10px 10px;color:#52666a;font-size:12px;line-height:1.55}
+    .boundary{margin-top:62px;padding-top:32px;border-top:1px solid var(--line)}
+    .boundary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:24px}
+    .boundary article{padding:22px;border-left:2px solid var(--gold);background:rgba(12,35,42,.56)}
+    .boundary strong{display:block;margin-bottom:7px;color:var(--cream)}
+    footer{padding:32px 0 46px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+    @media(max-width:820px){.grid{grid-template-columns:1fr}.form-card{position:static}.sessions,.boundary-grid{grid-template-columns:1fr}}
+    @media(max-width:520px){.wrap{width:min(100% - 32px,1120px)}.brand img{width:126px}.brand span{font-size:10px}main{padding:56px 0}.form-card iframe{min-height:700px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="https://ericfarewell.com">
+        <img src="assets/img/signature-white.png" alt="Eric Farewell">
+        <span>Private alpha</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="grid">
+        <section>
+          <p class="eyebrow">The Royal Measure</p>
+          <h1>Help me test what we are building.</h1>
+          <p class="lede">I am building one assessment that can hold more of a founder in one place: how you naturally work, what has your attention, and how your life is arranged right now.</p>
+          <p>This is an alpha. Some questions may need better language. Some results may feel exact, and some may miss. That is why I am asking you to take it now. I need your experience before I pretend the instrument is finished.</p>
+          <p>You can take it with me or on your own. It is divided into four sessions, and every completed answer is saved. You can close the page, come back later, and continue from the same place.</p>
+          <ol class="sessions" aria-label="The four assessment sessions">
+            <li><strong>Session 1</strong><span>How you naturally work</span></li>
+            <li><strong>Session 2</strong><span>What currently has your attention</span></li>
+            <li><strong>Session 3</strong><span>How you are meeting what is expected</span></li>
+            <li><strong>Session 4</strong><span>The patterns that travel with you</span></li>
+          </ol>
+        </section>
+
+        <aside class="form-card" aria-label="Alpha tester access form">
+          <iframe
+            src="https://api.leadconnectorhq.com/widget/form/35LW9TJStDesyXofhwow"
+            title="The Royal Measure alpha access"
+            loading="eager"
+            data-layout="{&quot;id&quot;:&quot;INLINE&quot;}"
+            data-trigger-type="alwaysShow"
+            data-form-name="The Royal Measure Alpha"
+            data-height="650"
+            data-form-id="35LW9TJStDesyXofhwow">
+          </iframe>
+          <p class="fine">Your name and email are saved in Farewell Holdings&rsquo; GoHighLevel account so I know who is testing. Your assessment answers stay in the private assessment system. They are not copied into your GoHighLevel contact record.</p>
+        </aside>
+      </div>
+
+      <section class="boundary" aria-labelledby="before-title">
+        <p class="eyebrow">Before you begin</p>
+        <h2 id="before-title">Use the result as a mirror, not a verdict.</h2>
+        <div class="boundary-grid">
+          <article><strong>It is provisional.</strong>The Royal Measure has not been validated or normed. The result is a working hypothesis for reflection and coaching.</article>
+          <article><strong>It is voluntary.</strong>Taking it, stopping, or declining has no effect on membership, coaching, access, pricing, or your place in any room.</article>
+          <article><strong>It is not a high-stakes tool.</strong>Do not use it for hiring, diagnosis, eligibility, or any decision that determines someone else&rsquo;s opportunity.</article>
+          <article><strong>Your feedback matters.</strong>Each session ends with a short optional feedback prompt. Tell me what was clear, what was tiring, and what did not make sense.</article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">Evidence line: invitation-only alpha, E0. Not validated, not normed, not diagnostic, and not for hiring.</div>
+  </footer>
+  <script src="https://link.msgsndr.com/js/form_embed.js"></script>
+</body>
+</html>
