@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Canyon Lake | Eric Farewell</title>
+<meta name="description" content="What the Canyon Lake retreat cost, and an invitation to send what the week was worth to you.">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Mulish:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --deep:#08171B;
+  --panel:#0C232A;
+  --teal-rule:rgba(44,78,85,.4);
+  --teal-rule-soft:rgba(44,78,85,.22);
+  --gold:#C6A15B;
+  --gold-light:#E6C784;
+  --gold-faint:rgba(198,161,91,.14);
+  --cream-warm:#F5EFE3;
+  --on-dark:#CDD6D2;
+  --muted-dark:#8FA6A4;
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'Mulish',system-ui,-apple-system,sans-serif;
+  background:var(--deep);
+  background-image:
+    radial-gradient(60% 55% at 12% 12%,rgba(14,124,134,.16) 0%,transparent 60%),
+    radial-gradient(55% 60% at 88% 6%,rgba(28,107,91,.13) 0%,transparent 58%),
+    radial-gradient(70% 70% at 78% 96%,rgba(36,75,120,.15) 0%,transparent 62%);
+  background-attachment:fixed;
+  color:var(--on-dark);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.wrap{max-width:720px;margin:0 auto;padding:0 24px}
+
+h1,h2{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;color:var(--cream-warm);line-height:1.08}
+.gold-i{font-style:italic;color:var(--gold)}
+
+header{border-bottom:1px solid var(--teal-rule);padding:18px 0}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1060px}
+header .brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+header .brand img{height:34px;width:auto;display:block}
+header .brand .name{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:20px;color:var(--cream-warm);letter-spacing:.02em}
+header .site-link{font-weight:600;font-size:12.8px;letter-spacing:.19em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+
+.hero{padding:72px 0 10px}
+.eyebrow{margin-bottom:18px}
+.eyebrow .rule{width:20px;height:2px;background:var(--gold);margin-bottom:9px}
+.eyebrow .label{font-weight:600;font-size:12.8px;letter-spacing:.19em;text-transform:uppercase;color:var(--gold)}
+.hero h1{font-size:clamp(40px,6.2vw,62px);line-height:1.04;margin-bottom:26px}
+.lede{font-size:17.5px;margin-bottom:18px}
+.lede strong{color:var(--cream-warm);font-weight:600}
+p{margin-bottom:1.15em}
+p:last-child{margin-bottom:0}
+
+section{padding:40px 0}
+.costs{background:var(--panel);border:1px solid var(--teal-rule);border-radius:14px;padding:28px 30px;margin-top:14px}
+.costs .ct{font-size:11px;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:18px}
+.line{display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid var(--teal-rule-soft);font-size:15.5px}
+.line span:last-child{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--cream-warm)}
+.line.tot{border-bottom:0;border-top:1px solid var(--gold);margin-top:8px;padding-top:16px}
+.line.tot span{font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;color:var(--cream-warm)}
+.perman{margin-top:22px;text-align:center;border-top:1px solid var(--teal-rule-soft);padding-top:22px}
+.perman .k{font-size:11px;letter-spacing:.17em;text-transform:uppercase;color:var(--muted-dark);font-weight:700}
+.perman .v{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(44px,8vw,62px);color:var(--cream-warm);line-height:1;margin-top:8px;font-variant-numeric:tabular-nums}
+.perman .n{font-size:13.5px;color:var(--muted-dark);margin-top:10px}
+
+.payblock{text-align:center;padding:48px 0 10px}
+.pill{display:inline-block;font-family:inherit;font-weight:700;font-size:16px;letter-spacing:.02em;padding:17px 44px;border-radius:60px;
+  border:1px solid transparent;background:linear-gradient(135deg,var(--gold),#A8763E);color:#1a1207;text-decoration:none;transition:.35s}
+.pill:hover{filter:brightness(1.07);transform:translateY(-2px)}
+.pill:focus-visible{outline:2px solid var(--gold-light);outline-offset:3px}
+.alt{margin-top:26px;font-size:15px;color:var(--muted-dark)}
+.alt strong{color:var(--cream-warm);font-weight:600}
+
+.closing{border-top:1px solid var(--teal-rule-soft);margin-top:40px;padding-top:36px;font-size:16px}
+.sig{width:150px;height:auto;margin-top:26px;opacity:.9}
+
+footer{border-top:1px solid var(--teal-rule);padding:28px 0 46px;margin-top:40px}
+footer .fine{font-size:12.5px;color:var(--muted-dark)}
+
+@media(max-width:600px){
+  .hero{padding:48px 0 6px}
+  .costs{padding:22px 20px}
+  header .brand .name{display:none}
+  .pill{width:100%;padding:17px 20px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="https://ericfarewell.com">
+      <img src="assets/img/signature-white.png" alt="Eric Farewell">
+      <span class="name">Eric Farewell</span>
+    </a>
+    <a class="site-link" href="https://ericfarewell.com">ericfarewell.com</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><div class="rule"></div><div class="label">Canyon Lake &middot; Sep 29 to Oct 2</div></div>
+    <h1>Send what the week was <span class="gold-i">worth to you</span></h1>
+    <p class="lede">This isn't a bill. These are the real numbers, and what you do with them is yours to decide.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="costs">
+      <div class="ct">What it cost</div>
+      <div class="line"><span>Airbnb, three nights</span><span>$2,536.53</span></div>
+      <div class="line"><span>Groceries, all four runs</span><span>$1,186.49</span></div>
+      <div class="line"><span>Marriam, chef and yoga</span><span>$1,000.00</span></div>
+      <div class="line"><span>Functional Patterns</span><span>$400.00</span></div>
+      <div class="line"><span>Supplies</span><span>$208.91</span></div>
+      <div class="line tot"><span>Total</span><span>$5,331.93</span></div>
+      <div class="perman">
+        <div class="k">Ten of us, at cost</div>
+        <div class="v">$533.19</div>
+        <div class="n">That is the hard number, not the asking price</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:10px">
+  <div class="wrap">
+    <p>If the week was worth the hard number to you, send the hard number. If it was worth more, send more and it goes straight into the next one. If this is a tight month, send less or send nothing at all, and please don't think about it twice.</p>
+    <p>Nobody is going to hear what anyone sent.</p>
+  </div>
+</section>
+
+<div class="payblock">
+  <div class="wrap">
+    <a class="pill" href="https://buy.stripe.com/bJe4gA1HP2UU4Sc2z21sQ07">Send what you want</a>
+    <p class="alt">Or Venmo <strong>@Eric-Farewell</strong>. If neither of those works for you, just ask me and we'll find a way that does.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="closing">
+      <p>Three nights, one house, and a room that told the truth. Thank you for showing up the way you did.</p>
+      <img class="sig" src="assets/img/signature-white.png" alt="Eric Farewell" loading="lazy" decoding="async">
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fine">&copy; 2026 Eric Farewell &middot; Presence over performance</div>
+  </div>
+</footer>
+
+</body>
+</html>
