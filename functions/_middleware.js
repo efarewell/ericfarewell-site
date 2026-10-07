@@ -8,6 +8,8 @@ const PRIVATE_TOOL_PATHS = new Map([
   ['/the-prompt.html', { tool: 'find-your-voice', need: 'voice' }],
   ['/the-harvest', { tool: 'harvest', need: 'harvest' }],
   ['/the-harvest.html', { tool: 'harvest', need: 'harvest' }],
+  ['/the-values', { tool: 'values', need: 'values' }],
+  ['/the-values.html', { tool: 'values', need: 'values' }],
 ]);
 
 function shouldProxy(pathname) {

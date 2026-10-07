@@ -138,6 +138,8 @@ for (const required of [
   '/the-prompt.html',
   '/the-harvest',
   '/the-harvest.html',
+  '/the-values',
+  '/the-values.html',
   '/downloads/the-solo-hot-seat.pdf',
 ]) {
   assert(routes.include.includes(required), `_routes.json is missing ${required}`);
@@ -165,6 +167,7 @@ for (const required of [
   'https://ericfarewell.com/royals.html',
   'https://ericfarewell.com/royals-experience',
   'https://ericfarewell.com/time-audit',
+  'https://ericfarewell.com/values',
 ]) {
   assert(sitemap.includes(`<loc>${required}</loc>`), `sitemap.xml is missing ${required}`);
 }
@@ -174,6 +177,8 @@ for (const privatePath of [
   '/the-first-hour.html',
   '/the-prompt.html',
   '/the-harvest.html',
+  '/the-values',
+  '/the-values.html',
   '/coaching-system-lab.html',
   '/journey-review.html',
 ]) {
