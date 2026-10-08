@@ -29,7 +29,7 @@ assert(emmaValuesPage.includes('Your values are already <em>leaving clues.</em>'
 assert(emmaValuesPage.includes('family, especially your brother'), 'The Emma + Radius page is missing the family detail from the source video');
 assert(emmaValuesPage.includes('traveled enough to make me jealous'), 'The Emma + Radius page is missing the travel detail from the source video');
 assert(emmaValuesPage.includes('avoided getting trampled'), 'The Emma + Radius page is missing the elephant detail from the source video');
-assert(emmaValuesPage.includes('your whole nervous system settles'), 'The Emma + Radius page is missing the animal detail from the source video');
+assert(emmaValuesPage.includes('in the presence of dogs, <strong>your whole nervous system settles'), 'The Emma + Radius page is missing the specific dog detail from the source video');
 assert(emmaValuesPage.includes('go hang out with a dog today'), 'The Emma + Radius page does not reflect the source video');
 assert(coreValuesPage.includes('assets/js/core-values-voice.js'), 'The Core Values tool does not load voice typing');
 assert(emmaValuesPage.includes('assets/js/core-values-voice.js'), 'The Emma + Radius variant does not load voice typing');
