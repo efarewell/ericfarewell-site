@@ -54,6 +54,8 @@ for (const [pathname, tool, need] of [
   ['/the-harvest', 'harvest', 'harvest'],
   ['/the-values', 'values', 'values'],
   ['/the-values.html', 'values', 'values'],
+  ['/emmavalues', 'values', 'values'],
+  ['/emmavalues.html', 'values', 'values'],
 ]) {
   const { response, fetched } = await run(`https://ericfarewell.com${pathname}`);
   assert.equal(response.status, 307);

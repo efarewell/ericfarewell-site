@@ -27,7 +27,9 @@
     "/the-harvest",
     "/the-harvest.html",
     "/the-values",
-    "/the-values.html"
+    "/the-values.html",
+    "/emmavalues",
+    "/emmavalues.html"
   ],
   "exclude": []
 }
