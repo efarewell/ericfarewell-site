@@ -14,6 +14,9 @@ const sitemap = readFileSync(join(root, 'sitemap.xml'), 'utf8');
 const guidedStartScript = readFileSync(join(root, 'assets/js/guided-start.js'), 'utf8');
 const siteScript = readFileSync(join(root, 'assets/js/site.js'), 'utf8');
 const guidedStartPage = readFileSync(join(root, 'start.html'), 'utf8');
+const coreValuesPage = readFileSync(join(root, 'the-values.html'), 'utf8');
+const emmaValuesPage = readFileSync(join(root, 'emmavalues.html'), 'utf8');
+const coreValuesVoiceScript = readFileSync(join(root, 'assets/js/core-values-voice.js'), 'utf8');
 const securityHeaders = readFileSync(join(root, '_headers'), 'utf8');
 assert(existsSync(join(root, 'assets/img/og-default-v2.jpg')), 'The current social-share image is missing');
 assert(guidedStartScript.includes('https://tools.ericfarewell.com'), 'Guided Start does not hand authentication to the branded tools app');
@@ -21,6 +24,18 @@ assert(guidedStartPage.includes('name="primary_need" value="values"'), 'Guided S
 assert(guidedStartScript.includes("values:{id:'values',name:'The Core Values Exercise'"), 'Guided Start does not recommend the Core Values Exercise');
 assert(guidedStartScript.includes("access.searchParams.set('need',need)"), 'Guided Start does not hand the Core Values need to the tools app');
 assert(siteScript.includes("var toolAppOrigin = 'https://tools.ericfarewell.com'"), 'Private tool links do not use the branded tools domain');
+assert(existsSync(join(root, 'assets/img/emma-radius.jpg')), 'The Emma + Radius portrait is missing');
+assert(emmaValuesPage.includes('Your values are already <em>leaving clues.</em>'), 'The Emma + Radius page is missing its personalized opening');
+assert(emmaValuesPage.includes('family, especially your brother'), 'The Emma + Radius page is missing the family detail from the source video');
+assert(emmaValuesPage.includes('traveled enough to make me jealous'), 'The Emma + Radius page is missing the travel detail from the source video');
+assert(emmaValuesPage.includes('avoided getting trampled'), 'The Emma + Radius page is missing the elephant detail from the source video');
+assert(emmaValuesPage.includes('your whole nervous system settles'), 'The Emma + Radius page is missing the animal detail from the source video');
+assert(emmaValuesPage.includes('go hang out with a dog today'), 'The Emma + Radius page does not reflect the source video');
+assert(coreValuesPage.includes('assets/js/core-values-voice.js'), 'The Core Values tool does not load voice typing');
+assert(emmaValuesPage.includes('assets/js/core-values-voice.js'), 'The Emma + Radius variant does not load voice typing');
+assert(coreValuesVoiceScript.includes('textarea[data-in="story"]'), 'Voice typing is not limited to the story field');
+assert(coreValuesVoiceScript.includes('SpeechRecognition || window.webkitSpeechRecognition'), 'Voice typing does not support the available browser speech APIs');
+assert(coreValuesVoiceScript.includes("new Event('input', { bubbles: true })"), 'Voice transcripts do not update the Core Values state');
 for (const requiredHeader of [
   'Content-Security-Policy:',
   'Permissions-Policy:',
@@ -144,6 +159,8 @@ for (const required of [
   '/the-harvest.html',
   '/the-values',
   '/the-values.html',
+  '/emmavalues',
+  '/emmavalues.html',
   '/downloads/the-solo-hot-seat.pdf',
 ]) {
   assert(routes.include.includes(required), `_routes.json is missing ${required}`);
@@ -183,6 +200,8 @@ for (const privatePath of [
   '/the-harvest.html',
   '/the-values',
   '/the-values.html',
+  '/emmavalues',
+  '/emmavalues.html',
   '/coaching-system-lab.html',
   '/journey-review.html',
 ]) {
