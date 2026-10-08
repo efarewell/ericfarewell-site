@@ -236,6 +236,7 @@
 .cv-result-list b { font-weight: 700; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cv-muted); margin-right: 0.5rem; }
 .cv-result-list .cv-cf { color: var(--cv-muted); font-size: 0.9rem; }
 .cv-result-acts { display: flex; flex-wrap: wrap; gap: 0.8rem 1.2rem; align-items: center; margin-top: 1.4rem; }
+.cv-save-note { margin: 1.4rem 0 0; color: var(--cv-muted); font-size: 0.9rem; line-height: 1.55; }
 .cv-after { margin-top: clamp(3rem, 7vw, 4.5rem); display: flex; flex-direction: column; gap: 2.8rem; }
 .cv-after > div { display: flex; flex-direction: column; gap: 1.1rem; align-items: flex-start; }
 .cv-acts { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; }
@@ -261,7 +262,7 @@
   .cv-nav-right { margin-left: 0; }
 }
 @media print {
-  .cv-intro, .cv-rail, .cv-head, .cv-nav, .cv-result-acts, .cv-after, .cv-banner { display: none !important; }
+  .cv-intro, .cv-rail, .cv-head, .cv-nav, .cv-result-acts, .cv-save-note, .cv-after, .cv-banner { display: none !important; }
   .cv { color: #1A1207; }
   .cv-tool { padding: 0; }
   .cv-result { border: 0; padding: 0; background: none; }
@@ -293,7 +294,7 @@
         <li>No score</li>
         <li>Stays in this browser</li>
       </ul>
-      <p class="cv-note">The answers stay in this browser and are not submitted to Farewell Holdings, so they can be as blunt as they need to be.</p>
+      <p class="cv-note">The answers stay in this browser and are not submitted to Farewell Holdings, so they can be as blunt as they need to be. At the end, you can print your results or save them as a PDF.</p>
     </div>
   </div>
   <nav class="cv-rail" aria-label="Steps of the exercise"><div class="cv-wrap"><ol id="cv-rail"></ol></div></nav>
@@ -1247,8 +1248,9 @@ if (typeof module !== 'undefined') module.exports = EF_ENGINE;
         (g.looks.trim() ? '<div class="cv-lk"><b>Looks like</b>' + esc(g.looks) + '</div>' : '') +
         '<div class="cv-cf"><b>Came from</b>' + st.items.map(function (x) { return esc(x.it.text); }).join(' · ') + '</div></div></li>';
     });
-    h += '</ol><div class="cv-result-acts"><button class="cv-btn cv-btn-gold" type="button" data-act="copy">' + (ui.copied ? 'Copied' : 'Copy my values') + '</button>' +
-      (SITE ? '<button class="cv-btn cv-btn-ghost" type="button" data-act="print">Print them</button>' : '') +
+    h += '</ol>' + (SITE ? '<p class="cv-save-note">Print these results or save them as a PDF from the browser\'s print window.</p>' : '') +
+      '<div class="cv-result-acts"><button class="cv-btn cv-btn-gold" type="button" data-act="copy">' + (ui.copied ? 'Copied' : 'Copy my values') + '</button>' +
+      (SITE ? '<button class="cv-btn cv-btn-ghost" type="button" data-act="print">Print or save as PDF</button>' : '') +
       '<button class="cv-text-btn" type="button" data-act="go" data-step="5">Change the wording</button>' +
       (gs.length > 1 ? '<button class="cv-text-btn" type="button" data-act="go" data-step="6">Change the order</button>' : '') + '</div>';
     if (ui.copyText) h += '<div style="margin-top:1rem"><label class="cv-label" for="cv-copy-box">Select and copy</label><textarea id="cv-copy-box" rows="10" readonly>' + esc(ui.copyText) + '</textarea></div>';
