@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>The Core Values Exercise | Eric Farewell</title>
+<meta name="description" content="A private tool from Eric Farewell.">
+<link rel="canonical" href="https://ericfarewell.com/the-values">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<style>
+/* Page shell for the private Core Values Exercise. The tool itself is scoped under .cv. */
+.cv-page{padding-top:78px;position:relative;z-index:2}
+.cv{--cv-rail-top:78px;--cv-scroll-top:calc(78px + 4.5rem)}
+.cv-library{max-width:62rem;margin:0 auto;padding:0 28px 70px;position:relative;z-index:2;font-size:.92rem}
+.cv-library a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.cv-library a:hover{color:var(--gold-bright)}
+@media print{.site-header,.mobile-menu,.site-footer,.grain,.cv-library{display:none!important}body,body.wash{background:#fff!important}.cv-page{padding-top:0}}
+/* The Core Values Exercise. Everything is scoped under .cv so it can sit inside any page shell.
+   Layout: one working column, a sticky step rail that only names the steps already reached,
+   and the flip row (what they did | gold rule | the value in gold italic serif) as the one loud element. */
+.cv {
+  --cv-ink: #08171B;
+  --cv-ink2: #0C232A;
+  --cv-card: rgba(18, 49, 56, 0.5);
+  --cv-field: #0E2A31;
+  --cv-line: rgba(143, 166, 164, 0.26);
+  --cv-hair: rgba(44, 78, 85, 0.45);
+  --cv-gold: #C6A15B;
+  --cv-gold-bright: #E6C784;
+  --cv-bronze: #A8763E;
+  --cv-ivory: #F5EFE3;
+  --cv-text: #CDD6D2;
+  --cv-muted: #8FA6A4;
+  --cv-on-gold: #1A1207;
+  --cv-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --cv-body: "Mulish", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --cv-radius: 14px;
+  --cv-read: 40rem;
+  color: var(--cv-text);
+  font-family: var(--cv-body);
+  font-size: clamp(1rem, 1.1vw, 1.1rem);
+  line-height: 1.68;
+  position: relative;
+  z-index: 2;
+}
+.cv *, .cv *::before, .cv *::after { box-sizing: border-box; }
+.cv [hidden] { display: none !important; }
+.cv-wrap { max-width: 62rem; margin-inline: auto; padding-inline: clamp(16px, 4vw, 28px); }
+.cv a { color: var(--cv-gold); text-decoration: underline; text-underline-offset: 3px; }
+.cv a:hover { color: var(--cv-gold-bright); }
+.cv :focus-visible { outline: 2px solid var(--cv-gold-bright); outline-offset: 3px; border-radius: 4px; }
+.cv-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- type ---------- */
+.cv h1, .cv h2, .cv h3 { font-family: var(--cv-display); color: var(--cv-ivory); font-weight: 400; margin: 0; letter-spacing: 0.01em; text-wrap: balance; }
+.cv h1 { font-size: clamp(2.5rem, 5.6vw, 4.2rem); line-height: 1.03; font-weight: 300; }
+.cv h2 { font-size: clamp(2rem, 4.2vw, 3rem); line-height: 1.06; }
+.cv h3 { font-size: clamp(1.4rem, 2.4vw, 1.75rem); line-height: 1.15; }
+.cv h1 em, .cv h2 em, .cv h3 em { font-style: italic; color: var(--cv-gold); }
+.cv p { margin: 0; max-width: var(--cv-read); }
+.cv-eyebrow { font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cv-gold); font-weight: 700; display: inline-flex; align-items: center; gap: 0.7em; }
+.cv-eyebrow::before { content: ""; width: 34px; height: 1px; background: linear-gradient(90deg, transparent, var(--cv-gold)); flex: none; }
+.cv-note { font-size: 0.88rem; color: var(--cv-muted); line-height: 1.55; }
+.cv-stack { display: flex; flex-direction: column; gap: 1.1rem; }
+.cv-stack-lg { display: flex; flex-direction: column; gap: 2rem; }
+.cv-label { display: block; font-weight: 700; font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cv-muted); margin: 0 0 0.5rem; }
+.cv-ask { display: block; font-family: var(--cv-display); font-size: clamp(1.35rem, 2.4vw, 1.7rem); line-height: 1.2; color: var(--cv-ivory); margin: 0 0 0.3rem; }
+.cv-ask em { font-style: italic; color: var(--cv-gold); }
+
+/* ---------- buttons ---------- */
+.cv button { font: inherit; color: inherit; }
+.cv-btn { font-family: var(--cv-body); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.02em; padding: 14px 30px; border-radius: 60px; cursor: pointer; transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; display: inline-block; border: 1px solid transparent; text-align: center; line-height: 1.3; }
+.cv a.cv-btn { text-decoration: none; }
+.cv-btn-gold, .cv a.cv-btn-gold { background: linear-gradient(135deg, var(--cv-gold), var(--cv-bronze)); color: var(--cv-on-gold); box-shadow: 0 10px 30px -10px rgba(198, 161, 91, 0.4); }
+.cv-btn-gold:hover, .cv a.cv-btn-gold:hover { transform: translateY(-2px); filter: brightness(1.06); color: var(--cv-on-gold); }
+.cv-btn-ghost, .cv a.cv-btn-ghost { border-color: var(--cv-gold); color: var(--cv-gold-bright); background: transparent; }
+.cv-btn-ghost:hover { background: rgba(198, 161, 91, 0.08); border-color: var(--cv-gold-bright); }
+.cv-btn-sm { padding: 10px 20px; font-size: 0.88rem; }
+.cv-btn[disabled] { opacity: 0.38; cursor: not-allowed; transform: none; filter: none; box-shadow: none; }
+.cv-text-btn { background: none; border: 0; padding: 0.2rem 0; color: var(--cv-muted); font-size: 0.9rem; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.cv-text-btn:hover { color: var(--cv-ivory); }
+.cv-chip { border: 1px solid var(--cv-line); background: transparent; color: var(--cv-text); border-radius: 60px; padding: 0.3rem 0.85rem; font-size: 0.84rem; cursor: pointer; line-height: 1.3; }
+.cv-chip:hover { border-color: var(--cv-gold); color: var(--cv-gold-bright); }
+.cv-chip.is-on { border-color: var(--cv-gold); color: var(--cv-gold-bright); background: rgba(198, 161, 91, 0.08); }
+.cv-x { background: none; border: 1px solid transparent; color: var(--cv-muted); width: 2.1rem; height: 2.1rem; border-radius: 50%; cursor: pointer; display: inline-grid; place-items: center; flex: none; font-size: 1.15rem; line-height: 1; }
+.cv-x:hover { color: var(--cv-ivory); border-color: var(--cv-line); }
+
+/* ---------- fields ---------- */
+.cv input[type="text"], .cv textarea, .cv select { width: 100%; background: var(--cv-field); border: 1px solid var(--cv-line); border-radius: 10px; color: var(--cv-ivory); font: inherit; padding: 0.72rem 0.9rem; min-width: 0; margin: 0; }
+.cv input[type="text"]::placeholder, .cv textarea::placeholder { color: var(--cv-muted); opacity: 0.7; }
+.cv input[type="text"]:focus, .cv textarea:focus, .cv select:focus { outline: none; border-color: var(--cv-gold); box-shadow: 0 0 0 3px rgba(198, 161, 91, 0.16); }
+.cv textarea { resize: vertical; min-height: 5.4rem; line-height: 1.55; display: block; }
+.cv textarea.cv-tall { min-height: 9rem; }
+
+/* ---------- intro ---------- */
+.cv-intro { padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2rem, 4.5vw, 3rem); }
+.cv-intro .cv-wrap { display: flex; flex-direction: column; gap: 1.3rem; align-items: flex-start; }
+.cv-intro p { font-size: 1.08rem; }
+.cv-meta { display: flex; flex-wrap: wrap; gap: 0.3rem 1.1rem; list-style: none; margin: 0; padding: 0; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cv-muted); }
+.cv-meta li + li::before { content: "\00B7"; margin-right: 1.1rem; color: var(--cv-gold); }
+
+/* ---------- step rail ---------- */
+.cv-rail { position: sticky; top: var(--cv-rail-top, 0px); z-index: 5; background: rgba(8, 23, 27, 0.94); backdrop-filter: blur(8px); border-block: 1px solid var(--cv-hair); }
+.cv-rail ol { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.2rem; }
+.cv-rail li { flex: 1 1 0; min-width: 0; }
+.cv-rail button { width: 100%; background: none; border: 0; border-bottom: 2px solid transparent; padding: 0.8rem 0.3rem 0.7rem; text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 0.1rem; color: var(--cv-muted); min-height: 3.6rem; }
+.cv-rail .cv-n { font-family: var(--cv-display); font-size: 1.1rem; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.cv-rail .cv-t { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cv-rail button.is-done { color: var(--cv-text); }
+.cv-rail button.is-current { color: var(--cv-gold); border-bottom-color: var(--cv-gold); }
+.cv-rail button[disabled] { cursor: default; opacity: 0.45; }
+
+/* ---------- tool frame ---------- */
+.cv-tool { padding-block: clamp(2.25rem, 5vw, 3.5rem) clamp(3rem, 7vw, 5rem); scroll-margin-top: var(--cv-scroll-top, 4.5rem); }
+.cv-head { display: flex; flex-direction: column; gap: 1.1rem; margin-bottom: 2.2rem; align-items: flex-start; }
+.cv-head h2:focus { outline: none; }
+.cv-card { background: var(--cv-card); border: 1px solid var(--cv-hair); border-radius: var(--cv-radius); padding: clamp(1.1rem, 3vw, 1.6rem); min-width: 0; }
+.cv-nav { display: flex; flex-wrap: wrap; gap: 0.8rem 1.2rem; align-items: center; justify-content: space-between; margin-top: 2.6rem; padding-top: 1.6rem; border-top: 1px solid var(--cv-hair); }
+.cv-nav-right { display: flex; flex-wrap: wrap; gap: 0.8rem 1.2rem; align-items: center; margin-left: auto; }
+.cv-banner { border: 1px solid var(--cv-gold); border-radius: var(--cv-radius); padding: 0.8rem 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem 1.2rem; align-items: center; justify-content: space-between; font-size: 0.92rem; margin-bottom: 2rem; color: var(--cv-ivory); }
+.cv-status { font-size: 0.98rem; color: var(--cv-ivory); }
+.cv-status strong { color: var(--cv-gold); font-weight: 700; }
+
+/* ---------- step one: the people ---------- */
+.cv-lens { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; }
+.cv-lens label { position: relative; display: block; cursor: pointer; min-width: 0; }
+.cv-lens input { position: absolute; opacity: 0; pointer-events: none; }
+.cv-lens-body { display: flex; flex-direction: column; gap: 0.45rem; height: 100%; padding: 1.1rem 1.2rem 1.2rem; border: 1px solid var(--cv-line); border-radius: var(--cv-radius); background: rgba(7, 25, 30, 0.7); transition: border-color 0.25s ease, background 0.25s ease; }
+.cv-lens-body b { font-size: 0.76rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cv-muted); font-weight: 700; }
+.cv-lens-body span { font-family: var(--cv-display); font-style: italic; font-size: 1.28rem; line-height: 1.3; color: var(--cv-text); }
+.cv-lens label:hover .cv-lens-body { border-color: var(--cv-gold); }
+.cv-lens input:checked + .cv-lens-body { border-color: var(--cv-gold); background: rgba(198, 161, 91, 0.07); }
+.cv-lens input:checked + .cv-lens-body b { color: var(--cv-gold); }
+.cv-lens input:checked + .cv-lens-body span { color: var(--cv-ivory); }
+.cv-lens input:focus-visible + .cv-lens-body { outline: 2px solid var(--cv-gold-bright); outline-offset: 3px; }
+.cv-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.cv-person { display: flex; flex-direction: column; gap: 1.8rem; }
+.cv-block { display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; }
+.cv-rows { display: flex; flex-direction: column; gap: 0.55rem; }
+.cv-row { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr) auto; gap: 0.5rem; align-items: center; }
+.cv-row .cv-num { font-family: var(--cv-display); font-size: 1.35rem; color: var(--cv-gold); text-align: center; font-variant-numeric: tabular-nums; }
+.cv-push { border: 1px solid var(--cv-gold); border-radius: var(--cv-radius); padding: 1.1rem 1.2rem 1.2rem; display: flex; flex-direction: column; gap: 0.7rem; background: rgba(198, 161, 91, 0.05); }
+.cv-push.is-loud { box-shadow: 0 0 0 3px rgba(198, 161, 91, 0.2); }
+.cv-push-q { font-family: var(--cv-display); font-size: clamp(1.3rem, 2.2vw, 1.6rem); line-height: 1.2; color: var(--cv-ivory); }
+.cv-add { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.cv-add input { flex: 1 1 12rem; }
+.cv-add .cv-btn { flex: none; }
+.cv-push-acts { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; align-items: center; }
+
+/* ---------- step two: what I heard ---------- */
+.cv-heard { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 25rem), 1fr)); gap: 1.25rem; align-items: start; }
+.cv-heard-card { display: flex; flex-direction: column; gap: 0.9rem; }
+.cv-heard-name { font-family: var(--cv-display); font-size: 1.5rem; color: var(--cv-ivory); line-height: 1.15; }
+.cv-heard-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.cv-heard-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.3rem 0.4rem; align-items: center; }
+.cv-heard-list .cv-note { grid-column: 1 / -1; color: var(--cv-gold-bright); }
+
+/* ---------- step three: the flip ---------- */
+.cv-who { margin-top: 2rem; }
+.cv-who:first-child { margin-top: 0; }
+.cv-who-name { font-family: var(--cv-display); font-size: 1.45rem; color: var(--cv-ivory); padding-bottom: 0.35rem; border-bottom: 1px solid var(--cv-line); }
+.cv-flip { display: grid; grid-template-columns: minmax(0, 1fr) 3.5rem minmax(0, 1fr); gap: 1rem; align-items: start; padding-block: 1.1rem; border-top: 1px solid var(--cv-hair); }
+.cv-who-name + .cv-flip { border-top: 0; }
+.cv-flip-from { color: var(--cv-muted); padding-top: 0.7rem; overflow-wrap: anywhere; }
+.cv-flip-arrow { height: 1px; background: var(--cv-gold); margin-top: 1.55rem; position: relative; opacity: 0.8; }
+.cv-flip-arrow::after { content: ""; position: absolute; right: 0; top: -3.5px; width: 7px; height: 7px; border-top: 1px solid var(--cv-gold); border-right: 1px solid var(--cv-gold); transform: rotate(45deg); }
+.cv-flip-to { min-width: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.cv input.cv-val { font-family: var(--cv-display); font-style: italic; font-size: 1.55rem; color: var(--cv-gold-bright); padding: 0.35rem 0.8rem; line-height: 1.2; }
+.cv input.cv-val::placeholder { font-size: 1.25rem; }
+.cv-alts { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+.cv-anim .cv-flip-from { animation: cvFade 0.5s ease both; animation-delay: calc(var(--i, 0) * 160ms); }
+.cv-anim .cv-flip-arrow { animation: cvDraw 0.45s ease both; animation-delay: calc(var(--i, 0) * 160ms + 500ms); transform-origin: 0 50%; }
+.cv-anim .cv-flip-to { animation: cvFlip 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--i, 0) * 160ms + 750ms); transform-origin: 50% 0; }
+@keyframes cvFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cvDraw { from { transform: scaleX(0); opacity: 0; } to { transform: none; opacity: 0.8; } }
+@keyframes cvFlip { from { opacity: 0; transform: perspective(600px) rotateX(-85deg); } to { opacity: 1; transform: none; } }
+
+/* ---------- step four: the pattern ---------- */
+.cv-suggest { border: 1px solid var(--cv-line); border-radius: var(--cv-radius); padding: 1rem 1.2rem; display: flex; flex-wrap: wrap; gap: 0.7rem 1.4rem; align-items: center; justify-content: space-between; }
+.cv-suggest-names { font-family: var(--cv-display); font-style: italic; color: var(--cv-gold); font-size: 1.35rem; line-height: 1.25; }
+.cv-suggest-acts { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; align-items: center; }
+.cv-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: 1.25rem; align-items: start; }
+.cv-group { display: flex; flex-direction: column; gap: 0.85rem; }
+.cv-group.is-over { border-color: var(--cv-gold); }
+.cv-group-top { display: flex; gap: 0.5rem; align-items: center; }
+.cv-grip { cursor: grab; color: var(--cv-muted); padding: 0.3rem 0.2rem; flex: none; line-height: 0; }
+.cv-grip svg { display: block; }
+.cv input.cv-gname { font-family: var(--cv-display); font-style: italic; font-size: 1.6rem; color: var(--cv-gold-bright); padding: 0.3rem 0.75rem; line-height: 1.2; }
+.cv-weight { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: var(--cv-muted); }
+.cv-callit { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+.cv-ev { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.92rem; }
+.cv-ev li { display: flex; flex-wrap: wrap; gap: 0.15rem 0.6rem; align-items: baseline; overflow-wrap: anywhere; }
+.cv-ev .cv-src { color: var(--cv-muted); font-size: 0.8rem; }
+.cv-ev .cv-was { color: var(--cv-gold); font-family: var(--cv-display); font-style: italic; font-size: 1.08rem; }
+.cv-group-acts { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; align-items: center; justify-content: space-between; border-top: 1px solid var(--cv-hair); padding-top: 0.8rem; }
+.cv .cv-group-acts select { width: auto; max-width: 100%; padding: 0.4rem 0.6rem; font-size: 0.88rem; }
+.cv-aside { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+/* ---------- step five: the meaning ---------- */
+.cv-mirror { border-block: 1px solid var(--cv-line); padding: 1.2rem 0; display: flex; flex-direction: column; gap: 0.7rem; align-items: flex-start; }
+.cv-means { display: flex; flex-direction: column; gap: 1.5rem; }
+.cv-mean { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: 1.2rem 2rem; }
+.cv-mean-fields { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+.cv-mean-from { min-width: 0; }
+.cv-check { display: inline-flex; gap: 0.4rem; align-items: center; font-size: 0.8rem; color: var(--cv-muted); cursor: pointer; white-space: nowrap; }
+.cv-check input { accent-color: var(--cv-gold); width: 1rem; height: 1rem; margin: 0; }
+
+/* ---------- step six: the order ---------- */
+.cv-versus { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.25rem; }
+.cv-choice { background: var(--cv-card); border: 1px solid var(--cv-line); border-radius: var(--cv-radius); padding: 1.6rem 1.4rem; text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; transition: border-color 0.2s ease, transform 0.2s ease; }
+.cv-choice:hover { border-color: var(--cv-gold); transform: translateY(-2px); }
+.cv-choice-name { font-family: var(--cv-display); font-style: italic; font-size: clamp(1.7rem, 4vw, 2.3rem); color: var(--cv-gold); line-height: 1.1; overflow-wrap: anywhere; }
+.cv-choice-def { font-size: 0.94rem; color: var(--cv-text); }
+.cv-progress { height: 2px; background: var(--cv-hair); position: relative; margin-block: 0.5rem 1.4rem; border-radius: 2px; overflow: hidden; }
+.cv-progress i { position: absolute; inset: 0 auto 0 0; background: linear-gradient(90deg, var(--cv-gold), #0E7C86); }
+.cv-ranked { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.cv-ranked li { display: grid; grid-template-columns: 3rem minmax(0, 1fr) auto; gap: 0.8rem; align-items: center; padding: 0.9rem 0; border-top: 1px solid var(--cv-hair); }
+.cv-ranked li:first-child { border-top: 0; }
+.cv-rk { font-family: var(--cv-display); font-weight: 300; font-size: 2.3rem; color: var(--cv-gold); line-height: 1; font-variant-numeric: tabular-nums; }
+.cv-ranked .cv-nm { font-family: var(--cv-display); font-style: italic; font-size: 1.65rem; color: var(--cv-ivory); line-height: 1.15; overflow-wrap: anywhere; }
+.cv-mv { display: flex; gap: 0.2rem; }
+
+/* ---------- result ---------- */
+.cv-result { border: 1px solid var(--cv-gold); border-radius: var(--cv-radius); padding: clamp(1.4rem, 4vw, 2.6rem); display: flex; flex-direction: column; gap: 0.6rem; align-items: stretch; background: rgba(8, 23, 27, 0.6); }
+.cv-result-list { list-style: none; margin: 1.2rem 0 0; padding: 0; display: flex; flex-direction: column; }
+.cv-result-list li { display: grid; grid-template-columns: 3.4rem minmax(0, 1fr); gap: 0.4rem 1rem; padding: 1.4rem 0; border-top: 1px solid var(--cv-line); }
+.cv-result-list .cv-rk { font-size: 3.1rem; line-height: 0.9; }
+.cv-result-body { display: flex; flex-direction: column; gap: 0.45rem; min-width: 0; }
+.cv-result-list .cv-nm { font-family: var(--cv-display); font-size: clamp(1.9rem, 4.4vw, 2.7rem); color: var(--cv-ivory); line-height: 1.05; overflow-wrap: anywhere; }
+.cv-result-list .cv-lk { font-size: 0.96rem; }
+.cv-result-list b { font-weight: 700; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cv-muted); margin-right: 0.5rem; }
+.cv-result-list .cv-cf { color: var(--cv-muted); font-size: 0.9rem; }
+.cv-result-acts { display: flex; flex-wrap: wrap; gap: 0.8rem 1.2rem; align-items: center; margin-top: 1.4rem; }
+.cv-save-note { margin: 1.4rem 0 0; color: var(--cv-muted); font-size: 0.9rem; line-height: 1.55; }
+.cv-after { margin-top: clamp(3rem, 7vw, 4.5rem); display: flex; flex-direction: column; gap: 2.8rem; }
+.cv-after > div { display: flex; flex-direction: column; gap: 1.1rem; align-items: flex-start; }
+.cv-acts { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-anim .cv-flip-from, .cv-anim .cv-flip-arrow, .cv-anim .cv-flip-to { animation: none; }
+  .cv-btn, .cv-choice { transition: none; }
+}
+@media (max-width: 860px) {
+  .cv-mean { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .cv-lens { grid-template-columns: minmax(0, 1fr); }
+  .cv-rail .cv-t { display: none; }
+  .cv-rail button.is-current .cv-t { display: block; }
+  .cv-rail li { flex: 0 0 auto; }
+  .cv-rail li.is-cur { flex: 1 1 auto; }
+  .cv-rail button { padding-inline: 0.5rem; }
+  .cv-flip { grid-template-columns: minmax(0, 1fr); gap: 0.4rem; }
+  .cv-flip-from { padding-top: 0; }
+  .cv-flip-arrow { display: none; }
+  .cv-versus { grid-template-columns: minmax(0, 1fr); }
+  .cv-nav-right { margin-left: 0; }
+}
+@media print {
+  .cv-intro, .cv-rail, .cv-head, .cv-nav, .cv-result-acts, .cv-save-note, .cv-after, .cv-banner { display: none !important; }
+  .cv { color: #1A1207; }
+  .cv-tool { padding: 0; }
+  .cv-result { border: 0; padding: 0; background: none; }
+  .cv h2, .cv-result-list .cv-nm { color: #1A1207; }
+  .cv-result-list .cv-df, .cv-result-list .cv-lk { color: #33291A; }
+  .cv-result-list .cv-cf, .cv-result-list b { color: #6B6152; }
+  .cv-result-list li { border-top-color: #BDC6C4; break-inside: avoid; }
+  .cv-result-list .cv-rk, .cv h2 em, .cv-eyebrow { color: #8A6A2A; }
+  .cv-eyebrow::before { background: #8A6A2A; }
+}
+
+</style>
+</head>
+<body class="wash">
+<div class="grain"></div>
+<header class="site-header"><div class="container-wide nav"><a class="brand" href="index.html" aria-label="Eric Farewell home"><img class="sig-img" src="assets/img/signature-white.png" alt="Eric Farewell"></a><nav class="nav-links" aria-label="Primary navigation"><a href="my-story.html">Eric</a><a href="work-with-eric.html">Work with Eric</a><a href="royals.html">Royals</a><a href="blog.html">Writing</a><a href="speaking.html">Speaking</a><a class="nav-cta" href="start.html">Start here</a></nav><button class="menu-btn" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button></div></header>
+<div class="mobile-menu"><button class="mobile-close" aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg></button><a href="my-story.html">Eric</a><a href="work-with-eric.html">Work with Eric</a><a href="royals.html">Royals</a><a href="blog.html">Writing</a><a href="speaking.html">Speaking</a><a class="btn btn-gold" href="start.html">Start here</a></div>
+
+<main class="cv-page">
+<div class="cv" id="cv-root">
+  <div class="cv-intro">
+    <div class="cv-wrap">
+      <span class="cv-eyebrow">The Core Values Exercise</span>
+      <h1>Core values that reflect <em>who's actually there.</em></h1>
+      <p>Aspirational values don't change behavior or people. Even when they feel within reach, they often backfire because they don't reflect who's actually there.</p>
+      <p>This is the exercise I use instead. I'm not going to explain how it works before we start, because I'd rather you experience it. It begins with a few hard stories, and the rest will make sense as it happens.</p>
+      <ul class="cv-meta">
+        <li>About twenty minutes</li>
+        <li>No score</li>
+        <li>Stays in this browser</li>
+      </ul>
+      <p class="cv-note">The answers stay in this browser and are not submitted to Farewell Holdings, so they can be as blunt as they need to be. At the end, you can print your results or save them as a PDF.</p>
+    </div>
+  </div>
+  <nav class="cv-rail" aria-label="Steps of the exercise"><div class="cv-wrap"><ol id="cv-rail"></ol></div></nav>
+  <div class="cv-tool" id="cv-tool"><div class="cv-wrap" id="cv-app"></div></div>
+</div>
+
+<p class="cv-library"><a href="/tools-library">See all your tools</a></p>
+</main>
+
+<footer class="site-footer"><div class="container-wide"><div class="foot-grid"><div class="foot foot-brand"><div class="brand" style="margin-bottom:18px"><img class="sig-img foot-sig" src="assets/img/signature-white.png" alt="Eric Farewell"></div><p class="muted" style="max-width:38ch">Founder, husband, father, adventurer, coach, leader, author, and speaker. The order changes with the day.</p><p class="muted" style="margin-top:14px;font-size:.85rem">Farewell Holdings LLC · Austin, TX</p></div><div class="foot"><h4>Explore</h4><a href="my-story.html">Eric</a><a href="work-with-eric.html">Work with Eric</a><a href="royals.html">Royals</a><a href="blog.html">Writing</a><a href="speaking.html">Speaking</a></div><div class="foot"><h4>Begin</h4><a href="start.html">Find a place to begin</a><a href="/time-audit">The Royals Time Audit</a><a href="podcasts.html">Podcasts</a><a href="contact.html">Contact</a></div></div><div class="foot-bottom"><span>© 2026 Farewell Holdings LLC. All rights reserved.</span><span><a href="/terms-of-service" style="display:inline;margin-right:20px">Terms &amp; Conditions</a><a href="/privacy-policy" style="display:inline">Privacy Policy</a></span></div></div></footer>
+<script src="assets/js/site.js"></script>
+<script>
+/* The flip engine: reads a frustration, proposes the value on the other side of it.
+   Runs entirely in the browser. No network calls. */
+var EF_ENGINE = (function () {
+  'use strict';
+
+  var FAMS = {
+    reliability: 'Reliability', honesty: 'Integrity', loyalty: 'Loyalty', ownership: 'Ownership', drive: 'Drive',
+    excellence: 'Excellence', order: 'Order', respect: 'Respect', care: 'Care', communication: 'Clear communication',
+    growth: 'Growth', steadiness: 'Steadiness', spirit: 'Positivity', connection: 'Presence', partnership: 'Partnership'
+  };
+
+  /* n: value name. f: family. l: lens it leans toward (work | love). alt: nearby names.
+     neg: the short frustration it answers. def: a starting definition. p: patterns, optionally [regex, weight]. */
+  var RULES = [
+    /* ---------- reliability ---------- */
+    { n: 'Timeliness', f: 'reliability', alt: ['Punctuality', 'Respect for time'], neg: 'Always late',
+      def: "Showing up when I said I would, because other people's time matters as much as mine.",
+      p: [/\blate\b/i, /lateness/i, /tard(y|i)/i, [/on[- ]time/i, 5], /punctual/i, /deadline/i, [/kept (me|us|everyone|people|clients|customers) waiting/i, 4], /behind schedule/i, /overdue/i, /last[- ]minute/i, /\btimel/i, [/(my|our|people'?s|clients?'?s?|customers?'?) time\b/i, 2], /running behind/i] },
+    { n: 'Dependability', f: 'reliability', alt: ['Reliability', 'Consistency'], neg: "Couldn't be counted on",
+      def: 'Being someone people can count on without having to check.',
+      p: [/dependab/i, /reliab/i, /rel(y|ied) on/i, /count(ed)? on/i, /flak(e|y|ed|ey)/i, /no[- ]show/i, [/(didn'?t|never|wouldn'?t|not|rarely|stopped) show(ed|ing)?( up)?/i, 4], /call(ed|ing|s)? (out|in sick|off)/i, /cancel/i, /\bbail(ed|s|ing)?\b/i, /stood me up/i, /forgot/i, /forgetful/i] },
+    { n: 'Follow-through', f: 'reliability', alt: ['Finishing what I start', 'Keeping my word'], neg: "Didn't follow through",
+      def: "Finishing what I start and doing what I said I'd do.",
+      p: [[/follow(ed|ing|s)?[- ]?through/i, 5], /follow(ed|ing)?[- ]?up/i, /dropped the ball/i, [/(never|didn'?t|not|wouldn'?t|couldn'?t|rarely) (finish|complete|deliver)/i, 4], /unfinished/i, /half[- ]?(done|finished)/i, /left (things|work|projects|jobs|it|everything) (undone|unfinished|hanging|half)/i, /empty promises/i, /promis/i, [/said (yes|he would|she would|they would|he'd|she'd|they'd)\b.*\b(never|didn'?t|nothing)/i, 5], /incomplete/i, /loose ends/i] },
+    { n: 'Consistency', f: 'reliability', alt: ['Steadiness', 'Discipline', 'Dependability'], neg: 'Hot and cold',
+      def: 'Being the same person on a hard day as on an easy one.',
+      p: [/consisten/i, [/hot and cold/i, 4], /up and down/i, /on (and|again,?) off/i, /erratic/i, /unpredictab/i, /disciplin/i, /routine/i, /never knew (what|which|who)/i] },
+    { n: 'Accountability', f: 'reliability', l: 'work', alt: ['Presence', 'Dependability', 'Ownership'], neg: 'Disappeared on me',
+      def: "Being where I said I'd be and answering for my work without being chased.",
+      p: [[/disappear/i, 4], /went missing/i, /\bmia\b/i, /\bawol\b/i, /vanish/i, /couldn'?t (find|reach|get (a )?hold of)/i, /where (the hell |the heck )?(is|was|were)\b/i, /nowhere to be found/i, [/accountab/i, 4], /chas(e|ed|ing) (him|her|them) down/i, /snuck (out|off)/i, /left early/i, /long lunch/i] },
+    { n: 'Commitment', f: 'reliability', alt: ['Perseverance', 'Being all in', 'Loyalty'], neg: 'One foot out the door',
+      def: 'Staying all the way in, especially when it gets hard.',
+      p: [/commit/i, [/one foot (out|in)/i, 5], /all in\b/i, /half in\b/i, /\bquit/i, /g(a|i)ve(s)? up/i, /giving up/i, /walk(ed|s)? (away|out)/i, /left when/i, /\bran (away|off)?\b/i, /bolt(ed)?\b/i, /flight risk/i, /job[- ]hopp/i, /looking for (another|other|a new) job/i] },
+
+    /* ---------- integrity ---------- */
+    { n: 'Honesty', f: 'integrity', alt: ['Truthfulness', 'Integrity', 'Transparency'], neg: 'Lied',
+      def: 'Telling the truth, including when it costs me something.',
+      p: [[/\bli(e|ed|es|ar|ars)\b/i, 4], [/\blying\b/i, 4], /honest/i, /truth/i, /deceiv/i, /decept/i, /deceit/i, /mislead/i, /misled/i, [/\bstole\b/i, 4], /\bsteal/i, /theft/i, /thie(f|ves)/i, /fraud/i, /embezzl/i, /padd(ed|ing) (his |her |their )?(hours|time|expenses)/i, /fak(e|ed|ing) (hours|time|numbers|reports|sick|it)/i, /made (things|stuff|it) up/i, /exaggerat/i, /cover(ed|ing)?[- ]up/i, /manipulat/i, /gasl(i|igh)t/i] },
+    { n: 'Integrity', f: 'integrity', alt: ['Keeping my word', 'Honesty', 'Character'], neg: 'Said one thing and did another',
+      def: 'My actions matching my words, whether or not anyone is watching.',
+      p: [[/integrity/i, 5], /hypocri/i, /two[- ]faced/i, [/said one thing/i, 5], /unethical/i, /\bethic/i, /\bmoral/i, /shady/i, /sketchy/i, [/(kept|keep|keeps|break|broke|breaking)( (his|her|their))? word/i, 5], /word meant nothing/i, /double standard/i, /corrupt/i, /scruples/i] },
+    { n: 'Transparency', f: 'integrity', alt: ['Openness', 'Honesty', 'Clear communication'], neg: 'Hid things',
+      def: 'Nothing hidden. People know where things stand with me.',
+      p: [/transparen/i, /secretiv/i, /\bsecrets?\b/i, /\bhid\b/i, /\bhid(e|es|ing|den)\b/i, /withh(e|o)ld/i, /kept (things|stuff|it) from/i, /behind (my|our|the owner'?s) back/i, /sneak/i, /snuck around/i, /went around me/i] },
+    { n: 'Trust', f: 'integrity', l: 'love', alt: ['Trustworthiness', 'Security', 'Honesty'], neg: "Couldn't be trusted",
+      def: 'Trusting and being trusted, without having to prove it every day.',
+      p: [[/trust/i, 4], /suspicious/i, /jealous/i, /check(ed|ing|s)? (my|his|her) phone/i, /snoop/i, /accus(e|ed|ing)/i, /paranoi/i, /insecur/i] },
+    { n: 'Loyalty', f: 'integrity', alt: ['Faithfulness', 'Having my back', 'Devotion'], neg: 'Disloyal',
+      def: "Having people's backs, in the room and out of it.",
+      p: [[/loyal/i, 5], /betray/i, [/cheat/i, 4], /faithful/i, /\baffair/i, /slept with/i, /infidel/i, /backstab/i, /stabbed (me |us )?in the back/i, /under the bus/i, /bad[- ]?mouth/i, /trash(ed|ing)?[- ]talk/i, /poach/i, /took (my |our )?(clients|customers|accounts|staff|employees)/i, /sold (me|us) out/i, /turned on (me|us)/i, /had my back/i, /competitor/i] },
+    { n: 'Discretion', f: 'integrity', alt: ['Loyalty', 'Candor', 'Professionalism'], neg: "Couldn't keep things private",
+      def: "Keeping private things private and taking concerns to the person they're about.",
+      p: [/(couldn'?t|can'?t|never) keep a secret/i, /overshar/i, /shar(ed|ing) (private|personal|confidential)/i, /confiden/i, /told everyone/i, /air(ed|ing) (our|my|dirty)/i, /discre/i] },
+    { n: 'Fairness', f: 'integrity', alt: ['Justice', 'Reciprocity', 'Respect'], neg: 'Played favorites',
+      def: 'Holding everyone, myself included, to the same standard.',
+      p: [/unfair/i, /\bfair(ly|ness)?\b/i, /favorit/i, /kept score/i, /(took|taking|taken|takes) advantage/i, /us(ed|ing) (me|people|us)\b/i, /exploit/i, /unequal/i] },
+    { n: 'Authenticity', f: 'integrity', alt: ['Sincerity', 'Depth', 'Realness'], neg: 'Fake',
+      def: 'Being the same person in every room.',
+      p: [[/\bfake\b/i, 4], /phon(y|ey)\b/i, /pretend/i, /superficial/i, /shallow/i, /\bmask\b/i, /(cared|caring|obsessed|worried) (so much |too much |more |only )?about (image|appearances|looks|status|what (people|others|everyone) (thought|think))/i, /people[- ]pleas/i, /show(ed|ing)?[- ]?off/i, /authentic/i, /genuine/i, /sincer/i, /materialis/i] },
+
+    /* ---------- ownership ---------- */
+    { n: 'Ownership', f: 'ownership', alt: ['Responsibility', 'Accountability', 'Humility'], neg: 'Blamed everyone else',
+      def: 'Owning my part first, without excuses and without waiting to be caught.',
+      p: [[/blam/i, 5], [/excus/i, 4], /\bfault/i, /responsib/i, /point(ed|ing|s)? (the )?fingers?/i, /victim/i, /own(ed|ing)? (up|it|his|her|their|mistakes)/i, /admit/i, /deflect/i, /\bden(y|ied|ies|ial)\b/i, /pass(ed|ing)? the buck/i, /(somebody|someone|everybody|everyone) else\b/i, /apolog/i, /(never|couldn'?t|wouldn'?t) (say|said) sorry/i] },
+    { n: 'Initiative', f: 'ownership', l: 'work', alt: ['Self-direction', 'Ownership', 'Drive'], neg: 'Had to be told everything',
+      def: 'Seeing what needs doing and doing it without being asked.',
+      p: [[/initiative/i, 5], [/had to (be told|tell|ask|remind|hold|micromanag|babysit|spell|check|follow|explain|show)/i, 5], [/(to be|being) told/i, 4], /told (him|her|them) (everything|twice|what to do|over and over|again|\w+ times)/i, /wait(ed|ing|s)? (around |to be told|for (instructions|direction|me|someone))/i, /hand[- ]?h(o|e)ld/i, /babys(at|it)/i, /micromanag(e|ed|ing) (him|her|them)/i, /remind(ed|ing|ers?)?\b/i, /spoon[- ]?fe/i, /self[- ]?start/i, /proactiv/i, /\bpassive\b(?![- ]?aggress)/i, /needed (constant|a lot of|so much|too much) (supervision|direction|guidance|attention|oversight)/i, /stood around/i] },
+    { n: 'Work ethic', f: 'ownership', l: 'work', alt: ['Effort', 'Diligence', 'Drive'], neg: 'Lazy',
+      def: "Giving real effort for the whole day, including when nobody's checking.",
+      p: [[/\blaz(y|i)/i, 5], /work ethic/i, [/bare minimum/i, 5], /slack/i, /coast(ed|ing)\b/i, /goof(ed|ing) off/i, /on (his|her|their) phone/i, /wast(e|ed|ing) (time|my time|company time|the day)/i, /clock[- ]?watch/i, [/(didn'?t|doesn'?t|not|never|wouldn'?t|wasn'?t|isn'?t) (want(ed)? to |actually |(looking|willing|trying) to (actually )?)?work\b/i, 4], /hard work/i, /effort/i, /did (nothing|the least)/i, /minimum/i, /sat around/i, /milk(ed|ing) the clock/i, /productiv/i] },
+    { n: 'Resourcefulness', f: 'ownership', l: 'work', alt: ['Problem-solving', 'Self-reliance', 'Initiative'], neg: 'Brought problems, never solutions',
+      def: "Bringing a solution with the problem, and finding a way when there isn't an obvious one.",
+      p: [/resourceful/i, [/solution/i, 4], [/figur(e|ed|ing) (it|things|anything|stuff) out/i, 5], /helpless/i, /(same|every) questions?/i, /think for (himself|herself|themselves|themself)/i, /couldn'?t (solve|think|problem)/i, /problem[- ]?solv/i, /needed (me|answers|the answer)/i, /came to me (for|with) every/i, /google/i] },
+    { n: 'Drive', f: 'ownership', alt: ['Ambition', 'Purpose', 'Hunger'], neg: 'No ambition',
+      def: 'Wanting more for the work and for myself, and moving toward it.',
+      p: [[/ambiti/i, 5], /\bdrive\b/i, /\bdriven\b/i, /motivat/i, /\bgoals?\b/i, /aimless/i, /direction ?less/i, /no direction/i, /no vision/i, /no purpose/i, /purposeless/i, /hung(er|ry)/i, /complacen/i, /settl(ed|ing) for/i, /content with (mediocr|less|average)/i, /going nowhere/i, /no plan\b/i] },
+    { n: 'Taking action', f: 'ownership', alt: ['Bias to action', 'Execution', 'Decisiveness'], neg: 'Nothing got done',
+      def: 'Moving. A decent decision carried out beats a perfect one still being discussed.',
+      p: [/inactiv/i, /\baction/i, /stuck in/i, [/nothing (ever )?got done/i, 5], /never (did|got around|started|launched|shipped|executed)/i, [/all (talk|plans?|planning|ideas?)\b/i, 5], /talk(ed|s|ing)? (a lot|a big game|big)\b/i, [/procrastinat/i, 4], /put (things|it|everything) off/i, /drag(ged|ging)? (his|her|their) feet/i, /stall(ed|ing)?\b/i, /execut/i, /paraly(s|z)/i] },
+    { n: 'Decisiveness', f: 'ownership', alt: ['Clarity', 'Confidence', 'Taking action'], neg: "Couldn't make a decision",
+      def: 'Making the call with the information I have, and owning it.',
+      p: [[/indecisi/i, 5], /decisi/i, [/decision/i, 4], /\bdecide/i, /wishy/i, /waffl/i, /overth(ink|ought)/i, /analysis paralysis/i, /second[- ]guess/i, /couldn'?t (choose|pick)/i, /make up (his|her|their) mind/i, /back and forth/i, /flip[- ]?flop/i] },
+    { n: 'Urgency', f: 'ownership', l: 'work', alt: ['Pace', 'Momentum', 'Timeliness'], neg: 'No urgency',
+      def: 'Treating what matters like it matters now.',
+      p: [[/urgen/i, 5], /\bslow(ly|er)?\b/i, /t(ook|akes) forever/i, /no hurry/i, /sluggish/i, /snail/i, /\bspeed/i, /\bpace\b/i, /lagg/i] },
+    { n: 'Courage', f: 'ownership', alt: ['Boldness', 'Taking risks', 'Candor'], neg: 'Played it safe',
+      def: "Doing the hard, right thing while I'm afraid of it.",
+      p: [/courag/i, /coward/i, /timid/i, [/play(ed|ing|s)? (it )?(safe|small)/i, 5], /\bafraid to/i, /scared to/i, /risk[- ]avers/i, /wouldn'?t take (a )?(risk|chance)s?/i, /spineless/i, /backbone/i, /st(an|oo)d up for/i, /pushover/i, /doormat/i] },
+    { n: 'Leadership', f: 'ownership', alt: ['Going first', 'Clarity', 'Ownership'], neg: "Wouldn't lead",
+      def: 'Going first, setting the direction, and taking care of the people who follow.',
+      p: [/leader/i, /\blead\b/i, /bad boss/i, /bad manager/i, /no direction from/i, /set(ting)? (a|the) (bad|poor|terrible) example/i, /by example/i] },
+
+    /* ---------- excellence ---------- */
+    { n: 'Excellence', f: 'excellence', l: 'work', alt: ['Craftsmanship', 'High standards', 'Pride in the work'], neg: 'Sloppy work',
+      def: "Doing the work to a standard I'd be glad to sign my name to.",
+      p: [[/slopp/i, 5], [/careless/i, 4], [/cut(ting|s)? corners?/i, 5], [/half[- ]?ass/i, 5], /good enough/i, /mediocr/i, /quality/i, /standards?\b/i, /shoddy/i, /rush(ed|ing)? (through|the work|jobs?)/i, /\bpride in/i, /phon(e|ed|ing) it in/i, /excellen/i, /craft/i, /re-?d(o|oing|one|id)\b/i, /do it over/i, /rework/i, /sub-?par/i] },
+    { n: 'Attention to detail', f: 'excellence', l: 'work', alt: ['Thoroughness', 'Precision', 'Excellence'], neg: 'Missed the details',
+      def: 'Catching the small things before they turn into expensive ones.',
+      p: [[/detail/i, 5], /mistake/i, /\berrors?\b/i, /typo/i, /double[- ]?check/i, /overlook/i, /thorough/i, /(missed|missing|skipped) (steps?|things|items|parts)/i, /accura/i, /precis/i, /proofread/i] },
+    { n: 'Competence', f: 'excellence', l: 'work', alt: ['Mastery', 'Skill', 'Excellence'], neg: "Couldn't do the job",
+      def: "Being good at what I say I'm good at, and getting better.",
+      p: [[/competen/i, 5], /qualif/i, [/(couldn'?t|can'?t|unable to|didn'?t know how to) do (the|his|her|their) job/i, 5], /over (his|her|their) head/i, /\bskill/i, /clueless/i, /(didn'?t|doesn'?t) know (how|what (he|she|they) (was|were) doing)/i, /inexperienc/i, /capab/i, /(lied|exaggerated) (on|about) (his|her|their) (resume|experience)/i] },
+    { n: 'Order', f: 'excellence', alt: ['Organization', 'Cleanliness', 'Structure'], neg: 'Disorganized',
+      def: 'Keeping my space, my systems, and my commitments in order.',
+      p: [[/organi(z|s)/i, 5], /mess(y|es)?\b/i, /chaotic/i, /\bchaos/i, /clutter/i, /dirty/i, /filthy/i, /\bslob/i, /\bclean/i, /\btidy/i, /lost (things|stuff|paperwork|tools|keys|files|everything)/i, /los(t|ing) track/i, /no systems?\b/i, /scatter/i] },
+    { n: 'Focus', f: 'excellence', alt: ['Prioritization', 'Discipline', 'Presence'], neg: 'All over the place',
+      def: 'Putting my attention on what matters most and keeping it there.',
+      p: [[/focus/i, 5], [/all over the place/i, 5], /shiny/i, /squirrel/i, /couldn'?t prioriti/i, /too many (things|projects|ideas)/i, /side[- ]?track/i, /tangent/i, /attention span/i, /multitask/i, /spread too thin/i] },
+    { n: 'Stewardship', f: 'excellence', alt: ['Financial responsibility', "Care for what's shared", 'Resourcefulness'], neg: 'Careless with money',
+      def: "Treating money, tools, and time like they're mine to protect.",
+      p: [/\bmoney\b/i, /spen(d|t|ding)\b/i, /overspen/i, /\bdebt/i, /wasteful/i, /wast(e|ed|es|ing) (money|materials|supplies|resources)/i, /financ/i, /budget/i, /broke (things|equipment|tools|stuff)/i, [/(trashed|abused|damaged|wrecked|careless with|destroyed) (the |my |our |company )?(equipment|tools|truck|van|vehicle|car|gear|property)/i, 5], /expens/i, /gambl/i] },
+    { n: 'Professionalism', f: 'excellence', l: 'work', alt: ['Respect', 'Maturity', 'Discretion'], neg: 'Unprofessional',
+      def: 'Carrying myself in a way that reflects well on everyone I represent.',
+      p: [[/professional/i, 5], /inappropriat/i, /crude/i, /vulgar/i, /\bsw(ore|ear)/i, /cuss/i, /dress(ed)?\b/i, /hygiene/i, /flirt(ed|ing)? with (customers|clients|coworkers|staff|employees)/i, /harass/i, /embarrass(ed|ing)? (me|us|the company)/i] },
+    { n: 'Safety', f: 'respect', alt: ['Care', 'Responsibility', 'Respect'], neg: 'Reckless',
+      def: "Protecting people first, mine and everyone else's.",
+      p: [[/unsafe/i, 5], /safety/i, /reckless/i, /danger/i, /abus/i, /violen/i, /threat/i, /\bhit (me|him|her|them)\b/i, /scared of (him|her|them)/i, /afraid of (him|her|them)/i, /intimidat/i, /bull(y|ied|ying)/i] },
+
+    /* ---------- respect and care ---------- */
+    { n: 'Respect', f: 'respect', alt: ['Dignity', 'Kindness', 'Consideration'], neg: 'Disrespectful',
+      def: 'Treating every person as someone who matters, whatever they can do for me.',
+      p: [[/respect/i, 4], [/\brude/i, 4], /condescen/i, /talk(ed|ing|s)? down/i, /belittl/i, /dismissiv/i, /\bmock/i, /insult/i, /contempt/i, /eye[- ]?roll/i, /roll(ed|ing|s)? (his|her|their) eyes/i, /demean/i, /patroni(z|s)/i, /snide/i, /sarcas/i, /put[- ]?downs?/i, /put (me|people|others) down/i, /humiliat/i, /name[- ]calling/i, /called (me|people) names/i] },
+    { n: 'Kindness', f: 'respect', l: 'love', alt: ['Warmth', 'Compassion', 'Gentleness'], neg: 'Unkind',
+      def: "Choosing warmth, especially when I'm under pressure.",
+      p: [/\bmean\b/i, /cruel/i, /harsh/i, /\b(un)?kind(ness)?\b/i, /hurtful/i, /nasty/i, /vicious/i, /spiteful/i, /vindictive/i, /bitter/i, /hateful/i, /\bcold\b/i, /heartless/i, /compassion/i, /gentle/i, /\bwarm/i] },
+    { n: 'Care', f: 'respect', alt: ['Empathy', 'Compassion', 'Consideration'], neg: "Didn't care",
+      def: 'Paying attention to what other people are carrying and letting it matter to me.',
+      p: [/\bcar(e|ed|es|ing)\b/i, /uncaring/i, [/empath/i, 4], /insensitiv/i, /considerat/i, /thoughtless/i, /thoughtful/i, [/(dismiss|invalidat|minimi[zs]|ignor)\w* (my|our|other people'?s|people'?s|others'?) (feelings|emotions|needs|pain|concerns)/i, 5], /indifferen/i, /apath/i, /callous/i] },
+    { n: 'Listening', f: 'respect', alt: ['Being heard', 'Attentiveness', 'Curiosity'], neg: 'Never listened',
+      def: 'Hearing people all the way out before I answer.',
+      p: [[/listen/i, 5], /interrupt/i, /talk(ed|ing|s)? over/i, /(didn'?t|never|wouldn'?t) hear\b/i, /\bheard\b/i, /in one ear/i, /tun(e|ed|ing) (me|us|people) out/i, /monolog/i] },
+    { n: 'Encouragement', f: 'respect', l: 'love', alt: ['Support', 'Belief', 'Championing'], neg: 'Never supportive',
+      def: 'Believing in people out loud and backing it with action.',
+      p: [[/support/i, 4], /encourag/i, /believ(e|ed) in (me|us)/i, /critic/i, /nit-?pick/i, /t(ore|ear|earing) (me|us|people) down/i, /discourag/i, /(my|our) dreams?/i, /never (proud|happy for)/i, /compet(ed|ing|itive) with me/i, /undermin/i, /sabotag/i, /held me back/i] },
+    { n: 'Acceptance', f: 'respect', l: 'love', alt: ['Being seen', 'Respect', 'Freedom'], neg: 'Tried to change me',
+      def: 'Letting people be who they are while still telling them the truth.',
+      p: [/judg/i, [/(tried|trying|wanted) to change me/i, 5], /change who i/i, [/never (good|smart|pretty|thin|successful|man|woman) enough/i, 6], /good enough for/i, /compar(ed|ing|es) me/i, /accept/i, /\bsham(e|ed|ing)\b/i, /embarrassed (of|by) me/i] },
+    { n: 'Generosity', f: 'respect', alt: ['Selflessness', 'Reciprocity', 'Empathy'], neg: 'Selfish',
+      def: 'Giving first, and giving without keeping a tally.',
+      p: [[/selfish/i, 5], [/self[- ]?(centered|absorbed|serving|interested|involved)/i, 5], /stingy/i, /\bcheap\b/i, /greed/i, /narciss/i, [/all about (him|her|them|himself|herself|themselves)/i, 5], /took and (never|didn'?t)/i, /only (out for|cared about|thought about|thinks about) (himself|herself|themselves|themself|number one|his own|her own|their own)/i, /generos|generous/i, [/made (it|everything) about (him|her|them)/i, 5], /what'?s in it for/i] },
+    { n: 'Service', f: 'respect', l: 'work', alt: ['Care for the customer', 'Hospitality', 'Going the extra mile'], neg: "Didn't care about customers",
+      def: 'Leaving every customer better off for having dealt with me.',
+      p: [[/(customers?|clients?|guests?|students?)\b/i, 1], [/(car(e|ed|ing)|cares) about (the |our |my )?(customers?|clients?|guests?|students?)/i, 6], [/customer service/i, 5], /\bservice\b/i, /hospitality/i, /extra mile/i, /above and beyond/i] },
+    { n: 'Patience', f: 'respect', alt: ['Calm', 'Grace', 'Steadiness'], neg: 'Impatient',
+      def: 'Giving people and results the time they actually need.',
+      p: [[/patien(t\b|ce)/i, 4], [/impatien/i, 5], /pushy/i, [/pressur(ed|ing) (me|us|people)/i, 5], /rush(ed|ing)? me/i, /short with/i] },
+    { n: 'Boundaries', f: 'respect', alt: ['Self-respect', 'Respect', 'Privacy'], neg: 'Crossed the line',
+      def: "Knowing where my lines are, saying them out loud, and honoring other people's.",
+      p: [[/boundar/i, 5], /overstep/i, /cross(ed|ing|es)? (the|a|my|every) lines?/i, /invasiv/i, /invad/i, /privacy/i, /(wouldn'?t|didn'?t|couldn'?t|never) take no/i, /wouldn'?t leave me alone/i, /showed up uninvited/i, /walked all over/i] },
+    { n: 'Gratitude', f: 'respect', alt: ['Appreciation', 'Contentment', 'Humility'], neg: 'Ungrateful',
+      def: "Noticing what I've been given and saying so.",
+      p: [[/grat(ef|it)/i, 5], [/entitle/i, 5], /appreciat/i, [/for granted/i, 5], /thank/i, /never (satisfied|enough|happy with)/i, /nothing was ever (enough|good enough)/i, /always wanted more/i, /spoiled/i] },
+
+    /* ---------- communication ---------- */
+    { n: 'Clear communication', f: 'communication', alt: ['Responsiveness', 'Openness', 'Candor'], neg: "Didn't communicate",
+      def: "Saying what's going on early and plainly, so nobody has to guess.",
+      p: [[/communicat/i, 5], /went (silent|quiet|dark|radio silent)/i, [/ghost/i, 4], [/respon(d|se|sive)/i, 4], [/(didn'?t|never|wouldn'?t|not|rarely) (answer|reply|return|call|text|tell|say|speak|talk|let me know|update|check in)/i, 4], /in the dark/i, /updates?\b/i, /stonewall/i, /silent treatment/i, /wouldn'?t talk/i, /heads?[- ]up/i, /mumbl/i, /\bvague/i, /unclear/i, /mixed (signals|messages)/i, /(never|didn'?t) ask(ed)? (questions|for help)/i, /guess(ing)? (what|where|how)/i] },
+    { n: 'Candor', f: 'communication', alt: ['Directness', 'Discretion', 'Courage'], neg: "Wouldn't say it to my face",
+      def: "Saying the true thing to the person it's about, kindly and directly.",
+      p: [[/cand(id|or)/i, 5], [/passive[- ]?aggressiv/i, 6], [/(avoid|avoided|avoiding|avoids|hated|dodged) (conflict|confrontation|hard conversations|difficult conversations|the conversation)/i, 6], /conflict[- ]avoid/i, /(to|in) my face/i, /around the bush/i, /sugar[- ]?coat/i, /what i wanted to hear/i, /yes[- ]?(man|woman|men|person)/i, /\bdirect(ly|ness)?\b/i, [/gossip/i, 5], /rumou?r/i, [/talk(ed|ing|s)? (about (me|people|others|everyone|coworkers|the team) )?behind/i, 5], /behind (people'?s|everyone'?s|each other'?s|their|other people'?s) backs?/i, /talk(ed|ing|s)? (trash|smack|crap|shit)/i] },
+    { n: 'Openness', f: 'communication', l: 'love', alt: ['Vulnerability', 'Emotional availability', 'Honesty'], neg: 'Closed off',
+      def: 'Letting the people close to me actually know me.',
+      p: [[/emotionally (unavailable|distant|closed|absent|shut|checked)/i, 6], /unavailable/i, [/closed off/i, 5], /open(ed|ing)? up/i, /vulnerab/i, /\bwalls?\b/i, /guarded/i, /(never|didn'?t|wouldn'?t|couldn'?t) (share|talk about|express|show) (his |her |their )?(feelings|emotions)/i, /avoidant/i, /bottl(ed|ing)/i, [/shut(s|ting)? down/i, 4], /shut me out/i, /distant/i, /detach/i, /withdr(e|a)w/i, /\bnumb\b/i] },
+
+    /* ---------- growth ---------- */
+    { n: 'Humility', f: 'growth', alt: ['Teachability', 'Self-awareness', 'Giving credit'], neg: 'Arrogant',
+      def: "Knowing I don't have it all figured out, and acting like it.",
+      p: [[/arrogan/i, 5], /\bego\b/i, /egot/i, [/know[- ]it[- ]all/i, 5], /always (right|had to be right)/i, /never wrong/i, /had to be right/i, /cocky/i, /\bbrag/i, /superior/i, /better than (everyone|me|us|others)/i, /full of (himself|herself|themselves)/i, /humbl|humility/i, [/t(ook|ake|akes|aking) (the |all the )?credit/i, 5], /conceit/i, /smug/i, /pompous/i] },
+    { n: 'Coachability', f: 'growth', l: 'work', alt: ['Openness to feedback', 'Humility', 'Growth'], neg: "Couldn't take feedback",
+      def: 'Hearing hard feedback without defending myself, and doing something with it.',
+      p: [[/feedback/i, 5], /coach/i, [/defensiv/i, 5], /stubborn/i, [/(refus\w*|unwilling|wouldn'?t|couldn'?t) (to )?(learn|listen|change|adapt|take direction|be told)/i, 5], /teachab/i, /argu(ed|ing|es)? (with|about) (everything|me|every)/i, /(do|did|doing) (it|things) (his|her|their) (own )?way/i, /my way or/i, /(hard|pig)[- ]?headed/i, /knew better/i, /take direction/i, /correct(ion|ed)/i] },
+    { n: 'Growth', f: 'growth', alt: ['Learning', 'Self-improvement', 'Curiosity'], neg: 'Never grew',
+      def: 'Staying a student. A year from now I intend to be better than I am today.',
+      p: [/\bgr(ow|ew)/i, /stagnan/i, /\bstuck\b/i, /never (improved|changed|learned|got better)/i, /improv/i, /\blearn/i, /same mistakes?/i, /evolv/i, /comfort zone/i, /plateau/i, /work(ed|ing)? on (himself|herself|themselves)/i] },
+    { n: 'Adaptability', f: 'growth', alt: ['Flexibility', 'Openness to change', 'Resilience'], neg: 'Rigid',
+      def: 'Adjusting quickly when the plan changes, without losing what matters.',
+      p: [[/adapt/i, 4], /rigid/i, [/flexib/i, 4], /set in (his|her|their) ways/i, /always done it/i, [/resist(ed|ing|ant|s)? (to )?(any |every |all )?change/i, 5], /\bresist/i, /hated change/i, /couldn'?t (handle|deal with|roll with) change/i, /by the book/i] },
+    { n: 'Curiosity', f: 'growth', alt: ['Open-mindedness', 'Learning', 'Growth'], neg: 'Closed-minded',
+      def: 'Asking the next question before deciding I already know.',
+      p: [/curio/i, [/(closed|open|narrow)[- ]?minded/i, 5], /never asked (a |any )?questions?/i, /\bassum/i, /prejudic/i] },
+    { n: 'Self-awareness', f: 'growth', alt: ['Honesty with myself', 'Humility', 'Growth'], neg: 'No self-awareness',
+      def: "Seeing my own part clearly, especially when it's uncomfortable.",
+      p: [[/self[- ]?aware/i, 6], /oblivious/i, /(couldn'?t|didn'?t|never) see (his|her|their) (own )?(part|role|faults|flaws|impact)/i, /blind ?spots?/i, /tone[- ]deaf/i, /unaware/i, /read the room/i, /project(ed|ing|ion)\b/i] },
+    { n: 'Creativity', f: 'growth', alt: ['Innovation', 'Curiosity', 'Resourcefulness'], neg: 'No new ideas',
+      def: 'Bringing new ideas and being willing to try them.',
+      p: [/creativ/i, /imaginat/i, /innovat/i, /new ideas/i] },
+    { n: 'Maturity', f: 'growth', alt: ['Responsibility', 'Steadiness', 'Ownership'], neg: 'Immature',
+      def: 'Handling my life like an adult, so nobody else has to manage it for me.',
+      p: [[/matur/i, 5], /childish/i, /grow up/i, /grown[- ]?up/i, /like a (child|kid|teenager)/i, /man[- ]?child/i] },
+
+    /* ---------- steadiness ---------- */
+    { n: 'Steadiness', f: 'steadiness', alt: ['Composure', 'Emotional regulation', 'Calm'], neg: 'Blew up',
+      def: 'Staying level when things get loud, so people feel safe bringing me anything.',
+      p: [/\banger/i, [/angry/i, 4], [/temper/i, 5], [/yell/i, 4], /scream/i, /shout/i, /explo(de|ded|sive|sion)/i, /moody/i, /mood ?swings?/i, /volatil/i, /overreact/i, [/bl(ew|ow|ows|owing) up/i, 5], /hot[- ]?head/i, /short fuse/i, /\brag(e|ed|ing)\b/i, /snapp(ed|y|ing)/i, /lash(ed|ing)? out/i, /irritab/i, /off the handle/i, /eggshells/i, /tantrum/i, /outburst/i, /unstable/i, /reactiv/i] },
+    { n: 'Peace', f: 'steadiness', l: 'love', alt: ['Harmony', 'Calm', 'Steadiness'], neg: 'Constant drama',
+      def: 'Keeping drama out and making home and work a place people can breathe.',
+      p: [[/drama/i, 5], /\bf(ight|ought)/i, /argu(e|ed|ing|ments?) (constantly|all the time|about everything|every day|nonstop)/i, /pick(ed|ing|s)? fights?/i, /crisis/i, /\bconflict/i, [/toxic/i, 4], /stirr(ed|ing)/i, /tension/i, /hostil/i, /combative/i, /bicker/i, /turmoil/i] },
+    { n: 'Resilience', f: 'steadiness', alt: ['Composure', 'Toughness', 'Perseverance'], neg: 'Fell apart under pressure',
+      def: 'Bending under pressure without breaking, and getting back up.',
+      p: [/resilien/i, /\bpressure\b/i, /stress/i, /overwhelm/i, /panic/i, /crumbl/i, [/f(e|a)ll(s|ing)? apart/i, 5], /fragile/i, /took (everything|it all|things) personal/i, /thin[- ]skin/i, /melt(ed|ing)? ?down/i, /br(oke|eak|eaks|eaking) down/i, /couldn'?t (handle|cope|deal|take) (the |it|stress|pressure)/i] },
+    { n: 'Positivity', f: 'steadiness', alt: ['Optimism', 'Good energy', 'Gratitude'], neg: 'Always negative',
+      def: 'Bringing energy that lifts the room, and looking for what can work.',
+      p: [[/negativ/i, 5], [/complain/i, 5], /\bwhin/i, /pessimis/i, /cynic/i, /\bdoom/i, /br(ought|ing|ings|inging) (everyone|the team|people|me|us|the room) down/i, /always something wrong/i, /attitude/i, /grump/i, /miserable/i, /\bsulk/i, /\bpout/i, /downer/i, /morale/i, /positiv/i, /optimis/i, /drain(ed|ing)\b/i] },
+    { n: 'Health', f: 'steadiness', alt: ['Sobriety', 'Self-care', 'Vitality'], neg: "Didn't take care of themselves",
+      def: 'Taking care of my body and mind so I can show up for the people who count on me.',
+      p: [[/drunk/i, 5], /\bdr(i|a)nk(ing|s)?\b/i, /alcohol/i, [/\bdrugs?\b/i, 5], /addict/i, /\bhigh\b/i, /h(u|a)ngover/i, /stoned/i, /sob(er|riety)/i, /part(ied|ying)\b/i, /health/i, [/t(ook|ake|aking) care of (himself|herself|themselves)/i, 6], /let (himself|herself|themselves) go/i, /\bweed\b/i] },
+
+    /* ---------- connection ---------- */
+    { n: 'Presence', f: 'connection', l: 'love', alt: ['Attentiveness', 'Being here', 'Quality time'], neg: 'Never present',
+      def: 'Being where my feet are, with the person in front of me.',
+      p: [[/presen(t\b|ce)/i, 5], /distract/i, [/checked out/i, 5], /\babsent/i, /wasn'?t (there|around|home)/i, /never (there|around|home|available)/i, /(didn'?t|never|wouldn'?t) (make|made|have|had) time/i, /no time for/i, /\battention\b/i, /\bignor/i, /workahol/i, /always (working|busy|gone|traveling)/i, /on (his|her|their) phone/i, /glued to/i, /zoned out/i, /time (for|with) (me|us|the kids|family)/i, /neglect/i] },
+    { n: 'Affection', f: 'connection', l: 'love', alt: ['Intimacy', 'Warmth', 'Connection'], neg: 'No affection',
+      def: 'Showing love in ways the other person can actually feel.',
+      p: [[/affection/i, 5], /intima/i, /romanc|romantic/i, /\btouch/i, /cuddl/i, /\bsex/i, /date nights?/i, /(never|didn'?t) (say|said) (i love you|he loved|she loved)/i, /passion\b/i, /chemistry/i] },
+    { n: 'Devotion', f: 'connection', l: 'love', alt: ['Family first', 'Being a priority', 'Loyalty'], neg: 'I came last',
+      def: 'Putting the people I love ahead of everything that only feels urgent.',
+      p: [[/\bpriorit(y|ies)\b/i, 2], [/came (last|second)/i, 5], [/put (me|us|the kids|family) last/i, 5], [/(work|friends|career|job|mother|mom|golf|hobbies|the business) (always )?came first/i, 5], /last on (his|her|their) list/i, /afterthought/i, [/\bfamily\b/i, 1], [/\b(kids|children)\b/i, 1], /devot/i] },
+    { n: 'Partnership', f: 'connection', l: 'love', alt: ['Pulling my weight', 'Contribution', 'Reciprocity'], neg: "Didn't pull their weight",
+      def: 'Carrying my share and noticing when someone else is carrying too much.',
+      p: [[/pull(ed|ing|s)? (his|her|their) (own )?weight/i, 6], [/i did everything/i, 5], /did all the/i, /carried (him|her|them|the whole|everything)/i, [/one[- ]sided/i, 5], /(never|didn'?t|wouldn'?t) (help|contribut|pitch|lift a finger)/i, /(his|her|their) (share|part)\b/i, /freeload/i, /mooch/i, /lean(ed|ing)? on me/i, /contribut/i, /partner/i, /housework/i, /chores/i, /paid for everything/i, /liv(ed|ing) off/i] },
+    { n: 'Teamwork', f: 'connection', l: 'work', alt: ['Collaboration', 'Unity', 'Generosity'], neg: 'Not a team player',
+      def: 'Winning together. My success counts when the people around me succeed too.',
+      p: [[/team ?(player|work)/i, 6], /teammate/i, /collaborat/i, /lone wolf/i, /\bsilo/i, [/out for (himself|herself|themselves)/i, 5], /(wouldn'?t|didn'?t|never) (help|work with|share with|train|teach) (others|the team|coworkers|anyone|teammates|new)/i, /with others/i, /cooperat/i, /territorial/i, /hoard(ed|ing)? (information|knowledge|leads)/i, /divisive/i, /clique/i] },
+    { n: 'Adventure', f: 'connection', l: 'love', alt: ['Playfulness', 'Joy', 'Fun'], neg: 'No fun',
+      def: 'Saying yes to the thing that makes a story, and bringing some fun along.',
+      p: [[/\bbor(ing|ed)\b/i, 5], /\bfun\b/i, /adventur/i, /homebody/i, /never wanted to (do|go|try|travel)/i, /laugh/i, /humou?r/i, /too serious/i, /playful/i, /spontan/i, /\bdull\b/i, /never (travel\w*|went anywhere)/i, /\bjoy/i] },
+    { n: 'Faith', f: 'connection', l: 'love', alt: ['Spirituality', 'Shared beliefs', 'Purpose'], neg: "Didn't share my faith",
+      def: 'Living from what I believe and giving the people around me room to do the same.',
+      p: [/\bfaith\b/i, /spiritual/i, /church/i, /\bgod\b/i, /religio/i, /\bpray/i] },
+    { n: 'Freedom', f: 'connection', l: 'love', alt: ['Autonomy', 'Independence', 'Trust'], neg: 'Controlling',
+      def: 'Room to be myself and make my own choices, and giving others the same.',
+      p: [[/controll/i, 5], /control freak/i, /possessiv/i, /smother/i, /clingy/i, /needy/i, [/micromanag(e|ed|ing|er)\b(?! (him|her|them))/i, 4], /told me what to (do|wear|say)/i, /wouldn'?t let me/i, /isolat/i, /suffocat/i, /codependen/i, /independen/i, /autonom/i, /freedom/i, /track(ed|ing)? (me|my)/i, /dominat/i, /bossy/i, /dictat/i, /guilt[- ]?trip/i] },
+    { n: 'Belief in the mission', f: 'connection', l: 'work', alt: ['Purpose', 'Alignment', 'Care'], neg: 'Only there for the paycheck',
+      def: "Doing the work because I believe in where it's going.",
+      p: [[/mission/i, 5], [/pay ?check/i, 6], [/(only|just) (there |here |in it |cared |care )?(for|about) (the )?(money|pay|commission|check)/i, 7], [/in it for the money/i, 7], /clock(ed|ing)? in/i, /just a job/i, /didn'?t (believe|buy) in(to)?/i, /b(uy|ought)[- ]?in\b/i, /culture/i, /heart wasn'?t in/i, [/(didn'?t|never|not) care(d)? about (the )?(company|business|work|job|team|mission)/i, 6]] }
+  ];
+
+  /* Which values are close enough to offer as one pile. Kept tight on purpose. */
+  var NEAR = {
+    honesty: ['Honesty', 'Integrity', 'Transparency', 'Authenticity'],
+    loyalty: ['Loyalty', 'Trust', 'Discretion'],
+    ownership: ['Ownership', 'Initiative', 'Resourcefulness', 'Leadership', 'Maturity'],
+    drive: ['Work ethic', 'Drive', 'Taking action', 'Decisiveness', 'Urgency', 'Courage'],
+    excellence: ['Excellence', 'Attention to detail', 'Competence', 'Professionalism'],
+    order: ['Order', 'Focus'],
+    respect: ['Respect', 'Boundaries', 'Acceptance', 'Safety', 'Listening', 'Patience', 'Fairness'],
+    care: ['Kindness', 'Care', 'Encouragement', 'Generosity', 'Service'],
+    growth: ['Coachability', 'Growth', 'Adaptability', 'Curiosity', 'Humility', 'Self-awareness'],
+    steadiness: ['Steadiness', 'Peace', 'Resilience'],
+    spirit: ['Positivity', 'Gratitude'],
+    connection: ['Presence', 'Affection', 'Devotion'],
+    partnership: ['Partnership', 'Teamwork', 'Belief in the mission'],
+    '': ['Stewardship', 'Health', 'Creativity', 'Adventure', 'Faith', 'Freedom']
+  };
+  RULES.forEach(function (r) {
+    for (var k in NEAR) if (NEAR[k].indexOf(r.n) > -1) r.f = k || null;
+  });
+
+  var byName = {};
+  RULES.forEach(function (r) { byName[r.n.toLowerCase()] = r; });
+  var byAlt = {};
+  RULES.forEach(function (r) { r.alt.forEach(function (a) { var k = a.toLowerCase(); if (!byName[k] && !byAlt[k]) byAlt[k] = r; }); });
+
+  function norm(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(); }
+
+  function scoreAll(text, lens) {
+    var out = [];
+    for (var i = 0; i < RULES.length; i++) {
+      var r = RULES[i], s = 0;
+      for (var j = 0; j < r.p.length; j++) {
+        var pat = r.p[j], re = pat, w = 3;
+        if (Array.isArray(pat)) { re = pat[0]; w = pat[1]; }
+        var m = re.exec(text);
+        if (m) s += w + Math.min(m[0].length, 30) * 0.05;
+      }
+      if (s > 0) {
+        if (lens && r.l === lens) s += 1;
+        out.push({ r: r, s: s });
+      }
+    }
+    out.sort(function (a, b) { return b.s - a.s; });
+    return out;
+  }
+
+  var SUFFIX = [[/ive$/, 'ivity'], [/able$/, 'ability'], [/ible$/, 'ibility'], [/ent$/, 'ence'], [/ant$/, 'ance'], [/ful$/, 'fulness'], [/ate$/, 'ation']];
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  /* Last resort for lines the lexicon doesn't know: "not creative" becomes "Creativity". */
+  function fallback(text) {
+    var t = text.trim().toLowerCase().replace(/[.!]+$/, '');
+    var m = /^(?:was |were |is |are )?(?:not|never|wasn'?t|weren'?t|isn'?t|aren'?t|no|zero|lack of|lacked|lacking)\s+(?:very |really |at all |any |a |an |the )?([a-z][a-z -]{2,30})$/.exec(t);
+    if (!m) return null;
+    var w = m[1].trim();
+    if (w.split(/\s+/).length > 2) return null;
+    if (w.indexOf(' ') < 0) {
+      for (var i = 0; i < SUFFIX.length; i++) if (SUFFIX[i][0].test(w) && w.length > 5) return cap(w.replace(SUFFIX[i][0], SUFFIX[i][1]));
+    }
+    return cap(w);
+  }
+
+  /* Returns { name, alts[], def, known } or null. */
+  function match(text, lens) {
+    var t = String(text || '');
+    if (!t.trim()) return null;
+    var hits = scoreAll(t, lens);
+    if (!hits.length) {
+      var fb = fallback(t);
+      return fb ? { name: fb, alts: [], def: '', known: false } : null;
+    }
+    var top = hits[0].r, alts = [];
+    for (var i = 1; i < hits.length && alts.length < 2; i++) alts.push(hits[i].r.n);
+    top.alt.forEach(function (a) { if (alts.length < 4 && alts.indexOf(a) < 0 && a !== top.n) alts.push(a); });
+    return { name: top.n, alts: alts, def: top.def, known: true, neg: top.neg };
+  }
+
+  function lookup(name) {
+    var k = String(name || '').toLowerCase().trim();
+    return byName[k] || byAlt[k] || null;
+  }
+  function famOf(name) { var r = lookup(name); return r ? r.f : null; }
+
+  /* Reads a paragraph the way I'd listen to a story: pulls the traits out of it. */
+  function traits(story, lens) {
+    var parts = String(story || '').split(/[.!?;\n]+|,\s*(?:and|but|then|so)\s+|\s+(?:and then|but then)\s+|\s+and\s+(?=(?:he|she|they|i)\b)|,\s+/i);
+    var seen = {}, out = [];
+    parts.forEach(function (raw) {
+      var c = raw.trim();
+      if (c.length < 4) return;
+      /* "I trusted him with the biggest account" is about me. Leave it out. */
+      if (/^(?:and\s+|but\s+|so\s+)?(?:i|we)\s+(?:really\s+|always\s+|truly\s+|even\s+)?(?:trusted|loved|liked|hired|thought|believed|gave|wanted|hoped|tried|supported|respected|cared|helped|paid|promoted|defended|backed|was|were|am|felt)\b/i.test(c)) return;
+      var hits = scoreAll(c, lens);
+      if (!hits.length || hits[0].s < 3) return;
+      var r = hits[0].r;
+      if (seen[r.n]) return;
+      seen[r.n] = 1;
+      var c2 = c.replace(/^(?:and|but|so|then|also|plus|or|well|like|because)\s+/i, '');
+      var led = /^(?:he|she|they)\s+(?:(?:would|was|were|is|just|also|had|has)\s+)*(.+)$/i.exec(c2);
+      var words = led ? led[1].trim().split(/\s+/).length : 0;
+      var label = (led && words >= 2 && words <= 7) ? cap(led[1].trim()) : r.neg;
+      out.push({ text: label, value: r.n });
+    });
+    return out.slice(0, 8);
+  }
+
+  return { RULES: RULES, FAMS: FAMS, match: match, lookup: lookup, famOf: famOf, traits: traits, norm: norm };
+})();
+if (typeof module !== 'undefined') module.exports = EF_ENGINE;
+
+</script>
+<script>
+(function () {
+  'use strict';
+  var E = EF_ENGINE;
+  var SITE = true;
+  var BASE = SITE ? '' : 'https://ericfarewell.com/';
+  var KEY = 'ef-values-v2';
+  var app = document.getElementById('cv-app');
+  var rail = document.getElementById('cv-rail');
+  if (!app || !rail) return;
+  var seq = 0;
+  function freshUi() { return { askReset: false, anim: false, copyText: '', copied: false, focus: null, loud: false }; }
+  var ui = freshUi();
+
+  var STEPS = ['The people', 'What I heard', 'The flip', 'The pattern', 'The meaning', 'The order', 'My values'];
+  var BACK = ['the people', 'what I heard', 'the flip', 'the pattern', 'the meaning', 'the order'];
+
+  var LENS = {
+    work: {
+      tag: 'Employees',
+      frame: 'My worst employees were fired because they did this, this, and this.',
+      first: 'Who was the worst employee you ever had?',
+      next: "Who's the next one?",
+      nextHint: 'The one you kept too long. The one who looked great on paper. The one the rest of the team was relieved to see go.',
+      because: function (n) { return 'I fired <em>' + n + '</em> because they…'; },
+      ph: ['showed up late, every single day', 'blamed everyone else when it went wrong', 'did the bare minimum and called it done'],
+      probes: [
+        "What did you have to do yourself because you couldn't count on them to do it?",
+        'What did you keep having the same conversation about?',
+        'What did they do when something went wrong?',
+        'What did your customers or the rest of the team say about them?',
+        'What excuse did you hear the most?',
+        'When did you know it was over? What had just happened?',
+        'How did they treat your time, your money, and your customers?',
+        'What would you warn their next boss about?',
+        'What else about them annoyed the hell out of you?',
+        "What's the part you still can't stand?"
+      ]
+    },
+    love: {
+      tag: 'Relationships',
+      frame: 'My romantic relationships ended because this person did this, this, and this.',
+      first: 'Which relationship burned you the most?',
+      next: "Who's the next one?",
+      nextHint: 'A partner, a close friend, a business partner you trusted. The ones that really burned you.',
+      because: function (n) { return 'It ended with <em>' + n + '</em> because they…'; },
+      ph: ['never kept their word', 'shut down every time it got hard', 'made everything about them'],
+      probes: [
+        'What did you keep having the same fight about?',
+        'What did they do when things got hard?',
+        'What promise did they break more than once?',
+        'What did you stop telling them, and why?',
+        'When did you know it was over? What had just happened?',
+        'How did they treat your time, your money, and the people you love?',
+        'What did your closest friend see in them before you did?',
+        'What did you end up carrying alone?',
+        'What else about them annoyed the hell out of you?',
+        "What's the part you still can't stand?"
+      ]
+    }
+  };
+  var VAGUE = /^(?:(?:he|she|they)\s+)?(?:(?:was|were|is)\s+)?(?:just\s+)?(?:an?\s+)?(?:total\s+|complete\s+)?(?:bad|terrible|awful|horrible|the worst|worst|sucked|toxic|annoying|useless|crazy|psycho|mess|jerk|idiot|nightmare|disaster|difficult|hard to (?:work|deal|be) with|not an? (?:good|great|right) fit|(?:bad|wrong|poor) fit|bad (?:employee|person|partner|boyfriend|girlfriend|husband|wife|worker|hire|friend))[.!]*$/i;
+
+  function nid(p) { seq += 1; return p + seq; }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function cap(s) { s = String(s).trim(); return s.charAt(0).toUpperCase() + s.slice(1); }
+  function num(n) { return ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'][n] || String(n); }
+  function plural(n, one, many) { return n === 1 ? one : many; }
+
+  function newPerson() { return { id: nid('p'), name: '', rows: ['', '', ''], story: '', probe: 0, pushed: false, items: [], removed: [], heardSig: '' }; }
+  function fresh() { return { v: 2, step: 1, max: 1, lens: null, cur: 0, example: false, flipSeen: false, seq: 0, people: [newPerson()], groups: [], dismissed: [], rank: null }; }
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return null;
+      var s = JSON.parse(raw);
+      if (!s || s.v !== 2 || !Array.isArray(s.people) || !s.people.length) return null;
+      seq = s.seq || 0;
+      return s;
+    } catch (e) { return null; }
+  }
+  var saveT = null;
+  function save() {
+    S.seq = seq;
+    clearTimeout(saveT);
+    saveT = setTimeout(function () { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 150);
+  }
+
+  var S = load() || fresh();
+
+  /* ---------- reading the state ---------- */
+  function person(id) { for (var i = 0; i < S.people.length; i++) if (S.people[i].id === id) return S.people[i]; return null; }
+  function pName(p) { return p.name.trim(); }
+  function pLabel(p) { return pName(p) || 'Person ' + (S.people.indexOf(p) + 1); }
+  function lines(p) { var n = 0; p.rows.forEach(function (r) { n += splitLine(r).length; }); return n; }
+  function hasContent(p) { return lines(p) > 0 || p.story.trim().length >= 20; }
+  function all() { var out = []; S.people.forEach(function (p) { p.items.forEach(function (it) { if (it.text.trim()) out.push({ it: it, p: p }); }); }); return out; }
+  function findItem(id) { for (var i = 0; i < S.people.length; i++) { var p = S.people[i]; for (var j = 0; j < p.items.length; j++) if (p.items[j].id === id) return { it: p.items[j], p: p }; } return null; }
+  function group(id) { for (var i = 0; i < S.groups.length; i++) if (S.groups[i].id === id) return S.groups[i]; return null; }
+  function itemsOf(gid) { return all().filter(function (x) { return x.it.gid === gid; }); }
+  function stat(g) { var its = itemsOf(g.id), ppl = {}; its.forEach(function (x) { ppl[x.p.id] = 1; }); return { n: its.length, people: Object.keys(ppl).length, items: its }; }
+  function byWeight(a, b) { var x = stat(a), y = stat(b); return (y.people - x.people) || (y.n - x.n) || a.name.localeCompare(b.name); }
+  function active() { return S.groups.filter(function (g) { return !g.aside; }).sort(byWeight); }
+  function flipped() { return all().filter(function (x) { return x.it.value.trim(); }).length; }
+  function probeFor(p) { var list = LENS[S.lens || 'work'].probes; return list[p.probe % list.length]; }
+
+  /* ---------- listening: turning what they wrote into a list of traits ---------- */
+  function splitLine(text) {
+    var parts = String(text).split(/[\n;]+/), out = [];
+    parts.forEach(function (part) {
+      var bits = part.split(/,\s*(?:and\s+)?|\s+and\s+/i).map(function (b) { return b.trim(); }).filter(Boolean);
+      if (bits.length > 1 && bits.every(function (b) { var w = b.split(/\s+/).length; return w >= 1 && w <= 5; })) out = out.concat(bits);
+      else if (part.trim()) out.push(part.trim());
+    });
+    return out.map(function (t) { return t.replace(/^[-*]\s*/, '').replace(/[.]+$/, ''); }).filter(Boolean);
+  }
+  function newItem(text, src) { return { id: nid('i'), text: cap(text), src: src, value: '', auto: true, mirror: false, gid: null, gval: '' }; }
+
+  function hear(p) {
+    var sig = JSON.stringify([p.rows, p.story, S.lens]);
+    if (p.heardSig === sig) return;
+    var old = {}, out = [], seenText = {}, seenRule = {};
+    p.items.forEach(function (it) { old[E.norm(it.text)] = it; });
+    function push(text, src) {
+      var k = E.norm(text);
+      if (!k || seenText[k] || p.removed.indexOf(k) > -1) return;
+      seenText[k] = 1;
+      out.push(old[k] || newItem(text, src));
+      var m = E.match(text, S.lens);
+      if (m && m.known) seenRule[m.name] = 1;
+    }
+    p.rows.forEach(function (r) { splitLine(r).forEach(function (t) { push(t, 'row'); }); });
+    E.traits(p.story, S.lens).forEach(function (t) { if (!seenRule[t.value]) { seenRule[t.value] = 1; push(t.text, 'story'); } });
+    p.items.forEach(function (it) { var k = E.norm(it.text); if (it.src === 'add' && k && !seenText[k]) { seenText[k] = 1; out.push(it); } });
+    p.items = out;
+    p.heardSig = sig;
+  }
+  function hearAll() { S.people.forEach(hear); }
+
+  function autoFlip() {
+    all().forEach(function (x) {
+      if (x.it.auto && !x.it.value.trim()) {
+        var m = E.match(x.it.text, S.lens);
+        if (m) x.it.value = m.name;
+      }
+    });
+  }
+
+  function defFor(g) {
+    var r = E.lookup(g.name);
+    if (r) return r.def;
+    var its = itemsOf(g.id);
+    for (var i = 0; i < its.length; i++) { r = E.lookup(its[i].it.value); if (r) return r.def; }
+    return '';
+  }
+
+  /* Keeps the piles in step with the flips without undoing any combining already done. */
+  function syncGroups() {
+    var a = all(), ids = {};
+    S.groups.forEach(function (g) { ids[g.id] = g; });
+    a.forEach(function (x) {
+      var it = x.it, nv = E.norm(it.value);
+      if (!nv) { it.gid = null; it.gval = ''; return; }
+      if (it.gid && ids[it.gid] && it.gval === nv) return;
+      it.gid = null;
+    });
+    a.forEach(function (x) {
+      var it = x.it, nv = E.norm(it.value);
+      if (!nv || it.gid) return;
+      var g = null;
+      for (var i = 0; i < a.length && !g; i++) { var o = a[i].it; if (o !== it && o.gid && ids[o.gid] && o.gval === nv) g = ids[o.gid]; }
+      if (!g) g = S.groups.filter(function (c) { return E.norm(c.name) === nv; })[0];
+      if (!g) { g = { id: nid('g'), name: cap(it.value), aside: false, def: '', looks: '', defAuto: true }; S.groups.push(g); ids[g.id] = g; }
+      it.gid = g.id; it.gval = nv;
+    });
+    S.groups = S.groups.filter(function (g) { return a.some(function (x) { return x.it.gid === g.id; }); });
+    S.groups.forEach(function (g) { if (g.defAuto) g.def = defFor(g); });
+  }
+
+  function combine(idA, idB) {
+    var a = group(idA), b = group(idB);
+    if (!a || !b || a === b) return a ? a.id : (b ? b.id : null);
+    var keep = byWeight(a, b) <= 0 ? a : b, lose = keep === a ? b : a;
+    all().forEach(function (x) { if (x.it.gid === lose.id) x.it.gid = keep.id; });
+    if (!keep.looks && lose.looks) keep.looks = lose.looks;
+    keep.aside = false;
+    S.groups = S.groups.filter(function (g) { return g !== lose; });
+    if (keep.defAuto) keep.def = defFor(keep);
+    S.rank = null;
+    return keep.id;
+  }
+
+  function famOfGroup(g) {
+    var f = E.famOf(g.name);
+    if (f) return f;
+    var tally = {}, best = null;
+    itemsOf(g.id).forEach(function (x) { var k = E.famOf(x.it.value); if (k) { tally[k] = (tally[k] || 0) + 1; if (!best || tally[k] > tally[best]) best = k; } });
+    return best;
+  }
+  function suggestions() {
+    var fam = {};
+    active().forEach(function (g) { var f = famOfGroup(g); if (f) (fam[f] = fam[f] || []).push(g); });
+    return Object.keys(fam).filter(function (f) { return fam[f].length > 1; }).map(function (f) {
+      var gs = fam[f];
+      return { fam: f, groups: gs, key: gs.map(function (g) { return g.id; }).sort().join('+') };
+    }).filter(function (s) { return S.dismissed.indexOf(s.key) < 0; });
+  }
+
+  /* ---------- the order ---------- */
+  function rankSig() { return active().map(function (g) { return g.id; }).sort().join('+'); }
+  function ensureRank() {
+    var sig = rankSig();
+    if (S.rank && S.rank.sig === sig) return S.rank;
+    var ids = active().map(function (g) { return g.id; }), combos = [], pairs = [];
+    for (var i = 0; i < ids.length; i++) for (var j = i + 1; j < ids.length; j++) combos.push([ids[i], ids[j]]);
+    var prev = null;
+    while (combos.length) {
+      var bi = 0, bs = 9;
+      for (var k = 0; k < combos.length; k++) {
+        var sh = prev ? (prev.indexOf(combos[k][0]) > -1 ? 1 : 0) + (prev.indexOf(combos[k][1]) > -1 ? 1 : 0) : 0;
+        if (sh < bs) { bs = sh; bi = k; }
+      }
+      var pr = combos.splice(bi, 1)[0];
+      pairs.push(pairs.length % 2 ? [pr[1], pr[0]] : pr);
+      prev = pr;
+    }
+    S.rank = { sig: sig, pairs: pairs, picks: [], order: null };
+    if (ids.length === 1) S.rank.order = ids.slice();
+    return S.rank;
+  }
+  function settleRank() {
+    var R = S.rank, wins = {}, beat = {};
+    active().forEach(function (g) { wins[g.id] = 0; });
+    R.pairs.forEach(function (p, i) { var w = R.picks[i], l = p[0] === w ? p[1] : p[0]; wins[w] += 1; beat[w + '>' + l] = 1; });
+    var gs = active();
+    gs.sort(function (a, b) {
+      if (wins[b.id] !== wins[a.id]) return wins[b.id] - wins[a.id];
+      if (beat[a.id + '>' + b.id]) return -1;
+      if (beat[b.id + '>' + a.id]) return 1;
+      return byWeight(a, b);
+    });
+    R.order = gs.map(function (g) { return g.id; });
+  }
+  function ordered() {
+    var R = S.rank;
+    if (R && R.order && R.sig === rankSig()) return R.order.map(group).filter(Boolean);
+    return active();
+  }
+
+  function canEnter(n) {
+    if (n <= 1) return true;
+    if (!S.lens || !S.people.some(hasContent)) return false;
+    if (n === 2) return true;
+    hearAll();
+    if (all().length < 3) return false;
+    if (n === 3) return true;
+    if (S.max < 3 || !flipped()) return false;
+    if (n === 4) return true;
+    syncGroups();
+    var c = active().length;
+    if (c < 1 || c > 5 || S.max < 4) return false;
+    if (n <= 6) return true;
+    var R = ensureRank();
+    return !!R.order;
+  }
+
+  function go(n) {
+    S.people.forEach(function (p) { p.items = p.items.filter(function (it) { return it.text.trim(); }); });
+    if (!canEnter(n)) return;
+    if (n >= 2) hearAll();
+    if (n === 3) { autoFlip(); ui.anim = !S.flipSeen; S.flipSeen = true; }
+    if (n >= 4) syncGroups();
+    if (n === 6) ensureRank();
+    S.step = n;
+    if (n > S.max) S.max = n;
+    ui.focus = 'cv-title';
+    ui.copied = false; ui.copyText = ''; ui.loud = false;
+    save();
+    render(true);
+  }
+
+  /* ---------- drawing ---------- */
+  function eyebrow(t) { return '<span class="cv-eyebrow">' + esc(t) + '</span>'; }
+  function head(n, title, paras) {
+    return '<div class="cv-head">' + eyebrow('Step ' + num(n) + ' · ' + STEPS[n - 1]) + '<h2 id="cv-title" tabindex="-1">' + title + '</h2>' + paras.map(function (p) { return '<p>' + p + '</p>'; }).join('') + '</div>';
+  }
+  function nav(back, nextLabel, nextStep, hint) {
+    var ok = canEnter(nextStep);
+    return '<div class="cv-nav">' +
+      (back ? '<button class="cv-text-btn" type="button" data-act="go" data-step="' + back + '">Back to ' + esc(BACK[back - 1]) + '</button>' : resetCtl()) +
+      '<div class="cv-nav-right">' + (!ok && hint ? '<span class="cv-note">' + esc(hint) + '</span>' : '') +
+      '<button class="cv-btn cv-btn-gold" type="button" data-act="go" data-step="' + nextStep + '"' + (ok ? '' : ' disabled') + '>' + esc(nextLabel) + '</button></div></div>';
+  }
+  function resetCtl() {
+    if (ui.askReset) return '<span class="cv-note">Clear everything on this page? <button class="cv-text-btn" type="button" data-act="reset-yes">Yes, clear it</button> · <button class="cv-text-btn" type="button" data-act="reset-no">Keep it</button></span>';
+    return '<button class="cv-text-btn" type="button" data-act="reset-ask">Start over</button>';
+  }
+  function banner() {
+    if (!S.example) return '';
+    return '<div class="cv-banner"><span>Example answers are loaded so every step has something to show.</span><button class="cv-text-btn" type="button" data-act="reset-yes">Clear them and start mine</button></div>';
+  }
+
+  function drawRail() {
+    var h = '';
+    for (var n = 1; n <= 7; n++) {
+      var cur = S.step === n, seen = n <= S.max, ok = seen && canEnter(n);
+      h += '<li' + (cur ? ' class="is-cur"' : '') + '><button type="button" data-act="go" data-step="' + n + '" class="' + (cur ? 'is-current' : (ok && n < S.step ? 'is-done' : '')) + '"' + (cur ? ' aria-current="step"' : '') + (ok ? '' : ' disabled') +
+        ' aria-label="Step ' + n + (seen ? ': ' + STEPS[n - 1] : '') + '"><span class="cv-n">' + (n < 7 ? '0' + n : '=') + '</span><span class="cv-t">' + (seen ? STEPS[n - 1] : '&nbsp;') + '</span></button></li>';
+    }
+    rail.innerHTML = h;
+  }
+
+  /* ----- step one ----- */
+  function nav1() {
+    var p = S.people[S.cur], last = S.cur === S.people.length - 1, withC = S.people.filter(hasContent).length;
+    var prim, sec = '';
+    if (!S.lens) return '<div class="cv-nav">' + resetCtl() + '</div>';
+    if (!hasContent(p)) {
+      prim = '<span class="cv-note">Give me at least one thing about this person first.</span><button class="cv-btn cv-btn-gold" type="button" disabled>Next person</button>';
+      if (withC) sec = '<button class="cv-text-btn" type="button" data-act="done-people">That\'s everyone</button>';
+    } else if (!last) {
+      prim = '<button class="cv-btn cv-btn-gold" type="button" data-act="next-person">Next person</button>';
+      sec = '<button class="cv-text-btn" type="button" data-act="done-people">That\'s everyone</button>';
+    } else if (withC < 3 && S.people.length < 5) {
+      prim = '<button class="cv-btn cv-btn-gold" type="button" data-act="next-person">Next person</button>';
+      sec = '<button class="cv-text-btn" type="button" data-act="done-people">That\'s everyone I\'ve got</button>';
+    } else {
+      prim = '<button class="cv-btn cv-btn-gold" type="button" data-act="done-people">That\'s everyone</button>';
+      if (S.people.length < 5) sec = '<button class="cv-text-btn" type="button" data-act="next-person">Add one more person</button>';
+    }
+    return '<div class="cv-nav">' + resetCtl() + '<div class="cv-nav-right">' + sec + prim + '</div></div>';
+  }
+  function pushBox(p, where) {
+    var n = p.items && where === 'heard' ? p.items.length : lines(p), who = pName(p) || 'this one';
+    var got = n === 0 ? "I don't have a single line for " + esc(who) + ' yet.' : "I've only got " + num(n) + ' for ' + esc(who) + '.';
+    var lead = ui.loud && where !== 'heard'
+      ? got + ' I\'d keep pushing until there are at least three.'
+      : (where === 'heard' ? got + ' All right, what else?' : 'All right. What else?');
+    return '<div class="cv-push' + (ui.loud && where !== 'heard' ? ' is-loud' : '') + '"><span class="cv-label" style="margin:0;color:var(--cv-gold)">' + lead + '</span>' +
+      '<label class="cv-push-q" for="probe-' + p.id + '">' + esc(probeFor(p)) + '</label>' +
+      '<div class="cv-add"><input type="text" id="probe-' + p.id + '" data-in="probe" data-pid="' + p.id + '" data-where="' + where + '" placeholder="A few words. What they did." autocomplete="off">' +
+      '<button class="cv-btn cv-btn-ghost cv-btn-sm" type="button" data-act="add-probe" data-pid="' + p.id + '" data-where="' + where + '">Add it</button></div>' +
+      '<div class="cv-push-acts"><button class="cv-text-btn" type="button" data-act="next-probe" data-pid="' + p.id + '" data-where="' + where + '">Ask me a different one</button></div></div>';
+  }
+  function step1() {
+    var h = banner() + head(1, 'Start with the <em>hard ones.</em>', [
+      'I start this exercise with the people who cost me the most. Choose the group that has more heat in it for you right now.'
+    ]);
+    h += '<div class="cv-lens" role="radiogroup" aria-label="Who to work from">' + ['work', 'love'].map(function (k) {
+      return '<label><input type="radio" name="cv-lens" id="lens-' + k + '" value="' + k + '"' + (S.lens === k ? ' checked' : '') + '><span class="cv-lens-body"><b>' + LENS[k].tag + '</b><span>' + esc(LENS[k].frame) + '</span></span></label>';
+    }).join('') + '</div><p class="cv-note" style="margin-top:0.9rem">If you\'ve never had an employee, use relationships. Friendships and business partnerships that burned you count too.</p>';
+    if (!S.lens) return h + nav1();
+
+    var L = LENS[S.lens], p = S.people[S.cur], i = S.cur, who = pName(p) || 'them';
+    h += '<div class="cv-person" style="margin-top:2.6rem">';
+    h += '<div class="cv-tabs"><span class="cv-label" style="margin:0 0.4rem 0 0">Three to five people</span>' + S.people.map(function (q, k) {
+      return '<button class="cv-chip' + (k === i ? ' is-on' : '') + '" type="button" data-act="pick-person" data-k="' + k + '"' + (k === i ? ' aria-current="true"' : '') + '>' + (k + 1) + (pName(q) ? ' · ' + esc(pName(q)) : '') + '</button>';
+    }).join('') + '</div>';
+
+    h += '<div class="cv-block"><label class="cv-ask" for="name-' + p.id + '">' + esc(i === 0 ? L.first : L.next) + '</label>' +
+      '<p class="cv-note">' + (i === 0 ? '' : esc(L.nextHint) + ' ') + 'A first name, initials, or a nickname. Nobody sees this but you.</p>' +
+      '<input type="text" id="name-' + p.id + '" data-in="name" data-pid="' + p.id + '" value="' + esc(p.name) + '" placeholder="Name or initials" autocomplete="off" style="max-width:24rem"></div>';
+
+    h += '<div class="cv-block"><span class="cv-ask" id="cv-frame">' + L.because(esc(who)) + '</span>' +
+      '<p class="cv-note">This, this, and this. A few words each, and I want behavior I could have watched happen.</p><div class="cv-rows">';
+    p.rows.forEach(function (r, k) {
+      h += '<div class="cv-row"><span class="cv-num">' + (k + 1) + '</span><label class="cv-sr" for="row-' + p.id + '-' + k + '">Reason ' + (k + 1) + '</label>' +
+        '<input type="text" id="row-' + p.id + '-' + k + '" data-in="row" data-pid="' + p.id + '" data-k="' + k + '" value="' + esc(r) + '" placeholder="' + esc(L.ph[k] || 'and this') + '" autocomplete="off">' +
+        (p.rows.length > 3 ? '<button class="cv-x" type="button" data-act="rm-row" data-pid="' + p.id + '" data-k="' + k + '" aria-label="Remove line ' + (k + 1) + '">&times;</button>' : '<span></span>') + '</div>';
+    });
+    h += '</div><div><button class="cv-text-btn" type="button" data-act="add-row" data-pid="' + p.id + '">Add another line</button></div></div>';
+
+    h += '<div class="cv-block"><label class="cv-ask" for="story-' + p.id + '">Now tell me the story.</label>' +
+      '<p class="cv-note">What happened, the way you\'d tell a friend who gets it. The hard parts, the overwhelm, what it cost you. The long version is welcome.</p>' +
+      '<textarea class="cv-tall" id="story-' + p.id + '" data-in="story" data-pid="' + p.id + '" placeholder="It started when…">' + esc(p.story) + '</textarea></div>';
+
+    h += pushBox(p, 'people');
+    if (S.people.length > 1) h += '<div><button class="cv-text-btn" type="button" data-act="rm-person" data-pid="' + p.id + '">Remove ' + esc(pLabel(p)) + '</button></div>';
+    h += '</div><div id="cv-nav1">' + nav1() + '</div>';
+    return h;
+  }
+
+  /* ----- step two ----- */
+  function heardStatus() {
+    var n = all().length, k = S.people.filter(function (p) { return p.items.length; }).length;
+    return '<strong>' + n + '</strong> ' + plural(n, 'thing', 'things') + ' across ' + k + ' ' + plural(k, 'person', 'people') + '.';
+  }
+  function step2() {
+    var h = banner() + head(2, 'Here\'s what <em>I heard.</em>', [
+      'When someone tells me a story like this, I listen for the character traits inside it. This is what I pulled out of yours, in your words wherever I could.',
+      'Fix anything I got wrong and add what I missed. Blunt is fine.'
+    ]);
+    h += '<p class="cv-status" id="cv-heard-status" style="margin-bottom:1.4rem">' + heardStatus() + '</p><div class="cv-heard">';
+    S.people.forEach(function (p) {
+      if (!hasContent(p) && !p.items.length) return;
+      h += '<div class="cv-card cv-heard-card"><div class="cv-heard-name">' + esc(pLabel(p)) + '</div>';
+      if (p.items.length) {
+        h += '<ul class="cv-heard-list">' + p.items.map(function (it) {
+          return '<li><label class="cv-sr" for="trait-' + it.id + '">Something about ' + esc(pLabel(p)) + '</label><input type="text" id="trait-' + it.id + '" data-in="trait" data-iid="' + it.id + '" value="' + esc(it.text) + '" autocomplete="off">' +
+            '<button class="cv-x" type="button" data-act="rm-item" data-iid="' + it.id + '" aria-label="Remove ' + esc(it.text) + '">&times;</button>' +
+            '<p class="cv-note"' + (VAGUE.test(it.text.trim()) ? '' : ' hidden') + '>That\'s a verdict. What did they actually do that earned it?</p></li>';
+        }).join('') + '</ul>';
+      } else {
+        h += '<p class="cv-note">I couldn\'t pull anything out of this one yet.</p>';
+      }
+      if (p.items.length < 3) h += pushBox(p, 'heard');
+      else h += '<div class="cv-add"><label class="cv-sr" for="more-' + p.id + '">Anything else about ' + esc(pLabel(p)) + '</label><input type="text" id="more-' + p.id + '" data-in="more" data-pid="' + p.id + '" placeholder="Anything else about ' + esc(pLabel(p)) + '?" autocomplete="off"><button class="cv-btn cv-btn-ghost cv-btn-sm" type="button" data-act="add-more" data-pid="' + p.id + '">Add it</button></div>';
+      h += '</div>';
+    });
+    h += '</div>' + nav(1, 'That\'s all of it', 3, 'I need at least three things to work with.');
+    return h;
+  }
+
+  /* ----- step three ----- */
+  function altsFor(it) {
+    var m = E.match(it.text, S.lens);
+    if (!m) return [];
+    var cur = E.norm(it.value);
+    return [m.name].concat(m.alts).filter(function (a) { return E.norm(a) !== cur; }).slice(0, 4);
+  }
+  function flipStatus() {
+    var f = flipped(), blank = all().length - f;
+    return '<strong>' + f + '</strong> flipped' + (blank ? ', ' + blank + ' left blank. Blank lines stay out of the next step.' : '.');
+  }
+  function step3() {
+    var h = banner() + head(3, 'Now flip <em>every one of them.</em>', [
+      "This is the part I don't explain ahead of time. I find that whatever frustrates me most about a person points at something I value. If someone was always late, it means I actually value timeliness. If I couldn't depend on them, I really value dependability.",
+      "So I flipped your list. Each line has the value sitting on the other side of it. Change any word until it's the one you'd say out loud, and clear a line to leave it out."
+    ]);
+    var i = 0;
+    h += '<div class="' + (ui.anim ? 'cv-anim' : '') + '">';
+    S.people.forEach(function (p) {
+      if (!p.items.length) return;
+      h += '<div class="cv-who"><div class="cv-who-name">' + esc(pLabel(p)) + '</div>';
+      p.items.forEach(function (it) {
+        var alts = altsFor(it);
+        h += '<div class="cv-flip" style="--i:' + (i++) + '"><div class="cv-flip-from">' + esc(it.text) + '</div><div class="cv-flip-arrow" aria-hidden="true"></div><div class="cv-flip-to">' +
+          '<label class="cv-sr" for="val-' + it.id + '">The value on the other side of: ' + esc(it.text) + '</label>' +
+          '<input type="text" class="cv-val" id="val-' + it.id + '" data-in="val" data-iid="' + it.id + '" value="' + esc(it.value) + '" placeholder="Name the opposite" autocomplete="off">' +
+          (alts.length ? '<div class="cv-alts"><span class="cv-note">Or</span>' + alts.map(function (a) { return '<button class="cv-chip" type="button" data-act="alt" data-iid="' + it.id + '" data-v="' + esc(a) + '">' + esc(a) + '</button>'; }).join('') + '</div>'
+            : (it.value.trim() ? '' : '<p class="cv-note">This one is yours to name. What would the opposite have looked like?</p>')) +
+          '</div></div>';
+      });
+      h += '</div>';
+    });
+    h += '</div><p class="cv-status" id="cv-flip-status" style="margin-top:1.6rem">' + flipStatus() + '</p>';
+    h += nav(2, 'Find the pattern', 4, 'Flip at least one line to keep going.');
+    return h;
+  }
+
+  /* ----- step four ----- */
+  function patternStatus() {
+    var c = active().length;
+    if (c > 5) return '<strong>' + c + ' values</strong> on the table. ' + (c - 5) + ' more to combine or set aside.';
+    if (c === 5) return '<strong>Five values.</strong> Five is good.';
+    if (c === 4) return '<strong>Four values.</strong> That works. Three is where I\'d eventually like to land.';
+    if (c === 3) return '<strong>Three values.</strong> That\'s where I\'d eventually like to land.';
+    if (c === 0) return 'Everything is set aside. Bring at least one back.';
+    return '<strong>' + cap(num(c)) + ' ' + plural(c, 'value', 'values') + '.</strong> That works.';
+  }
+  var GRIP = '<svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><g fill="currentColor"><circle cx="2" cy="2" r="1.4"/><circle cx="8" cy="2" r="1.4"/><circle cx="2" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="2" cy="14" r="1.4"/><circle cx="8" cy="14" r="1.4"/></g></svg>';
+  function step4() {
+    var h = banner() + head(4, 'What keeps <em>showing up?</em>', [
+      "This is where I look for the consistencies. I'm consistently upset by someone who doesn't show up on time, because they don't value my time and they don't value the client's time. When the same frustration shows up across different people, I'm looking at one of my core values.",
+      "Combine the ones that are really the same thing until there are no more than five. Eventually I'd like to get to three, but five is good."
+    ]);
+    var act = active(), sug = suggestions();
+    h += '<div class="cv-stack-lg"><p class="cv-status" aria-live="polite">' + patternStatus() + '</p>';
+    if (sug.length) {
+      h += '<div class="cv-stack">';
+      sug.forEach(function (s) {
+        h += '<div class="cv-suggest"><div><p class="cv-note">These sit close together. One value, or separate?</p><p class="cv-suggest-names">' + s.groups.map(function (g) { return esc(g.name); }).join(', ') + '</p></div>' +
+          '<div class="cv-suggest-acts"><button class="cv-btn cv-btn-ghost cv-btn-sm" type="button" data-act="combine-fam" data-key="' + s.key + '">Combine them</button><button class="cv-text-btn" type="button" data-act="dismiss-fam" data-key="' + s.key + '">Keep them apart</button></div></div>';
+      });
+      h += '</div>';
+    }
+    h += '<div class="cv-groups">';
+    act.forEach(function (g) {
+      var st = stat(g), names = [], seen = {};
+      seen[E.norm(g.name)] = 1;
+      st.items.forEach(function (x) { var k = E.norm(x.it.value); if (!seen[k]) { seen[k] = 1; names.push(cap(x.it.value)); } });
+      var distinct = {}; st.items.forEach(function (x) { distinct[E.norm(x.it.value)] = 1; });
+      var multi = Object.keys(distinct).length > 1;
+      if (multi) { var f = famOfGroup(g); if (f && !seen[E.norm(E.FAMS[f])]) names.push(E.FAMS[f]); }
+      h += '<article class="cv-card cv-group" data-gid="' + g.id + '"><div class="cv-group-top"><span class="cv-grip" draggable="true" data-gid="' + g.id + '" title="Drag onto another value to combine">' + GRIP + '</span>' +
+        '<label class="cv-sr" for="gname-' + g.id + '">Name of this value</label><input type="text" class="cv-gname" id="gname-' + g.id + '" data-in="gname" data-gid="' + g.id + '" value="' + esc(g.name) + '" autocomplete="off"></div>' +
+        '<div class="cv-weight">Came up ' + st.n + ' ' + plural(st.n, 'time', 'times') + ' across ' + st.people + ' ' + plural(st.people, 'person', 'people') + '</div>';
+      if (names.length) h += '<div class="cv-callit"><span class="cv-note">Or call it</span>' + names.slice(0, 5).map(function (n) { return '<button class="cv-chip" type="button" data-act="name-chip" data-gid="' + g.id + '" data-v="' + esc(n) + '">' + esc(n) + '</button>'; }).join('') + '</div>';
+      h += '<ul class="cv-ev">' + st.items.map(function (x) {
+        var diff = E.norm(x.it.value) !== E.norm(g.name);
+        return '<li><span>' + esc(x.it.text) + '</span><span class="cv-src">' + esc(pLabel(x.p)) + '</span>' + (diff ? '<span class="cv-was">' + esc(x.it.value) + '</span>' : '') +
+          (multi ? '<button class="cv-text-btn" type="button" data-act="pull" data-iid="' + x.it.id + '">Pull out</button>' : '') + '</li>';
+      }).join('') + '</ul>';
+      h += '<div class="cv-group-acts">';
+      if (act.length > 1) {
+        h += '<label class="cv-note" for="merge-' + g.id + '">Combine with <select id="merge-' + g.id + '" data-in="merge" data-gid="' + g.id + '"><option value="">Choose one</option>' +
+          act.filter(function (o) { return o !== g; }).map(function (o) { return '<option value="' + o.id + '">' + esc(o.name) + '</option>'; }).join('') + '</select></label>';
+      }
+      h += '<button class="cv-text-btn" type="button" data-act="aside" data-gid="' + g.id + '">Set aside</button></div></article>';
+    });
+    h += '</div>';
+    var asd = S.groups.filter(function (g) { return g.aside; });
+    if (asd.length) {
+      h += '<div class="cv-stack"><div class="cv-label" style="margin:0">Set aside</div><p class="cv-note">Still true. They just aren\'t in the top five. Tap one to bring it back.</p><div class="cv-aside">' +
+        asd.map(function (g) { return '<button class="cv-chip" type="button" data-act="restore" data-gid="' + g.id + '">' + esc(g.name) + '</button>'; }).join('') + '</div></div>';
+    }
+    h += '</div>';
+    h += nav(3, 'Define them', 5, active().length > 5 ? 'Get to five or fewer to keep going.' : 'Keep at least one value to keep going.');
+    return h;
+  }
+
+  /* ----- step five ----- */
+  function step5() {
+    var h = banner() + head(5, 'What does each one <em>mean to me?</em>', [
+      "A word alone doesn't hold anyone to anything. One of our core values is to be candid, to be clear, to speak your truth. When someone has a problem with a teammate, they open up and talk about it with that person. Gossiping behind someone's back breaks the value, and everyone on the team knows it.",
+      "I've found a core value is really an opportunity to create a boundary, and a boundary exists to protect me and to hold people accountable. Write each one in your own words until it could do that job."
+    ]);
+    h += '<div class="cv-stack-lg"><div class="cv-mirror">' + eyebrow('The next layer') +
+      "<p>Every time someone is upsetting me, it's a mirror. I've had people in my mind while doing this and thought, oh, that's me. Check any line below that's true of you too. Nobody's keeping score.</p></div>";
+    h += '<div class="cv-means">';
+    ordered().forEach(function (g) {
+      var st = stat(g);
+      h += '<article class="cv-card cv-mean"><div class="cv-mean-fields">' +
+        '<div><label class="cv-sr" for="gname-' + g.id + '">Name of this value</label><input type="text" class="cv-gname" id="gname-' + g.id + '" data-in="gname" data-gid="' + g.id + '" value="' + esc(g.name) + '" autocomplete="off"></div>' +
+        '<div><label class="cv-label" for="def-' + g.id + '">What it means to me</label><textarea id="def-' + g.id + '" data-in="def" data-gid="' + g.id + '" placeholder="In my own words.">' + esc(g.def) + '</textarea>' +
+        (g.defAuto && g.def ? '<p class="cv-note" style="margin-top:0.4rem">A starting draft. Rewrite it until it sounds like you.</p>' : '') + '</div>' +
+        '<div><label class="cv-label" for="looks-' + g.id + '">What it looks like when someone\'s living it</label><textarea id="looks-' + g.id + '" data-in="looks" data-gid="' + g.id + '" placeholder="The behavior I\'d point to and say, that\'s it.">' + esc(g.looks) + '</textarea></div>' +
+        '</div><div class="cv-mean-from"><div class="cv-label">Where it came from</div><ul class="cv-ev">' +
+        st.items.map(function (x) {
+          return '<li><span>' + esc(x.it.text) + '</span><span class="cv-src">' + esc(pLabel(x.p)) + '</span>' +
+            '<label class="cv-check" for="mir-' + x.it.id + '"><input type="checkbox" id="mir-' + x.it.id + '" data-in="mirror" data-iid="' + x.it.id + '"' + (x.it.mirror ? ' checked' : '') + '>That\'s me too</label></li>';
+        }).join('') + '</ul></div></article>';
+    });
+    h += '</div></div>';
+    h += nav(4, active().length > 1 ? 'Put them in order' : 'See my values', active().length > 1 ? 6 : 7, '');
+    return h;
+  }
+
+  /* ----- step six ----- */
+  function step6() {
+    var R = ensureRank();
+    var h = banner() + head(6, 'Which one <em>comes first?</em>', [
+      "Sooner or later two of our values pull against each other, and it helps to know which one wins before we're in the middle of it.",
+      R.order ? "Here's the order those choices add up to. Move anything that doesn't sit right. The list is yours to overrule." : 'Two at a time, choose the one you\'d protect first.'
+    ]);
+    if (!R.order) {
+      var i = R.picks.length, pr = R.pairs[i], a = group(pr[0]), b = group(pr[1]);
+      h += '<div class="cv-weight" aria-live="polite">Choice ' + (i + 1) + ' of ' + R.pairs.length + '</div><div class="cv-progress"><i style="width:' + Math.round(i / R.pairs.length * 100) + '%"></i></div>' +
+        '<div class="cv-versus">' + [a, b].map(function (g, k) {
+          return '<button class="cv-choice" type="button" id="pick-' + k + '" data-act="pick" data-gid="' + g.id + '"><span class="cv-choice-name">' + esc(g.name) + '</span>' + (g.def ? '<span class="cv-choice-def">' + esc(g.def) + '</span>' : '') + '</button>';
+        }).join('') + '</div>';
+      h += '<div class="cv-nav"><button class="cv-text-btn" type="button" data-act="go" data-step="5">Back to the meaning</button><div class="cv-nav-right">' +
+        (i > 0 ? '<button class="cv-text-btn" type="button" data-act="undo-pick">Undo the last choice</button>' : '') + '</div></div>';
+      return h;
+    }
+    var gs = ordered();
+    h += '<ol class="cv-ranked">' + gs.map(function (g, i) {
+      return '<li><span class="cv-rk">' + (i + 1) + '</span><span class="cv-nm">' + esc(g.name) + '</span><span class="cv-mv">' +
+        '<button class="cv-x" type="button" id="up-' + g.id + '" data-act="move" data-gid="' + g.id + '" data-d="-1" aria-label="Move ' + esc(g.name) + ' up"' + (i === 0 ? ' disabled' : '') + '>&uarr;</button>' +
+        '<button class="cv-x" type="button" id="dn-' + g.id + '" data-act="move" data-gid="' + g.id + '" data-d="1" aria-label="Move ' + esc(g.name) + ' down"' + (i === gs.length - 1 ? ' disabled' : '') + '>&darr;</button></span></li>';
+    }).join('') + '</ol>';
+    h += '<div class="cv-nav"><button class="cv-text-btn" type="button" data-act="go" data-step="5">Back to the meaning</button><div class="cv-nav-right">' +
+      (R.pairs.length ? '<button class="cv-text-btn" type="button" data-act="reset-rank">Choose again</button>' : '') +
+      '<button class="cv-btn cv-btn-gold" type="button" data-act="go" data-step="7">See my values</button></div></div>';
+    return h;
+  }
+
+  /* ----- the result ----- */
+  function resultText() {
+    var out = ['MY CORE VALUES', ''];
+    ordered().forEach(function (g, i) {
+      out.push((i + 1) + '. ' + g.name);
+      if (g.def.trim()) out.push('   ' + g.def.trim());
+      if (g.looks.trim()) out.push('   Looks like: ' + g.looks.trim());
+      var st = stat(g);
+      out.push('   Came from: ' + st.items.map(function (x) { return '"' + x.it.text + '"'; }).join(', '));
+      out.push('');
+    });
+    out.push('From the core values exercise at ericfarewell.com/values');
+    return out.join('\n');
+  }
+  function step7() {
+    var gs = ordered();
+    var h = banner() + '<div class="cv-result" id="cv-result"><div>' + eyebrow('The result') + '</div><h2 id="cv-title" tabindex="-1">My <em>core values</em></h2><ol class="cv-result-list">';
+    gs.forEach(function (g, i) {
+      var st = stat(g);
+      h += '<li><span class="cv-rk">' + (i + 1) + '</span><div class="cv-result-body"><div class="cv-nm">' + esc(g.name) + '</div>' +
+        (g.def.trim() ? '<div class="cv-df">' + esc(g.def) + '</div>' : '') +
+        (g.looks.trim() ? '<div class="cv-lk"><b>Looks like</b>' + esc(g.looks) + '</div>' : '') +
+        '<div class="cv-cf"><b>Came from</b>' + st.items.map(function (x) { return esc(x.it.text); }).join(' · ') + '</div></div></li>';
+    });
+    h += '</ol>' + (SITE ? '<p class="cv-save-note">Print these results or save them as a PDF from the browser\'s print window.</p>' : '') +
+      '<div class="cv-result-acts"><button class="cv-btn cv-btn-gold" type="button" data-act="copy">' + (ui.copied ? 'Copied' : 'Copy my values') + '</button>' +
+      (SITE ? '<button class="cv-btn cv-btn-ghost" type="button" data-act="print">Print or save as PDF</button>' : '') +
+      '<button class="cv-text-btn" type="button" data-act="go" data-step="5">Change the wording</button>' +
+      (gs.length > 1 ? '<button class="cv-text-btn" type="button" data-act="go" data-step="6">Change the order</button>' : '') + '</div>';
+    if (ui.copyText) h += '<div style="margin-top:1rem"><label class="cv-label" for="cv-copy-box">Select and copy</label><textarea id="cv-copy-box" rows="10" readonly>' + esc(ui.copyText) + '</textarea></div>';
+    h += '</div>';
+
+    var mine = all().filter(function (x) { return x.it.mirror && x.it.gid; });
+    h += '<div class="cv-after">';
+    if (mine.length) {
+      h += '<div>' + eyebrow('The next layer') + '<h3>The ones I marked as mine</h3><p>These are the frustrations I recognized in myself. They\'re usually the first place a value gets tested.</p><ul class="cv-ev">' +
+        mine.map(function (x) { var g = group(x.it.gid); return '<li><span>' + esc(x.it.text) + '</span>' + (g ? '<span class="cv-was">' + esc(g.name) + '</span>' : '') + '</li>'; }).join('') + '</ul></div>';
+    }
+    h += '<div>' + eyebrow('Putting them to work') + '<h3>What I do with mine</h3>' +
+      "<p>The purpose of all this is that the people I hire fulfill the values. We run it fully in my company. When someone breaks a core value they get a formal reprimand, and we've fired people over it multiple times.</p>" +
+      "<p>Putting our values and our mission on the website was terrifying. What if people judged me? What if they judged us? Now I email them to every client who signs up, along with my personal cell number, and ask them to tell me if any member of my team doesn't step up to that level. I've never once received that call.</p>" +
+      "<p>I'd start with personal values, because our businesses are an outpouring of who we are. And I treat the list as a living document. We go back to ours every year and ask whether they still fit, whether they're still who we are, and whether they've drifted too aspirational.</p></div>";
+    h += '<div>' + eyebrow('With other people') + '<h3>This goes deeper in a room</h3>' +
+      "<p>Sometimes we're not curious enough about ourselves. The work is having conversations, getting deeper, and leveraging the wisdom of the room, so it isn't only the echo chamber of my own mind. That's what Royals is for.</p>" +
+      '<div class="cv-acts"><a class="cv-btn cv-btn-gold" href="' + BASE + 'royals.html">See Royals</a><a class="cv-btn cv-btn-ghost" href="' + BASE + 'start.html">Find a place to begin</a></div></div>';
+    h += '</div><div class="cv-nav">' + resetCtl() + '</div>';
+    return h;
+  }
+
+  function render(scroll) {
+    if (!canEnter(S.step)) { var n = S.step; while (n > 1 && !canEnter(n)) n -= 1; S.step = n; }
+    if (S.cur >= S.people.length) S.cur = S.people.length - 1;
+    if (S.step >= 2) hearAll();
+    if (S.step === 3) autoFlip();
+    if (S.step >= 4) syncGroups();
+    var fn = [step1, step2, step3, step4, step5, step6, step7][S.step - 1];
+    app.innerHTML = fn();
+    drawRail();
+    ui.anim = false;
+    if (scroll) { var t = document.getElementById('cv-tool'); if (t && t.scrollIntoView) { try { t.scrollIntoView({ block: 'start', behavior: 'instant' }); } catch (e) { t.scrollIntoView(true); } } }
+    if (ui.focus) {
+      var el = document.getElementById(ui.focus);
+      if (el) { try { el.focus({ preventScroll: ui.focus === 'cv-title' }); } catch (e) { el.focus(); } }
+      ui.focus = null;
+    }
+  }
+  function refreshNav1() { var el = document.getElementById('cv-nav1'); if (el) el.innerHTML = nav1(); drawRail(); }
+
+  /* ---------- listening to the page ---------- */
+  function example() {
+    seq = 0; S = fresh(); S.example = true; S.lens = 'work';
+    var data = [
+      ['Dana', ['Showed up late every single day', 'Blamed everyone else when it went wrong', 'Had to be told everything twice'],
+        'Great resume, and for the first month I thought I had found my right hand. Then the deadlines started slipping. Every time something went wrong it was the client, or the software, or somebody else on the team. I ended up redoing half the work myself at night.'],
+      ['R.', ["Couldn't make a decision", 'Said yes to everything and never followed through', "Talked behind people's backs"],
+        'He would disappear for hours in the middle of the day and nobody knew where he was. When I asked for an update I got a long explanation and nothing got done. The team stopped trusting him before I did.'],
+      ['The sales hire', ['Lied to customers to close the deal', 'Did the bare minimum', "Took credit for other people's work"],
+        'He only cared about the paycheck. He was defensive every time I gave him feedback, and I kept having the same conversation about showing up on time.']
+    ];
+    S.people = data.map(function (d) { var p = newPerson(); p.name = d[0]; p.rows = d[1].slice(); p.story = d[2]; p.pushed = true; return p; });
+    ui = freshUi();
+    save(); render(true);
+  }
+  function addLine(p, text, where) {
+    text = String(text).trim();
+    if (!text) return false;
+    if (where === 'heard') {
+      splitLine(text).forEach(function (t) { var k = E.norm(t), at = p.removed.indexOf(k); if (at > -1) p.removed.splice(at, 1); if (!p.items.some(function (it) { return E.norm(it.text) === k; })) p.items.push(newItem(t, 'add')); });
+    } else {
+      var at = p.rows.findIndex(function (r) { return !r.trim(); });
+      if (at > -1) p.rows[at] = text; else p.rows.push(text);
+    }
+    p.probe += 1;
+    return true;
+  }
+  function commitProbe(pid, where) {
+    var p = person(pid), el = document.getElementById('probe-' + pid);
+    if (!p || !el) return;
+    if (!addLine(p, el.value, where)) { el.focus(); return; }
+    ui.loud = false; ui.focus = 'probe-' + pid;
+    save(); render();
+  }
+  function commitMore(pid) {
+    var p = person(pid), el = document.getElementById('more-' + pid);
+    if (!p || !el) return;
+    if (!addLine(p, el.value, 'heard')) { el.focus(); return; }
+    ui.focus = 'more-' + pid;
+    save(); render();
+  }
+  function leavePerson(done) {
+    var p = S.people[S.cur];
+    if (hasContent(p) && lines(p) < 3 && p.story.trim().length < 120 && !p.pushed) {
+      p.pushed = true; ui.loud = true; ui.focus = 'probe-' + p.id;
+      save(); render();
+      return;
+    }
+    ui.loud = false;
+    if (done) { go(2); return; }
+    if (S.cur < S.people.length - 1) S.cur += 1;
+    else if (S.people.length < 5) { S.people.push(newPerson()); S.cur = S.people.length - 1; }
+    ui.focus = 'name-' + S.people[S.cur].id;
+    save(); render(true);
+  }
+
+  document.addEventListener('click', function (ev) {
+    var b = ev.target.closest && ev.target.closest('[data-act]');
+    if (!b || b.disabled || !b.closest('.cv')) return;
+    var act = b.getAttribute('data-act'), d = b.dataset, p, x, g;
+    switch (act) {
+      case 'go': go(parseInt(d.step, 10)); return;
+      case 'reset-ask': ui.askReset = true; render(); return;
+      case 'reset-no': ui.askReset = false; render(); return;
+      case 'reset-yes': seq = 0; S = fresh(); ui = freshUi(); save(); render(true); return;
+      case 'next-person': leavePerson(false); return;
+      case 'done-people': leavePerson(true); return;
+      case 'pick-person': S.cur = parseInt(d.k, 10); ui.loud = false; break;
+      case 'rm-person':
+        S.people = S.people.filter(function (q) { return q.id !== d.pid; });
+        if (!S.people.length) S.people.push(newPerson());
+        S.cur = Math.min(S.cur, S.people.length - 1); S.rank = null;
+        break;
+      case 'add-row': p = person(d.pid); if (p) { p.rows.push(''); ui.focus = 'row-' + p.id + '-' + (p.rows.length - 1); } break;
+      case 'rm-row': p = person(d.pid); if (p) { p.rows.splice(parseInt(d.k, 10), 1); while (p.rows.length < 3) p.rows.push(''); } break;
+      case 'add-probe': commitProbe(d.pid, d.where); return;
+      case 'next-probe': p = person(d.pid); if (p) { p.probe += 1; ui.focus = 'probe-' + p.id; } break;
+      case 'add-more': commitMore(d.pid); return;
+      case 'rm-item':
+        x = findItem(d.iid);
+        if (x) { x.p.removed.push(E.norm(x.it.text)); x.p.items = x.p.items.filter(function (it) { return it !== x.it; }); S.rank = null; }
+        break;
+      case 'alt': x = findItem(d.iid); if (x) { x.it.value = d.v; x.it.auto = false; ui.focus = 'val-' + d.iid; } break;
+      case 'combine-fam':
+        var ids = d.key.split('+'), kept = ids[0]; for (var i = 1; i < ids.length; i++) kept = combine(kept, ids[i]) || kept;
+        break;
+      case 'dismiss-fam': S.dismissed.push(d.key); break;
+      case 'name-chip': g = group(d.gid); if (g) { g.name = d.v; if (g.defAuto) g.def = defFor(g); ui.focus = 'gname-' + g.id; } break;
+      case 'pull':
+        x = findItem(d.iid);
+        if (x) {
+          var nv = E.norm(x.it.value), from = x.it.gid;
+          g = { id: nid('g'), name: cap(x.it.value), aside: false, def: '', looks: '', defAuto: true };
+          S.groups.push(g);
+          all().forEach(function (y) { if (y.it.gid === from && E.norm(y.it.value) === nv) y.it.gid = g.id; });
+          g.def = defFor(g); S.rank = null;
+        }
+        break;
+      case 'aside': g = group(d.gid); if (g) { g.aside = true; S.rank = null; } break;
+      case 'restore': g = group(d.gid); if (g) { g.aside = false; S.rank = null; } break;
+      case 'pick':
+        ensureRank(); S.rank.picks.push(d.gid);
+        if (S.rank.picks.length >= S.rank.pairs.length) { settleRank(); ui.focus = 'cv-title'; } else ui.focus = 'pick-0';
+        break;
+      case 'undo-pick': if (S.rank) { S.rank.picks.pop(); S.rank.order = null; } break;
+      case 'reset-rank': if (S.rank) { S.rank.picks = []; S.rank.order = null; } break;
+      case 'move':
+        if (S.rank && S.rank.order) {
+          var o = S.rank.order, k = o.indexOf(d.gid), j = k + parseInt(d.d, 10);
+          if (k > -1 && j >= 0 && j < o.length) { o.splice(k, 1); o.splice(j, 0, d.gid); ui.focus = (d.d === '-1' ? 'up-' : 'dn-') + d.gid; }
+        }
+        break;
+      case 'print': try { window.print(); } catch (e) {} return;
+      case 'copy':
+        var txt = resultText();
+        var done = function () { ui.copied = true; ui.copyText = ''; render(); };
+        var fail = function () { ui.copied = false; ui.copyText = txt; ui.focus = 'cv-copy-box'; render(); var cb = document.getElementById('cv-copy-box'); if (cb) cb.select(); };
+        try { navigator.clipboard.writeText(txt).then(done, fail); } catch (e) { fail(); }
+        return;
+      default: return;
+    }
+    save(); render();
+  });
+
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key !== 'Enter') return;
+    var t = ev.target, d = (t && t.dataset) || {};
+    if (d.in === 'probe') { ev.preventDefault(); commitProbe(d.pid, d.where); }
+    else if (d.in === 'more') { ev.preventDefault(); commitMore(d.pid); }
+    else if (d.in === 'row') {
+      ev.preventDefault();
+      var p = person(d.pid), k = parseInt(d.k, 10);
+      if (!p) return;
+      if (k === p.rows.length - 1) { if (!t.value.trim()) return; p.rows.push(''); ui.focus = 'row-' + p.id + '-' + (k + 1); save(); render(); }
+      else { var nx = document.getElementById('row-' + p.id + '-' + (k + 1)); if (nx) nx.focus(); }
+    }
+  });
+
+  document.addEventListener('input', function (ev) {
+    var t = ev.target, d = t.dataset || {}, p, x, g;
+    if (!t.closest || !t.closest('.cv')) return;
+    switch (d.in) {
+      case 'name':
+        p = person(d.pid); if (!p) return;
+        p.name = t.value;
+        var fr = document.getElementById('cv-frame'); if (fr && S.lens) fr.innerHTML = LENS[S.lens].because(esc(pName(p) || 'them'));
+        break;
+      case 'row':
+        p = person(d.pid); if (!p) return;
+        p.rows[parseInt(d.k, 10)] = t.value;
+        var at = p.removed.indexOf(E.norm(t.value)); if (at > -1) p.removed.splice(at, 1);
+        refreshNav1();
+        break;
+      case 'story': p = person(d.pid); if (p) { p.story = t.value; refreshNav1(); } break;
+      case 'trait':
+        x = findItem(d.iid); if (!x) return;
+        if (!x.it.edited) { var was = E.norm(x.it.text); if (was && x.p.removed.indexOf(was) < 0) x.p.removed.push(was); x.it.edited = true; }
+        x.it.text = t.value; x.it.src = 'add';
+        if (x.it.auto) x.it.value = '';
+        var vn = t.parentNode.querySelector('.cv-note'); if (vn) vn.hidden = !VAGUE.test(t.value.trim());
+        break;
+      case 'val':
+        x = findItem(d.iid); if (!x) return;
+        x.it.value = t.value; x.it.auto = false;
+        var fs = document.getElementById('cv-flip-status'); if (fs) fs.innerHTML = flipStatus();
+        drawRail();
+        break;
+      case 'gname': g = group(d.gid); if (g) { g.name = t.value; if (g.defAuto) { g.def = defFor(g); var df = document.getElementById('def-' + g.id); if (df) df.value = g.def; } } break;
+      case 'def': g = group(d.gid); if (g) { g.def = t.value; g.defAuto = false; } break;
+      case 'looks': g = group(d.gid); if (g) g.looks = t.value; break;
+      default: return;
+    }
+    save();
+  });
+
+  document.addEventListener('change', function (ev) {
+    var t = ev.target, d = t.dataset || {}, x;
+    if (!t.closest || !t.closest('.cv')) return;
+    if (t.name === 'cv-lens') {
+      S.lens = t.value; S.people.forEach(function (p) { p.heardSig = ''; });
+      ui.focus = S.people[S.cur] ? 'name-' + S.people[S.cur].id : null;
+      save(); render(); return;
+    }
+    if (d.in === 'merge' && t.value) { combine(d.gid, t.value); save(); render(); return; }
+    if (d.in === 'mirror') { x = findItem(d.iid); if (x) { x.it.mirror = t.checked; save(); } return; }
+    if (d.in === 'gname') { var g = group(d.gid); if (g && !g.name.trim()) { g.name = cap((itemsOf(g.id)[0] || { it: { value: 'Unnamed' } }).it.value); save(); render(); } }
+  });
+
+  /* Dragging one value onto another combines them. The select does the same job on touch. */
+  var dragId = null;
+  document.addEventListener('dragstart', function (ev) {
+    var gr = ev.target.closest && ev.target.closest('.cv-grip');
+    if (!gr) return;
+    dragId = gr.dataset.gid;
+    try { ev.dataTransfer.setData('text/plain', dragId); ev.dataTransfer.effectAllowed = 'move'; var card = gr.closest('.cv-group'); if (card && ev.dataTransfer.setDragImage) ev.dataTransfer.setDragImage(card, 20, 20); } catch (e) {}
+  });
+  document.addEventListener('dragover', function (ev) {
+    var card = ev.target.closest && ev.target.closest('.cv-group');
+    if (!dragId || !card || card.dataset.gid === dragId) return;
+    ev.preventDefault(); card.classList.add('is-over');
+  });
+  document.addEventListener('dragleave', function (ev) {
+    var card = ev.target.closest && ev.target.closest('.cv-group');
+    if (card && !card.contains(ev.relatedTarget)) card.classList.remove('is-over');
+  });
+  document.addEventListener('drop', function (ev) {
+    var card = ev.target.closest && ev.target.closest('.cv-group');
+    if (!dragId || !card) return;
+    ev.preventDefault();
+    var from = dragId; dragId = null;
+    if (card.dataset.gid !== from) { combine(from, card.dataset.gid); save(); render(); }
+  });
+  document.addEventListener('dragend', function () { dragId = null; });
+
+  if (/^#example$/.test(location.hash || '')) example(); else render();
+})();
+
+</script>
+</body>
+</html>

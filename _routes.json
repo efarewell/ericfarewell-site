@@ -25,7 +25,9 @@
     "/the-prompt",
     "/the-prompt.html",
     "/the-harvest",
-    "/the-harvest.html"
+    "/the-harvest.html",
+    "/the-values",
+    "/the-values.html"
   ],
   "exclude": []
 }

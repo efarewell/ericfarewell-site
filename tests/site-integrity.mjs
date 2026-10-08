@@ -13,9 +13,13 @@ const redirectSources = new Set(redirectLines.map((line) => line.split(/\s+/)[0]
 const sitemap = readFileSync(join(root, 'sitemap.xml'), 'utf8');
 const guidedStartScript = readFileSync(join(root, 'assets/js/guided-start.js'), 'utf8');
 const siteScript = readFileSync(join(root, 'assets/js/site.js'), 'utf8');
+const guidedStartPage = readFileSync(join(root, 'start.html'), 'utf8');
 const securityHeaders = readFileSync(join(root, '_headers'), 'utf8');
 assert(existsSync(join(root, 'assets/img/og-default-v2.jpg')), 'The current social-share image is missing');
 assert(guidedStartScript.includes('https://tools.ericfarewell.com'), 'Guided Start does not hand authentication to the branded tools app');
+assert(guidedStartPage.includes('name="primary_need" value="values"'), 'Guided Start does not offer Core Values as a primary need');
+assert(guidedStartScript.includes("values:{id:'values',name:'The Core Values Exercise'"), 'Guided Start does not recommend the Core Values Exercise');
+assert(guidedStartScript.includes("access.searchParams.set('need',need)"), 'Guided Start does not hand the Core Values need to the tools app');
 assert(siteScript.includes("var toolAppOrigin = 'https://tools.ericfarewell.com'"), 'Private tool links do not use the branded tools domain');
 for (const requiredHeader of [
   'Content-Security-Policy:',
@@ -138,6 +142,8 @@ for (const required of [
   '/the-prompt.html',
   '/the-harvest',
   '/the-harvest.html',
+  '/the-values',
+  '/the-values.html',
   '/downloads/the-solo-hot-seat.pdf',
 ]) {
   assert(routes.include.includes(required), `_routes.json is missing ${required}`);
@@ -165,6 +171,7 @@ for (const required of [
   'https://ericfarewell.com/royals.html',
   'https://ericfarewell.com/royals-experience',
   'https://ericfarewell.com/time-audit',
+  'https://ericfarewell.com/values',
 ]) {
   assert(sitemap.includes(`<loc>${required}</loc>`), `sitemap.xml is missing ${required}`);
 }
@@ -174,6 +181,8 @@ for (const privatePath of [
   '/the-first-hour.html',
   '/the-prompt.html',
   '/the-harvest.html',
+  '/the-values',
+  '/the-values.html',
   '/coaching-system-lab.html',
   '/journey-review.html',
 ]) {
