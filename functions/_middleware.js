@@ -27,8 +27,11 @@ function shouldProxy(pathname) {
     || pathname.startsWith('/api/auth/')
     || pathname.startsWith('/api/journey/')
     || pathname.startsWith('/api/experience/')
+    || pathname.startsWith('/api/private-coaching/')
     || pathname === '/royals-experience'
     || pathname.startsWith('/royals-experience/')
+    || pathname === '/private-coaching-intake'
+    || pathname.startsWith('/private-coaching-intake/')
     || pathname.startsWith('/api/audio/')
     || pathname.startsWith('/api/audit/')
     || pathname.startsWith('/api/google/');
