@@ -167,7 +167,12 @@
 .cv-who-name { font-family: var(--cv-display); font-size: 1.45rem; color: var(--cv-ivory); padding-bottom: 0.35rem; border-bottom: 1px solid var(--cv-line); }
 .cv-flip { display: grid; grid-template-columns: minmax(0, 1fr) 3.5rem minmax(0, 1fr); gap: 1rem; align-items: start; padding-block: 1.1rem; border-top: 1px solid var(--cv-hair); }
 .cv-who-name + .cv-flip { border-top: 0; }
-.cv-flip-from { color: var(--cv-muted); padding-top: 0.7rem; overflow-wrap: anywhere; }
+.cv-flip-from { min-width: 0; color: var(--cv-muted); overflow-wrap: anywhere; }
+.cv-flip-from textarea { min-height: 6rem; }
+.cv-original { margin-block: 0.8rem; font-size: 0.88rem; color: var(--cv-muted); }
+.cv-original summary { cursor: pointer; color: var(--cv-gold-bright); }
+.cv-original ul { padding-left: 1.3rem; margin-block: 0.7rem; }
+.cv-original p, .cv-original li { white-space: pre-wrap; overflow-wrap: anywhere; }
 .cv-flip-arrow { height: 1px; background: var(--cv-gold); margin-top: 1.55rem; position: relative; opacity: 0.8; }
 .cv-flip-arrow::after { content: ""; position: absolute; right: 0; top: -3.5px; width: 7px; height: 7px; border-top: 1px solid var(--cv-gold); border-right: 1px solid var(--cv-gold); transform: rotate(45deg); }
 .cv-flip-to { min-width: 0; display: flex; flex-direction: column; gap: 0.5rem; }
@@ -631,7 +636,7 @@ var EF_ENGINE = (function () {
   function famOf(name) { var r = lookup(name); return r ? r.f : null; }
 
   /* Reads a paragraph the way I'd listen to a story: pulls the traits out of it. */
-  function traits(story, lens) {
+  function traits(story, lens, includePositive) {
     var parts = String(story || '').split(/[.!?;\n]+|,\s*(?:and|but|then|so)\s+|\s+(?:and then|but then)\s+|\s+and\s+(?=(?:he|she|they|i)\b)|,\s+/i);
     var seen = {}, out = [];
     parts.forEach(function (raw) {
@@ -642,13 +647,18 @@ var EF_ENGINE = (function () {
       var hits = scoreAll(c, lens);
       if (!hits.length || hits[0].s < 3) return;
       var r = hits[0].r;
+      // A positive description is context, not evidence of the opposite trait.
+      var positive = /^(?:he|she|they)\s+(?:(?:was|were|is|are|always|usually|really|very|also)\s+)*(?:kind|polite|honest|reliable|dependable|loyal|helpful|supportive|respectful|thoughtful|generous|patient|compassionate|gentle|warm|affectionate|organized|punctual)\b/i.test(c);
+      if (positive && !includePositive) return;
       if (seen[r.n]) return;
       seen[r.n] = 1;
       var c2 = c.replace(/^(?:and|but|so|then|also|plus|or|well|like|because)\s+/i, '');
       var led = /^(?:he|she|they)\s+(?:(?:would|was|were|is|just|also|had|has)\s+)*(.+)$/i.exec(c2);
       var words = led ? led[1].trim().split(/\s+/).length : 0;
-      var label = (led && words >= 2 && words <= 7) ? cap(led[1].trim()) : r.neg;
-      out.push({ text: label, value: r.n });
+      // Keep the former label only to recover already-saved sessions. New
+      // evidence always uses a literal excerpt from the visitor's story.
+      var legacyText = (led && words >= 2 && words <= 7) ? cap(led[1].trim()) : r.neg;
+      out.push({ text: c, value: r.n, legacyText: legacyText });
     });
     return out.slice(0, 8);
   }
@@ -656,7 +666,6 @@ var EF_ENGINE = (function () {
   return { RULES: RULES, FAMS: FAMS, match: match, lookup: lookup, famOf: famOf, traits: traits, norm: norm };
 })();
 if (typeof module !== 'undefined') module.exports = EF_ENGINE;
-
 </script>
 <script>
 (function () {
@@ -727,7 +736,7 @@ if (typeof module !== 'undefined') module.exports = EF_ENGINE;
   function num(n) { return ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'][n] || String(n); }
   function plural(n, one, many) { return n === 1 ? one : many; }
 
-  function newPerson() { return { id: nid('p'), name: '', rows: ['', '', ''], story: '', probe: 0, pushed: false, items: [], removed: [], heardSig: '' }; }
+  function newPerson() { return { id: nid('p'), name: '', rows: ['', '', ''], story: '', probe: 0, pushed: false, items: [], removed: [], heardSig: '', listenerVersion: 3 }; }
   function fresh() { return { v: 2, step: 1, max: 1, lens: null, cur: 0, example: false, flipSeen: false, seq: 0, people: [newPerson()], groups: [], dismissed: [], rank: null }; }
 
   function load() {
@@ -748,6 +757,23 @@ if (typeof module !== 'undefined') module.exports = EF_ENGINE;
   }
 
   var S = load() || fresh();
+
+  // Keep the existing storage key and every ID, value, group, and ranking.
+  // Only recover unedited generated labels from their still-saved stories.
+  var recovered = false;
+  S.people.forEach(function (p) {
+    if (p.listenerVersion === 3) return;
+    var evidence = E.traits(p.story, S.lens, true);
+    p.items.forEach(function (it) {
+      if (it.src !== 'story' || it.edited) return;
+      var original = evidence.filter(function (t) { return E.norm(t.legacyText) === E.norm(it.text); })[0];
+      if (original) { it.text = original.text; it.sourceText = original.text; }
+      else it.interpreted = true;
+    });
+    p.listenerVersion = 3;
+    recovered = true;
+  });
+  if (recovered) save();
 
   /* ---------- reading the state ---------- */
   function person(id) { for (var i = 0; i < S.people.length; i++) if (S.people[i].id === id) return S.people[i]; return null; }
@@ -773,9 +799,9 @@ if (typeof module !== 'undefined') module.exports = EF_ENGINE;
       if (bits.length > 1 && bits.every(function (b) { var w = b.split(/\s+/).length; return w >= 1 && w <= 5; })) out = out.concat(bits);
       else if (part.trim()) out.push(part.trim());
     });
-    return out.map(function (t) { return t.replace(/^[-*]\s*/, '').replace(/[.]+$/, ''); }).filter(Boolean);
+    return out.filter(Boolean);
   }
-  function newItem(text, src) { return { id: nid('i'), text: cap(text), src: src, value: '', auto: true, mirror: false, gid: null, gval: '' }; }
+  function newItem(text, src) { return { id: nid('i'), text: text, sourceText: text, src: src, value: '', auto: true, mirror: false, gid: null, gval: '' }; }
 
   function hear(p) {
     var sig = JSON.stringify([p.rows, p.story, S.lens]);
@@ -1083,24 +1109,27 @@ if (typeof module !== 'undefined') module.exports = EF_ENGINE;
     var f = flipped(), blank = all().length - f;
     return '<strong>' + f + '</strong> flipped' + (blank ? ', ' + blank + ' left blank. Blank lines stay out of the next step.' : '.');
   }
+  function flipTo(it) {
+    var alts = altsFor(it);
+    return '<label class="cv-label" for="val-' + it.id + '">Suggested value</label>' +
+      '<input type="text" class="cv-val" id="val-' + it.id + '" data-in="val" data-iid="' + it.id + '" value="' + esc(it.value) + '" placeholder="Name the opposite" autocomplete="off">' +
+      (alts.length ? '<div class="cv-alts"><span class="cv-note">Or</span>' + alts.map(function (a) { return '<button class="cv-chip" type="button" data-act="alt" data-iid="' + it.id + '" data-v="' + esc(a) + '">' + esc(a) + '</button>'; }).join('') + '</div>'
+        : (it.value.trim() ? '' : '<p class="cv-note">This one is yours to name. What would the opposite have looked like?</p>'));
+  }
   function step3() {
     var h = banner() + head(3, 'Now flip <em>every one of them.</em>', [
       "This is the part I don't explain ahead of time. I find that whatever frustrates me most about a person points at something I value. If someone was always late, it means I actually value timeliness. If I couldn't depend on them, I really value dependability.",
-      "So I flipped your list. Each line has the value sitting on the other side of it. Change any word until it's the one you'd say out loud, and clear a line to leave it out."
+      "The words on the left come from your list and story. The value on the right is a suggestion. Edit either one here until it says what you mean, and clear a value to leave it out."
     ]);
     var i = 0;
     h += '<div class="' + (ui.anim ? 'cv-anim' : '') + '">';
     S.people.forEach(function (p) {
       if (!p.items.length) return;
       h += '<div class="cv-who"><div class="cv-who-name">' + esc(pLabel(p)) + '</div>';
+      h += '<details class="cv-original"><summary>See my original answers</summary><ul>' + p.rows.filter(function (r) { return r.trim(); }).map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('') + '</ul>' + (p.story.trim() ? '<p>' + esc(p.story) + '</p>' : '') + '</details>';
       p.items.forEach(function (it) {
-        var alts = altsFor(it);
-        h += '<div class="cv-flip" style="--i:' + (i++) + '"><div class="cv-flip-from">' + esc(it.text) + '</div><div class="cv-flip-arrow" aria-hidden="true"></div><div class="cv-flip-to">' +
-          '<label class="cv-sr" for="val-' + it.id + '">The value on the other side of: ' + esc(it.text) + '</label>' +
-          '<input type="text" class="cv-val" id="val-' + it.id + '" data-in="val" data-iid="' + it.id + '" value="' + esc(it.value) + '" placeholder="Name the opposite" autocomplete="off">' +
-          (alts.length ? '<div class="cv-alts"><span class="cv-note">Or</span>' + alts.map(function (a) { return '<button class="cv-chip" type="button" data-act="alt" data-iid="' + it.id + '" data-v="' + esc(a) + '">' + esc(a) + '</button>'; }).join('') + '</div>'
-            : (it.value.trim() ? '' : '<p class="cv-note">This one is yours to name. What would the opposite have looked like?</p>')) +
-          '</div></div>';
+        h += '<div class="cv-flip" style="--i:' + (i++) + '"><div class="cv-flip-from"><label class="cv-label" for="flip-text-' + it.id + '">' + (it.interpreted ? 'Earlier interpretation. Check my original above.' : it.src === 'story' ? 'From your story' : 'Your wording') + '</label>' +
+          '<textarea id="flip-text-' + it.id + '" data-in="trait" data-iid="' + it.id + '" rows="3" autocomplete="off">' + esc(it.text) + '</textarea></div><div class="cv-flip-arrow" aria-hidden="true"></div><div class="cv-flip-to">' + flipTo(it) + '</div></div>';
       });
       h += '</div>';
     });
@@ -1451,9 +1480,15 @@ if (typeof module !== 'undefined') module.exports = EF_ENGINE;
       case 'trait':
         x = findItem(d.iid); if (!x) return;
         if (!x.it.edited) { var was = E.norm(x.it.text); if (was && x.p.removed.indexOf(was) < 0) x.p.removed.push(was); x.it.edited = true; }
-        x.it.text = t.value; x.it.src = 'add';
-        if (x.it.auto) x.it.value = '';
+        x.it.text = t.value; x.it.src = 'add'; x.it.interpreted = false;
+        if (x.it.auto) { var suggestion = S.step === 3 ? E.match(t.value, S.lens) : null; x.it.value = suggestion ? suggestion.name : ''; }
         var vn = t.parentNode.querySelector('.cv-note'); if (vn) vn.hidden = !VAGUE.test(t.value.trim());
+        var flipRow = t.closest('.cv-flip');
+        if (flipRow) {
+          flipRow.querySelector('.cv-label').textContent = 'Your wording';
+          flipRow.querySelector('.cv-flip-to').innerHTML = flipTo(x.it);
+          var flipCount = document.getElementById('cv-flip-status'); if (flipCount) flipCount.innerHTML = flipStatus();
+        }
         break;
       case 'val':
         x = findItem(d.iid); if (!x) return;
@@ -1510,7 +1545,6 @@ if (typeof module !== 'undefined') module.exports = EF_ENGINE;
 
   if (/^#example$/.test(location.hash || '')) example(); else render();
 })();
-
 </script>
 <script src="assets/js/core-values-voice.js"></script>
 </body>
