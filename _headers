@@ -9,3 +9,6 @@
 /thetest*
   X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
   Referrer-Policy: strict-origin-when-cross-origin
+
+/seconddate*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
