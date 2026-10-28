@@ -12,3 +12,6 @@
 
 /seconddate*
   X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+
+/dauss*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
