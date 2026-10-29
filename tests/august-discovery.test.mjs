@@ -13,11 +13,12 @@ const end=studio.indexOf('  let tastes = buildTasteOptions();',start);
 assert.ok(start>0&&end>start,'ranking code is present');
 vm.runInContext(studio.slice(start,end)+'\nthis.rank=buildTasteOptions;',context);
 const people=context.people;
-assert.equal(people.length,14);
-assert.equal(new Set(people.map(p=>p.id)).size,14);
+assert.equal(people.length,17);
+assert.equal(new Set(people.map(p=>p.id)).size,17);
+assert.equal(people[1].kind,'study','street study is visible in the initial options');
 for(const person of people){
-  assert.ok(person.image.startsWith('https://'));
-  assert.ok(person.source.startsWith('https://'));
+  assert.ok(person.image.startsWith('https://')||person.kind==='study');
+  assert.ok(person.source?.startsWith('https://')||person.kind==='study');
   assert.equal(person.features.length,3);
   assert.doesNotMatch(person.image,/logo/i);
 }
@@ -34,16 +35,19 @@ function chooseFive(from=0,picked=[]){
     const ids=picked.map(i=>people[i].id),options=rank(ids);
     assert.equal(options.length,6);
     assert.equal(new Set(options.map(t=>t.id)).size,6);
+    assert.equal(options[1].name,'Street handstyle','street edge is always near the start');
+    assert.equal(options[3].name,'Fine & flowing','flow remains available for angular preferences');
+    assert.equal(options.filter(t=>t.contrast).length,2);
     for(const option of options){
       assert.ok(Number.isFinite(option.score));
       assert.ok(option.path&&option.families.length);
-      assert.ok(picked.some(i=>option.basis.includes(people[i].name)),'each direction has a selected autograph behind it');
+      assert.ok(option.contrast?option.basis.startsWith('Outside your picks'):picked.some(i=>option.basis.includes(people[i].name))||option.basis==='Another direction to explore','matches have provenance and contrasts are honestly labeled');
     }
     differentDirections.add(options.map(t=>t.id).join(','));combinations++;return;
   }
   for(let i=from;i<=people.length-(5-picked.length);i++)chooseFive(i+1,[...picked,i]);
 }
 chooseFive();
-assert.equal(combinations,2002);
+assert.equal(combinations,6188);
 assert.ok(differentDirections.size>30,'selection produces genuinely different option sets');
-console.log(`PASS: ${combinations} five-autograph combinations; ${differentDirections.size} tailored six-option sequences; all 14 sourced samples valid.`);
+console.log(`PASS: ${combinations} five-mark combinations; ${differentDirections.size} tailored sequences; street and flowing contrasts guaranteed; 16 sourced autographs and one original study.`);

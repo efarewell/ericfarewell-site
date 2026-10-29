@@ -65,7 +65,8 @@
   const reviews = saved.reviews && typeof saved.reviews === 'object' ? saved.reviews : {};
   const people = window.augustAutographs || [];
   const peoplePicks = Array.isArray(saved.people) ? [...new Set(saved.people.filter(id=>people.some(p=>p.id===id)))].slice(0,5) : [];
-  const peopleBasis = () => [...peoplePicks].sort().join('|');
+  // Version the ranking contract so saved numeric picks never change meaning.
+  const peopleBasis = () => 'contrast-v2:' + [...peoplePicks].sort().join('|');
   const tastePicks = saved.tasteBasis === peopleBasis() && Array.isArray(saved.tastes) ? [...new Set(saved.tastes.filter(x => Number.isInteger(x) && x >= 0 && x < 6))].slice(0,3) : [];
   let currentStage = 'people';
   const customArtwork = new Map();
@@ -82,15 +83,22 @@
     {name:'Round & bold',note:'Marker weight. Softer corners.',families:['tag','calligraphy'],path:'M25 82 C29 27 65 19 65 52 C65 88 32 97 39 73 Q57 48 79 70 C101 29 127 48 108 78 Q123 94 143 62 C157 30 180 55 160 77 Q185 91 211 65',width:9},
     {name:'Open & airy',note:'Light strokes with room between them.',families:['everyday','calligraphy'],path:'M18 86 C49 53 71 16 64 35 C54 69 42 97 78 80 M103 80 C111 44 134 44 130 65 Q126 86 145 76 M170 83 C181 62 199 56 215 72',width:2},
     {name:'One joined rhythm',note:'Let one movement lead into the next.',families:['everyday','calligraphy'],path:'M20 81 Q35 48 46 77 C50 88 60 51 65 67 Q72 90 83 70 C97 42 104 79 117 70 C138 55 132 17 124 30 C107 53 133 100 155 75 Q177 50 187 76 Q197 91 217 69',width:4},
-    {name:'Angles with a flourish',note:'Sharp starts. A sweeping finish.',families:['tag','quick'],path:'M25 86 L70 24 L56 89 L111 50 L94 88 L147 43 L132 89 L180 61 Q218 36 211 58 Q205 88 92 102',width:5}
-  ].map((t,id)=>({...t,id,features:[['angles','compact'],['loops','open'],['bold','angles'],['fine','connected'],['compact','connected'],['playful','open'],['tall','compact'],['sweep','fine'],['loops','bold'],['open','fine'],['connected','loops'],['angles','sweep']][id]}));
+    {name:'Angles with a flourish',note:'Sharp starts. A sweeping finish.',families:['tag','quick'],path:'M25 86 L70 24 L56 89 L111 50 L94 88 L147 43 L132 89 L180 61 Q218 36 211 58 Q205 88 92 102',width:5},
+    {name:'Street handstyle',note:'Hard corners, stacked strokes, marker edge.',families:['tag'],path:'M20 31 L73 22 M54 27 L36 83 M14 89 L76 73 M69 81 L97 20 L109 82 L146 16 M130 83 L160 20 M145 60 L199 18 L169 59 L197 83 M20 105 L219 88 L208 76 M219 88 L206 102',width:7}
+  ].map((t,id)=>({...t,id,features:[['angles','compact'],['loops','open'],['bold','angles'],['fine','connected'],['compact','connected'],['playful','open'],['tall','compact'],['sweep','fine'],['loops','bold'],['open','fine'],['connected','loops'],['angles','sweep'],['bold','angles']][id]}));
   function buildTasteOptions() {
     const picks=people.filter(p=>peoplePicks.includes(p.id));
     const votes={};picks.forEach(p=>p.features.forEach(f=>votes[f]=(votes[f]||0)+1));
-    return tastePool.map(t=>({...t,score:t.features.reduce((sum,f)=>sum+(votes[f]||0),0)+picks.filter(p=>t.features.every(f=>p.features.includes(f))).length*.6}))
-      .sort((a,b)=>b.score-a.score||a.id-b.id).slice(0,6).map(t=>{
+    const ranked=tastePool.map(t=>({...t,score:t.features.reduce((sum,f)=>sum+(votes[f]||0),0)+picks.filter(p=>t.features.every(f=>p.features.includes(f))).length*.6}))
+      .sort((a,b)=>b.score-a.score||a.id-b.id);
+    // Four preference matches plus two deliberate contrasts. Interleave them
+    // near the start, not beneath a wall of similar flowing options.
+    const matched=ranked.filter(t=>t.id!==12&&t.id!==3).slice(0,4);
+    const street=ranked.find(t=>t.id===12),flow=ranked.find(t=>t.id===3);
+    return [matched[0],street,matched[1],flow,matched[2],matched[3]].map(t=>{
         const echoes=picks.map(p=>({person:p,match:t.features.filter(f=>p.features.includes(f)).length})).filter(x=>x.match).sort((a,b)=>b.match-a.match).slice(0,2).map(x=>x.person.name);
-        return {...t,basis:echoes.length?`Echoes of ${echoes.join(' + ')}`:'A different direction to try'};
+        const contrast=t.id===12||t.id===3;
+        return {...t,contrast,basis:contrast?'Outside your picks · a contrast to explore':echoes.length?`Echoes of ${echoes.join(' + ')}`:'Another direction to explore'};
       });
   }
   let tastes = buildTasteOptions();
@@ -410,13 +418,13 @@
   }
   function renderPeople() {
     if(!$('people-grid').children.length){
-      $('people-grid').innerHTML=people.map(p=>`<article data-person-card="${p.id}"><span class="inspiration-kind">AUTOGRAPH SAMPLE · ${p.group}</span><button type="button" class="autograph-pick" data-person="${p.id}" aria-pressed="false" aria-label="Pick ${p.name}’s autograph"><span class="people-art">${p.crop?`<svg viewBox="${p.crop}" role="img" aria-label="${p.name}’s handwritten autograph"><image href="${p.image}" width="${p.size[0]}" height="${p.size[1]}"/></svg>`:`<img src="${p.image}" alt="${p.name}’s handwritten autograph sample">`}</span><span class="pick-label">Pick this signature ☆</span></button><h3>${p.name}</h3><p>${p.note}</p><details class="autograph-source"><summary>Source &amp; attribution</summary><a href="${p.source}" target="_blank" rel="noopener noreferrer">${p.credit}</a>${p.license?`<a href="https://creativecommons.org/licenses/by-sa/${p.license}/" target="_blank" rel="noopener noreferrer">CC BY-SA ${p.license} · unchanged</a>`:''}</details></article>`).join('');
+      $('people-grid').innerHTML=people.map(p=>`<article data-person-card="${p.id}"><span class="inspiration-kind">${p.kind==='study'?'STREET-STYLE WILDCARD':'AUTOGRAPH SAMPLE'} · ${p.group}</span><button type="button" class="autograph-pick" data-person="${p.id}" aria-pressed="false" aria-label="Pick ${p.name}"><span class="people-art">${p.crop?`<svg viewBox="${p.crop}" role="img" aria-label="${p.name}’s handwritten autograph"><image href="${p.image}" width="${p.size[0]}" height="${p.size[1]}"/></svg>`:`<img src="${p.image}" alt="${p.kind==='study'?'Original street handstyle study':p.name+'’s handwritten autograph sample'}">`}</span><span class="pick-label">Pick this mark ☆</span></button><h3>${p.name}</h3><p>${p.note}</p><details class="autograph-source"><summary>Source &amp; attribution</summary>${p.source?`<a href="${p.source}" target="_blank" rel="noopener noreferrer">${p.credit}</a>`:`<p>${p.credit}</p>`}${p.license?`<a href="https://creativecommons.org/licenses/by-sa/${p.license}/" target="_blank" rel="noopener noreferrer">CC BY-SA ${p.license} · unchanged</a>`:''}</details></article>`).join('');
     }
     people.forEach(p=>{
       const picked=peoplePicks.includes(p.id),button=document.querySelector(`[data-person="${p.id}"]`);
       button.setAttribute('aria-pressed',String(picked));
-      button.setAttribute('aria-label',`${picked?'Remove':'Pick'} ${p.name}’s autograph`);
-      button.querySelector('.pick-label').textContent=picked?'Picked ✓ · tap to swap':'Pick this signature ☆';
+      button.setAttribute('aria-label',`${picked?'Remove':'Pick'} ${p.name}`);
+      button.querySelector('.pick-label').textContent=picked?'Picked ✓ · tap to swap':'Pick this mark ☆';
       button.closest('article').classList.toggle('is-picked',picked);
     });
     $('people-count').textContent=`${peoplePicks.length} / 5 picked`;
@@ -437,7 +445,7 @@
   }
   function renderTastes() {
     $('taste-grid').innerHTML=tastes.map((t,i)=>`<button class="taste-choice" type="button" data-taste="${i}" data-profile="${t.id}" aria-pressed="${tastePicks.includes(i)}"><svg viewBox="0 0 240 120" aria-hidden="true"><path d="${t.path}" stroke-width="${t.width}"/></svg><strong>${t.name}</strong><span>${t.note}</span><span class="taste-origin">${t.basis}</span><span class="taste-check">${tastePicks.includes(i)?'Picked ✓':'Pick this feel ☆'}</span></button>`).join('');
-    $('taste-explanation').textContent='We pulled shapes and movement from your five picks—not copies of their signatures. These six directions are just for you. Choose three you’d like to try with your own name.';
+    $('taste-explanation').textContent='Four directions borrow movement from your picks. Two deliberate contrasts keep street-style edge and fine, flowing lines in view, even if they differ from your favorites. Choose three you would like to try with your own name.';
     $('taste-count').textContent=`${tastePicks.length} / 3 picked`;
     $('show-signatures').disabled=tastePicks.length!==3||peoplePicks.length!==5;
     $('taste-status').textContent=tastePicks.length===3?'Three picked. Let’s put your name to those ideas.':`${3-tastePicks.length} more ${tastePicks.length===2?'style':'styles'} to pick. Nothing has to be perfect.`;
