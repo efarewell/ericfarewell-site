@@ -354,6 +354,7 @@
 
   function renderTastes() {
     $('taste-grid').innerHTML=tastes.map((t,i)=>`<button class="taste-choice" type="button" data-taste="${i}" aria-pressed="${tastePicks.includes(i)}"><svg viewBox="0 0 240 120" aria-hidden="true"><path d="${t.path}" stroke-width="${t.width}"/></svg><strong>${t.name}</strong><span>${t.note}</span></button>`).join('');
+    document.querySelectorAll('[data-inspire]').forEach(button=>button.setAttribute('aria-pressed',String(tastePicks.includes(Number(button.dataset.inspire)))));
     $('taste-status').textContent=tastePicks.length ? `${tastePicks.length} of 3 picked. We’ll bring these qualities forward; all 20 designs stay available.` : 'There’s no wrong answer. You can also explore them all.';
   }
   function reviewRecord(id) {return reviews[id] || (reviews[id]={feedback:'',approved:false,useCustom:false});}
@@ -430,7 +431,7 @@
   }
   $('taste-grid').addEventListener('click',event=>{const button=event.target.closest('[data-taste]');if(!button)return;const id=Number(button.dataset.taste),index=tastePicks.indexOf(id);if(index>=0)tastePicks.splice(index,1);else if(tastePicks.length<3)tastePicks.push(id);else{announce('Pick up to three. Tap one again to make room.');return;}persist();renderTastes();renderGallery();});
   $('show-signatures').addEventListener('click',()=>{$('collection').hidden=false;$('collection').scrollIntoView({behavior:reducedMotion()?'auto':'smooth'});});
-  document.querySelectorAll('[data-inspire]').forEach(button=>button.addEventListener('click',()=>{const id=Number(button.dataset.inspire);if(tastePicks.includes(id)){announce('That quality is already in your picks.');return;}if(tastePicks.length>=3){announce('You have three qualities picked. Tap one above to make room.');return;}tastePicks.push(id);persist();renderTastes();renderGallery();announce('Added that quality to your style picks.');}));
+  document.querySelectorAll('[data-inspire]').forEach(button=>button.addEventListener('click',()=>{const id=Number(button.dataset.inspire),index=tastePicks.indexOf(id);if(index>=0)tastePicks.splice(index,1);else if(tastePicks.length>=3){announce('You have three qualities picked. Tap one again to make room.');return;}else tastePicks.push(id);persist();renderTastes();renderGallery();announce(index>=0?'Removed that quality. There’s room to try another.':'Added that quality to your style picks.');}));
   $('review-design').addEventListener('change',event=>{recognition?.stop();reviewing=Number(event.target.value);renderReview();$('revision-status').textContent='Keep what you love, or ask for a little change.';});
   $('revision-feedback').addEventListener('input',()=>{reviewRecord(reviewing).feedback=$('revision-feedback').value;persist();});
   $('redraw-signature').addEventListener('click',redrawSignature);
