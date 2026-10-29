@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#f5f3eb">
+  <title>August's Signature Studio — Make your mark.</title>
+  <meta name="description" content="August's private studio. Find your five favorite signatures and learn one small move at a time.">
+  <link rel="canonical" href="https://ericfarewell.com/augustsignature/">
+  <link rel="icon" href="assets/studio-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="studio.css">
+  <script src="studio.js" defer></script>
+</head>
+<body>
+  <main>
+    <div class="studio-masthead">
+      <div class="studio-brand"><span class="brand-mark" aria-hidden="true">a<span>f</span></span><span>AUGUST'S<br>SIGNATURE STUDIO</span></div>
+      <span class="private-label"><span aria-hidden="true"></span> Just for you</span>
+    </div>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">YOUR NAME. YOUR WAY.</p>
+        <h1 id="hero-title">Make<br>your <span>mark<svg viewBox="0 0 370 25" aria-hidden="true"><path d="M7 17C90 1 232 3 360 10M19 23C101 13 232 11 329 17"/></svg>.</span></h1>
+        <p class="hero-intro">Hey August. A signature is a tiny piece of you.<br>Let's find one you love, then make it feel easy.</p>
+        <a class="button primary" href="#collection">Find my five <span aria-hidden="true">↗</span></a>
+        <span class="hero-note">20 designs. No wrong choice.</span>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="ink-note note-back"><span>MAKE IT YOURS</span><div id="hero-tag"></div><p>A little attitude.</p></div>
+        <div class="ink-note note-front"><span>ONE NAME. ENDLESS POSSIBILITIES.</span><div id="hero-signature"></div><p>A little flow.</p></div>
+        <div class="hero-sticker">100%<br><strong>you.</strong></div>
+        <span class="scribble-caption">Your next favorite thing<br>to write.</span>
+      </div>
+    </section>
+
+    <section id="collection" aria-labelledby="collection-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">01 / FIND YOUR FEEL</p><h2 id="collection-title">Which ones feel like you?</h2></div>
+        <p>Tap the star on your five favorites.<br>You can change your mind anytime.</p>
+      </div>
+      <div class="favorites-bar" aria-label="Your five favorite signatures">
+        <div class="favorite-count"><span id="favorite-count">0</span><small> / 5 picked</small></div>
+        <div class="favorite-slots" id="favorite-slots"></div>
+        <button class="button dark small" id="practice-favorites" type="button" disabled>Try my picks <span aria-hidden="true">↗</span></button>
+      </div>
+      <div class="filters" aria-label="Filter signature designs">
+        <button type="button" data-filter="all" aria-pressed="true">All 20</button>
+        <button type="button" data-filter="everyday" aria-pressed="false">Everyday <span>5</span></button>
+        <button type="button" data-filter="quick" aria-pressed="false">Quick &amp; simple <span>5</span></button>
+        <button type="button" data-filter="calligraphy" aria-pressed="false">Calligraphy <span>5</span></button>
+        <button type="button" data-filter="tag" aria-pressed="false">Street tags <span>5</span></button>
+        <button type="button" data-filter="favorites" aria-pressed="false">My five <span id="filter-count">0</span></button>
+      </div>
+      <div class="style-grid" id="style-grid"></div>
+      <p class="empty-message" id="empty-message" hidden>Your favorites will land here. Tap a star on any design to start.</p>
+      <p class="collection-note">Full names, short forms, and initials. Borrow a detail. Mix two ideas. Your hand gets the final say.</p>
+    </section>
+
+    <section id="practice" class="practice-section" aria-labelledby="practice-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">02 / ONE SMALL WIN AT A TIME</p><h2 id="practice-title">Confidence starts here.</h2></div>
+        <p>A few tiny moves. A signature that feels like yours.<br>Pause whenever you like. We'll keep your place.</p>
+      </div>
+      <div class="practice-studio">
+        <aside class="practice-sidebar">
+          <label class="field-label" for="practice-style">YOUR CURRENT DESIGN</label>
+          <select id="practice-style" aria-label="Choose a signature to practice"></select>
+          <div class="selected-art" id="selected-art"></div>
+          <p class="selected-description" id="selected-description"></p>
+          <div class="ladder-header"><span>YOUR CONFIDENCE LADDER</span><strong id="ladder-count">0 / 7</strong></div>
+          <ol class="ladder" id="ladder" aria-label="Practice steps"></ol>
+          <div class="small-promise"><span aria-hidden="true">✦</span><p>Every attempt counts.<br>Messy ones included.</p></div>
+        </aside>
+
+        <div class="lesson">
+          <div class="lesson-topline"><span id="step-kicker">STEP 1 OF 7</span><span class="goal-chip" id="goal-chip">3 tries · about 20 sec</span></div>
+          <h3 id="lesson-title" tabindex="-1">Loosen up.</h3>
+          <p class="one-instruction" id="instruction"></p>
+          <div class="lesson-options">
+            <button type="button" class="text-button" id="hint-button" aria-expanded="false" aria-controls="hint">A little hint <span aria-hidden="true">+</span></button>
+            <label class="paper-toggle"><input type="checkbox" id="paper-mode"><span>I'm using paper</span></label>
+          </div>
+          <p class="hint" id="hint" hidden></p>
+          <div class="reference-strip" id="reference-strip" hidden><span>YOUR REFERENCE</span><div id="reference-art"></div></div>
+          <div class="draw-wrap" id="draw-wrap">
+            <div class="guide-layer" id="guide-layer" aria-hidden="true"></div>
+            <canvas id="practice-canvas" aria-label="Signature practice drawing area. Draw with a finger, stylus, or mouse. For keyboard-only practice, choose I'm using paper.">Use paper to practice the shape, then select “I'm using paper” above to count your tries.</canvas>
+            <span class="canvas-corner" id="canvas-caption">Follow the light line. Any speed.</span>
+            <span class="canvas-dot" aria-hidden="true"></span>
+          </div>
+          <div class="paper-card" id="paper-card" hidden><span aria-hidden="true">✎</span><strong>Pen. Paper. Same small win.</strong><p>Make one attempt on your paper, then tap “That's one try.”</p></div>
+          <div class="drawing-tools" id="drawing-tools">
+            <div class="tool-group"><button type="button" id="undo" disabled>↶ <span>Undo</span></button><button type="button" id="clear">Fresh space</button></div>
+            <label class="pen-control" for="pen-size">Pen <input id="pen-size" type="range" min="1" max="8" step="1" value="3"><output id="pen-value" for="pen-size">3</output></label>
+          </div>
+          <div class="lesson-actions">
+            <div class="rep-status"><div id="rep-dots" class="rep-dots" aria-hidden="true"></div><span id="rep-caption">0 of 3 tries</span></div>
+            <button class="button primary" id="count-try" type="button" disabled>That's one try <span aria-hidden="true">✓</span></button>
+          </div>
+          <div class="lesson-feedback" id="lesson-feedback" role="status">One small move is all you need to start.</div>
+          <div class="step-win" id="step-win" hidden>
+            <div><span class="win-icon" aria-hidden="true">✦</span><h4 id="win-title">First spark.</h4><p id="win-message"></p></div>
+            <button class="button dark" id="next-step" type="button">Next tiny win <span aria-hidden="true">→</span></button>
+          </div>
+          <div class="finish-card" id="finish-card" hidden>
+            <span class="finish-stars" aria-hidden="true">✦ &nbsp; ✦ &nbsp; ✦</span><h4>You made your mark.</h4><p>From a few loops to a signature. That was you.<br>Keep the parts you like. Let the rest evolve.</p>
+            <div><button class="button dark" id="free-practice" type="button">Keep playing</button><button class="button outline" id="another-style" type="button">Try another pick ↗</button></div>
+          </div>
+          <div class="lesson-footer"><button type="button" id="timer-button" class="text-button" aria-label="Start an optional 30 second practice timer">◷ <span id="timer-label">Optional 30-second focus</span></button><button type="button" id="save-drawing" class="text-button" disabled>Save my ink ↓</button></div>
+          <p class="micro-note" id="micro-note">The early shapes are warm-ups. Your chosen signature comes together in step 5.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="closing-note"><span aria-hidden="true">✳</span><p>It doesn't have to be perfect.<br><strong>It just has to feel like you.</strong></p></div>
+    <footer>Made for August Farewell. <span>Favorites &amp; progress save in this browser. Drawings stay in memory until you leave or refresh.</span></footer>
+    <noscript><p class="no-script">This studio needs JavaScript for the gallery and drawing pad. Please enable it to get started.</p></noscript>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
