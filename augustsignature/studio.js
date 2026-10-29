@@ -62,9 +62,33 @@
   let strokes = [], activeStroke = null, pointerId = null, hasNewInk = false;
   let artSerial = 0;
   let toastTimeout, timerInterval = null, timerEnds = 0, timerRemaining = 30;
+  const reviews = saved.reviews && typeof saved.reviews === 'object' ? saved.reviews : {};
+  const tastePicks = Array.isArray(saved.tastes) ? saved.tastes.filter(x => Number.isInteger(x) && x >= 0 && x < 6).slice(0,3) : [];
+  const customArtwork = new Map();
+  let reviewing = favorites[0] ?? 0, busyRedraw = false, recognition = null;
+  const tastes = [
+    {name:'Sharp & fast',note:'Corners, points, forward energy.',families:['tag','quick'],path:'M30 85 L82 20 L64 94 L40 70 L127 43 L101 88 L148 62 L130 92 L205 76',width:5},
+    {name:'Soft & looping',note:'Round shapes with room to breathe.',families:['everyday','calligraphy'],path:'M25 80 C70 65 100 5 80 18 C40 40 50 101 93 78 C115 66 132 32 117 32 C96 32 98 93 140 78 C180 65 173 21 155 36 C139 50 159 95 205 72',width:3},
+    {name:'Bold marker',note:'Thick lines and a little attitude.',families:['tag','calligraphy'],path:'M28 88 Q55 10 74 33 L63 86 Q83 54 97 56 Q113 61 104 85 L133 48 L126 87 Q151 61 165 70 L196 65 M34 99 Q118 87 205 93',width:10},
+    {name:'Fine & flowing',note:'Light lines, long sweeps.',families:['calligraphy','everyday'],path:'M22 83 C68 65 94 3 77 13 C55 26 53 102 92 80 C114 69 111 44 103 53 C92 68 118 90 143 75 C173 55 193 28 181 20 C164 10 145 100 205 73 M48 99 Q132 85 210 94',width:2},
+    {name:'Small & simple',note:'A compact mark. Fewer moves.',families:['quick','everyday'],path:'M58 87 L100 27 L91 85 M66 67 L114 57 M111 84 L135 34 M119 44 L166 31 M119 64 L151 55',width:4},
+    {name:'Loose & playful',note:'Bounce, curves, a surprising finish.',families:['tag','everyday'],path:'M25 77 C29 28 67 19 65 50 C63 83 31 97 39 74 C45 58 70 78 83 63 C107 35 105 91 128 71 C141 58 134 34 149 37 C167 42 155 90 181 73 Q198 61 210 70',width:6}
+  ];
+  const artDB = new Promise(resolve => {
+    if (!window.indexedDB) return resolve(null);
+    const request = indexedDB.open('august-signature-artwork',1);
+    request.onupgradeneeded = () => request.result.createObjectStore('art');
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => resolve(null);
+  });
+  async function writeArtwork(id, blob) {
+    const db = await artDB;
+    if (!db) throw new Error('Artwork could not be saved. Allow browser storage and try again.');
+    await new Promise((resolve,reject) => {const tx=db.transaction('art','readwrite');tx.objectStore('art').put(blob,id);tx.oncomplete=resolve;tx.onerror=()=>reject(new Error('Artwork could not be saved. Please try again.'));});
+  }
 
   function persist() {
-    try { localStorage.setItem(storageKey,JSON.stringify({favorites,selected,progress:state,pen:Number($('pen-size').value)})); }
+    try { localStorage.setItem(storageKey,JSON.stringify({favorites,selected,reviews,tastes:tastePicks,progress:state,pen:Number($('pen-size').value)})); }
     catch { storageWorks = false; }
     if (!storageWorks) document.querySelector('footer span').textContent = 'Browser storage is unavailable. Keep this page open to retain your picks and progress. Drawings stay in memory.';
   }
@@ -74,7 +98,10 @@
     clearTimeout(toastTimeout);
     toastTimeout = setTimeout(() => $('toast').classList.remove('show'),3500);
   }
-  function art(design, decorative = false) {
+  function art(design, decorative = false, original = false) {
+    if (!original && customArtwork.has(design.id) && reviews[design.id]?.useCustom) {
+      return `<img class="custom-signature" src="${customArtwork.get(design.id)}" alt="${decorative ? '' : 'Your revised signature'}" ${decorative ? 'aria-hidden="true"' : ''}>`;
+    }
     const accessibility = decorative ? 'aria-hidden="true"' : `role="img" aria-label="Handwritten ${design.text}, ${design.name} design"`;
     const [x,y,width,height] = design.crop, clipId = `ink-crop-${++artSerial}`;
     return `<svg class="signature-art" viewBox="${design.crop.join(' ')}" preserveAspectRatio="xMidYMid meet" ${accessibility}><defs><clipPath id="${clipId}"><rect x="${x}" y="${y}" width="${width}" height="${height}"/></clipPath></defs><image href="${design.asset}" width="1254" height="1254" clip-path="url(#${clipId})"/></svg>`;
@@ -83,7 +110,7 @@
     $('favorite-count').textContent = favorites.length;
     $('filter-count').textContent = favorites.length;
     $('practice-favorites').disabled = favorites.length === 0;
-    $('practice-favorites').innerHTML = `${favorites.length === 5 ? 'Try my five' : 'Try my picks'} <span aria-hidden="true">↗</span>`;
+    $('practice-favorites').innerHTML = 'Review my picks <span aria-hidden="true">↗</span>';
     $('favorite-slots').innerHTML = Array.from({length:5},(_,i) => {
       const id = favorites[i];
       return id === undefined ? '<span class="favorite-slot" aria-label="Empty favorite slot">✧</span>' : `<button type="button" class="favorite-slot filled" data-remove="${id}" aria-label="Remove ${designs[id].name} from favorites" title="${designs[id].name} · tap to remove">${String(id+1).padStart(2,'0')}</button>`;
@@ -96,14 +123,18 @@
       button.setAttribute('aria-label',`${liked ? 'Remove' : 'Add'} ${designs[card.dataset.id].name} ${liked ? 'from' : 'to'} your five favorites`);
       button.textContent = liked ? '★' : '☆';
     });
+    if(!favorites.includes(selected) || !reviews[selected]?.approved)$('practice').hidden=true;
+    if(!busyRedraw)updatePracticeOptions();
   }
   function renderGallery() {
-    const shown = designs.filter(d => filter === 'all' || filter === d.family || (filter === 'favorites' && favorites.includes(d.id)));
+    const mixed = [0,15,10,5,16,1,6,11,12,17,2,7,8,13,18,3,19,9,4,14];
+    const score = d => tastePicks.reduce((sum,t) => sum + (tastes[t].families.includes(d.family) ? 1 : 0),0);
+    const shown = mixed.map(id=>designs[id]).filter(d => filter === 'all' || filter === d.family || (filter === 'favorites' && favorites.includes(d.id))).sort((a,b)=>score(b)-score(a));
     $('style-grid').innerHTML = shown.map(d => `<article class="style-card" data-id="${d.id}">
       <div class="card-top"><span class="design-number">NO. ${String(d.id+1).padStart(2,'0')}</span><button type="button" class="star-button" data-favorite="${d.id}" aria-pressed="false" aria-label="Add ${d.name} to your five favorites">☆</button></div>
-      <button class="card-art" type="button" data-practice="${d.id}" aria-label="Practice ${d.name}: ${d.text}">${art(d,true)}</button>
+      <button class="card-art" type="button" data-practice="${d.id}" aria-label="Review ${d.name}: ${d.text}">${art(d,true)}</button>
       <div class="card-meta"><h3>${d.name}</h3><p>${d.note}</p></div>
-      <div class="card-bottom"><span class="family-chip" data-family="${d.family}">${families[d.family]}</span><button type="button" class="practice-card-button" data-practice="${d.id}" aria-label="Practice ${d.name}">Try it ↗</button></div>
+      <div class="card-bottom"><span class="family-chip" data-family="${d.family}">${families[d.family]}</span><button type="button" class="practice-card-button" data-practice="${d.id}" aria-label="Review ${d.name}">Make it mine ↗</button></div>
     </article>`).join('');
     $('empty-message').hidden = shown.length > 0;
     renderFavorites();
@@ -137,6 +168,7 @@
   }
   function selectDesign(id, shouldScroll = false) {
     if (!validId(id)) return;
+    if (!favorites.includes(id) || !reviews[id]?.approved) { openReview(id); return; }
     finishActiveStroke();
     rememberDraft();
     stopTimer();
@@ -320,6 +352,107 @@
     finishActiveStroke(); strokes=[]; activeStroke=null;pointerId=null;hasNewInk=false;rememberDraft();redraw();
   }
 
+  function renderTastes() {
+    $('taste-grid').innerHTML=tastes.map((t,i)=>`<button class="taste-choice" type="button" data-taste="${i}" aria-pressed="${tastePicks.includes(i)}"><svg viewBox="0 0 240 120" aria-hidden="true"><path d="${t.path}" stroke-width="${t.width}"/></svg><strong>${t.name}</strong><span>${t.note}</span></button>`).join('');
+    $('taste-status').textContent=tastePicks.length ? `${tastePicks.length} of 3 picked. We’ll bring these qualities forward; all 20 designs stay available.` : 'There’s no wrong answer. You can also explore them all.';
+  }
+  function reviewRecord(id) {return reviews[id] || (reviews[id]={feedback:'',approved:false,useCustom:false});}
+  function openReview(id) {
+    if (busyRedraw) return;
+    if (!favorites.includes(id)) {
+      if (favorites.length>=5) {announce('Your five are full. Remove a star to make room.');return;}
+      toggleFavorite(id);
+    }
+    reviewing=id;
+    $('review').hidden=false;
+    renderReview();
+    $('review').scrollIntoView({behavior:reducedMotion()?'auto':'smooth',block:'start'});
+  }
+  function renderReview() {
+    const record=reviewRecord(reviewing),design=designs[reviewing];
+    $('review-design').innerHTML='';
+    favorites.forEach(id=>{const option=document.createElement('option');option.value=id;option.textContent=designs[id].name+(reviews[id]?.approved?' ✓':'');$('review-design').appendChild(option);});
+    $('review-design').value=String(reviewing);
+    $('review-original').innerHTML=art(design,false,true);
+    $('review-current').innerHTML=art(design);
+    $('revision-label').textContent=record.useCustom?'Your revised version':'Your starting version';
+    $('revision-feedback').value=record.feedback||'';
+    const approved=favorites.filter(id=>reviews[id]?.approved).length;
+    $('review-count').textContent=`${approved} of ${favorites.length} approved`;
+    $('start-approved').disabled=approved===0;
+    $('approve-signature').textContent=record.approved?'Approved ✓':'I like this one ✓';
+  }
+  function updatePracticeOptions() {
+    const approved=favorites.filter(id=>reviews[id]?.approved);
+    $('practice-style').innerHTML='';
+    approved.forEach(id=>{const option=document.createElement('option');option.value=id;option.textContent=designs[id].name+(reviews[id]?.useCustom?' · Your revision':'');$('practice-style').appendChild(option);});
+    return approved;
+  }
+  async function revisionSource(id) {
+    const design=designs[id],image=new Image();
+    image.src=reviews[id]?.useCustom&&customArtwork.has(id)?customArtwork.get(id):design.asset;
+    await image.decode();
+    const source=document.createElement('canvas');source.width=1536;source.height=1024;
+    const context=source.getContext('2d');context.fillStyle='#fff';context.fillRect(0,0,1536,1024);
+    const crop=reviews[id]?.useCustom&&customArtwork.has(id)?[0,0,image.naturalWidth,image.naturalHeight]:design.crop;
+    const scale=Math.min(1400/crop[2],740/crop[3]),width=crop[2]*scale,height=crop[3]*scale;
+    context.drawImage(image,...crop,(1536-width)/2,(1024-height)/2,width,height);
+    return new Promise((resolve,reject)=>source.toBlob(blob=>blob?resolve(blob):reject(new Error('Could not prepare the signature.')), 'image/png'));
+  }
+  async function redrawSignature() {
+    if(busyRedraw)return;
+    const feedback=$('revision-feedback').value.trim(),code=$('family-code').value;
+    if(!feedback){$('revision-status').textContent='Tell us one thing you would like to change first.';$('revision-feedback').focus();return;}
+    if(!code){$('revision-status').textContent='Ask Eric to enter your family code under Family setup first.';document.querySelector('.family-setup').open=true;$('family-code').focus();return;}
+    const id=reviewing;
+    busyRedraw=true;
+    ['redraw-signature','approve-signature','keep-original','review-design','dictate-feedback','start-approved','back-gallery'].forEach(key=>$(key).disabled=true);
+    $('revision-status').dataset.error='false';
+    $('revision-status').textContent='Drawing your new version. This can take a minute or two. Your original is safe.';
+    $('redraw-signature').setAttribute('aria-busy','true');
+    try {
+      const form=new FormData();form.append('image',await revisionSource(id),'signature.png');form.append('feedback',feedback);form.append('text',designs[id].text);form.append('code',code);
+      const response=await fetch('/api/augustsignature/redraw',{method:'POST',body:form,signal:AbortSignal.timeout(240000)});
+      if(!response.ok){const error=await response.json().catch(()=>({}));throw new Error(error.error||'The redraw could not finish. Your feedback is saved; try again.');}
+      const blob=await response.blob();
+      if(!blob.type.startsWith('image/'))throw new Error('The redraw did not return artwork. Please try again.');
+      await writeArtwork(id,blob);
+      const old=customArtwork.get(id);if(old)URL.revokeObjectURL(old);
+      customArtwork.set(id,URL.createObjectURL(blob));
+      Object.assign(reviewRecord(id),{feedback,approved:false,useCustom:true});
+      state[id]={counts:steps.map(()=>0),step:0};
+      for(const key of drafts.keys())if(key.startsWith(`${id}:`))drafts.delete(key);
+      if(selected===id){strokes=[];hasNewInk=false;renderLesson();}
+      persist();renderGallery();renderReview();
+      $('revision-status').textContent='Here’s your revision. Check the letters and spelling. Keep it, ask for another change, or use the original.';
+    } catch(error){$('revision-status').dataset.error='true';$('revision-status').textContent=error.name==='TimeoutError'?'That took too long. Your original and feedback are saved. Please try again.':error.message;}
+    finally{busyRedraw=false;['redraw-signature','approve-signature','keep-original','review-design','dictate-feedback','back-gallery'].forEach(key=>$(key).disabled=false);$('redraw-signature').removeAttribute('aria-busy');renderReview();}
+  }
+  $('taste-grid').addEventListener('click',event=>{const button=event.target.closest('[data-taste]');if(!button)return;const id=Number(button.dataset.taste),index=tastePicks.indexOf(id);if(index>=0)tastePicks.splice(index,1);else if(tastePicks.length<3)tastePicks.push(id);else{announce('Pick up to three. Tap one again to make room.');return;}persist();renderTastes();renderGallery();});
+  $('show-signatures').addEventListener('click',()=>{$('collection').hidden=false;$('collection').scrollIntoView({behavior:reducedMotion()?'auto':'smooth'});});
+  document.querySelectorAll('[data-inspire]').forEach(button=>button.addEventListener('click',()=>{const id=Number(button.dataset.inspire);if(tastePicks.includes(id)){announce('That quality is already in your picks.');return;}if(tastePicks.length>=3){announce('You have three qualities picked. Tap one above to make room.');return;}tastePicks.push(id);persist();renderTastes();renderGallery();announce('Added that quality to your style picks.');}));
+  $('review-design').addEventListener('change',event=>{recognition?.stop();reviewing=Number(event.target.value);renderReview();$('revision-status').textContent='Keep what you love, or ask for a little change.';});
+  $('revision-feedback').addEventListener('input',()=>{reviewRecord(reviewing).feedback=$('revision-feedback').value;persist();});
+  $('redraw-signature').addEventListener('click',redrawSignature);
+  $('keep-original').addEventListener('click',()=>{Object.assign(reviewRecord(reviewing),{useCustom:false,approved:false});state[reviewing]={counts:steps.map(()=>0),step:0};for(const key of drafts.keys())if(key.startsWith(`${reviewing}:`))drafts.delete(key);if(selected===reviewing){strokes=[];hasNewInk=false;renderLesson();}persist();renderReview();renderGallery();$('revision-status').textContent='Back to the original. You can approve it or ask for a different change.';});
+  $('approve-signature').addEventListener('click',()=>{reviewRecord(reviewing).approved=true;persist();renderReview();updatePracticeOptions();const next=favorites.find(id=>!reviews[id]?.approved);$('revision-status').textContent=next===undefined?'Your picks are ready. Let’s learn one small move at a time.':'Small decision, big step. Your next favorite is ready to review.';if(next!==undefined){reviewing=next;renderReview();}});
+  $('start-approved').addEventListener('click',()=>{const approved=updatePracticeOptions();if(!approved.length)return;$('practice').hidden=false;selectDesign(approved[0],true);});
+  $('back-gallery').addEventListener('click',()=>{$('collection').hidden=false;$('collection').scrollIntoView({behavior:reducedMotion()?'auto':'smooth'});});
+  const Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
+  $('dictate-feedback').addEventListener('click',()=>{
+    if(!Speech){$('speech-status').textContent='Voice input is unavailable here. On your Chromebook, you can also use keyboard dictation, or type your changes.';return;}
+    if(recognition){recognition.stop();return;}
+    const target=reviewing,base=$('revision-feedback').value.trim();
+    const speech=new Speech();recognition=speech;speech.lang='en-US';speech.interimResults=true;speech.continuous=false;
+    speech.onstart=()=>{$('dictate-feedback').setAttribute('aria-pressed','true');$('dictate-feedback').textContent='Stop listening ■';$('speech-status').textContent='Listening. Say the changes you want. Nothing sends until you tap Redraw.';};
+    speech.onresult=event=>{if(target!==reviewing)return;const words=Array.from(event.results).map(result=>result[0].transcript).join(' ');$('revision-feedback').value=[base,words].filter(Boolean).join(' ').slice(0,1000);reviewRecord(target).feedback=$('revision-feedback').value;persist();};
+    speech.onerror=event=>{$('speech-status').textContent=event.error==='not-allowed'?'Microphone permission was not granted. You can type your changes instead.':'Voice input stopped. Your words are saved. You can type or try again.';};
+    speech.onend=()=>{recognition=null;$('dictate-feedback').setAttribute('aria-pressed','false');$('dictate-feedback').textContent='Speak my changes 🎙';};
+    try{speech.start();}catch{recognition=null;$('speech-status').textContent='Could not start the microphone. Please type or try again.';}
+  });
+  artDB.then(async db=>{if(!db)return;const records=await new Promise(resolve=>{const request=db.transaction('art').objectStore('art').getAllKeys();request.onsuccess=()=>resolve(request.result);request.onerror=()=>resolve([]);});for(const id of records){if(!validId(id))continue;const blob=await new Promise(resolve=>{const request=db.transaction('art').objectStore('art').get(id);request.onsuccess=()=>resolve(request.result);request.onerror=()=>resolve(null);});if(blob instanceof Blob)customArtwork.set(id,URL.createObjectURL(blob));}renderGallery();if(!$('review').hidden)renderReview();renderLesson();});
+  fetch('/api/augustsignature/redraw').then(response=>response.json()).then(data=>{$('service-status').textContent=data.ready?'Automatic redraws are ready. Enter the family code to use them.':'Automatic redraws need Eric to finish the image-service setup. Feedback and favorites can still be saved.';if(!data.ready){$('revision-status').textContent='Redraws are waiting for Eric to connect the image service. Save your ideas here, or approve an original to practice for now.';}}).catch(()=>{$('service-status').textContent='The redraw service could not be reached. Your ideas can still be saved.';});
+
   function stopTimer() {
     clearInterval(timerInterval);timerInterval=null;timerEnds=0;timerRemaining=30;
     $('timer-label').textContent = 'Optional 30-second focus';
@@ -349,13 +482,13 @@
   $('style-grid').addEventListener('click',event=>{
     const favoriteButton=event.target.closest('[data-favorite]'), practiceButton=event.target.closest('[data-practice]');
     if(favoriteButton) toggleFavorite(Number(favoriteButton.dataset.favorite));
-    else if(practiceButton) selectDesign(Number(practiceButton.dataset.practice),true);
+    else if(practiceButton) openReview(Number(practiceButton.dataset.practice));
   });
   $('favorite-slots').addEventListener('click',event=>{
     const button=event.target.closest('[data-remove]');
     if(button){toggleFavorite(Number(button.dataset.remove));$('practice-favorites').focus({preventScroll:true});}
   });
-  $('practice-favorites').addEventListener('click',()=>{if(favorites.length)selectDesign(favorites[0],true);});
+  $('practice-favorites').addEventListener('click',()=>{if(favorites.length)openReview(favorites[0]);});
   $('practice-style').innerHTML = Object.entries(families).map(([key,label])=>`<optgroup label="${label}">${designs.filter(d=>d.family===key).map(d=>`<option value="${d.id}">${String(d.id+1).padStart(2,'0')} · ${d.name}</option>`).join('')}</optgroup>`).join('');
   $('practice-style').addEventListener('change',event=>selectDesign(Number(event.target.value)));
   $('ladder').addEventListener('click',event=>{const button=event.target.closest('[data-step]');if(button)setStep(Number(button.dataset.step));});
@@ -392,7 +525,8 @@
     setStep(6,false);freeMode=true;clearInk();renderLesson();$('lesson-title').focus({preventScroll:true});
   });
   $('another-style').addEventListener('click',()=>{
-    const pool=favorites.length>1?favorites:designs.map(d=>d.id);
+    const pool=favorites.filter(id=>reviews[id]?.approved);
+    if(!pool.length)return;
     const next=pool[(pool.indexOf(selected)+1)%pool.length];selectDesign(next,true);
   });
   $('undo').addEventListener('click',()=>{finishActiveStroke();strokes.pop();hasNewInk=strokes.length>0;rememberDraft();redraw();});
@@ -413,9 +547,9 @@
     announce('Your ink is saved as a picture. Nice work.');
   });
 
-  $('hero-signature').innerHTML=art(designs[0],true);
-  $('hero-tag').innerHTML=art(designs[15],true);
-  renderGallery();loadDraft();renderLesson();persist();
+  $('hero-signature').innerHTML=`<svg class="signature-art hero-motion" viewBox="0 0 240 120" aria-hidden="true"><path d="${tastes[1].path}" stroke-width="3"/></svg>`;
+  $('hero-tag').innerHTML=`<svg class="signature-art hero-motion" viewBox="0 0 240 120" aria-hidden="true"><path d="${tastes[0].path}" stroke-width="6"/></svg>`;
+  renderTastes();renderGallery();loadDraft();renderLesson();updatePracticeOptions();persist();
   if(typeof ResizeObserver!=='undefined')new ResizeObserver(resizeCanvas).observe($('draw-wrap'));
   else window.addEventListener('resize',resizeCanvas);
 })();

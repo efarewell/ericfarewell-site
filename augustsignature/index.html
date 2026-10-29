@@ -10,7 +10,8 @@
   <link rel="canonical" href="https://ericfarewell.com/augustsignature/">
   <link rel="icon" href="assets/studio-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="studio.css">
-  <script src="studio.js" defer></script>
+  <script src="studio.js?v=review-1" defer></script>
+  <link rel="stylesheet" href="review.css?v=review-1">
 </head>
 <body>
   <main>
@@ -23,8 +24,8 @@
       <div class="hero-copy">
         <p class="eyebrow">YOUR NAME. YOUR WAY.</p>
         <h1 id="hero-title">Make<br>your <span>mark<svg viewBox="0 0 370 25" aria-hidden="true"><path d="M7 17C90 1 232 3 360 10M19 23C101 13 232 11 329 17"/></svg>.</span></h1>
-        <p class="hero-intro">Hey August. A signature is a tiny piece of you.<br>Let's find one you love, then make it feel easy.</p>
-        <a class="button primary" href="#collection">Find my five <span aria-hidden="true">↗</span></a>
+        <p class="hero-intro">Hey August. Start with the shapes you like.<br>Pick your favorites, make them yours, then learn one small move at a time.</p>
+        <a class="button primary" href="#style-discovery">Find my style <span aria-hidden="true">↗</span></a>
         <span class="hero-note">20 designs. No wrong choice.</span>
       </div>
       <div class="hero-art" aria-hidden="true">
@@ -35,15 +36,28 @@
       </div>
     </section>
 
-    <section id="collection" aria-labelledby="collection-title">
+    <section id="style-discovery" aria-labelledby="discovery-title">
+      <div class="section-heading"><div><p class="eyebrow">01 / FOLLOW YOUR EYE</p><h2 id="discovery-title">What feels like you?</h2></div><p>No names yet. Just shapes and movement.<br>Tap up to three that catch your eye.</p></div>
+      <div class="taste-grid" id="taste-grid"></div>
+      <details class="inspiration-board"><summary>Find a little of yourself in someone else’s mark</summary>
+        <p>What catches your eye: confidence, playfulness, movement? Borrow a quality and give it your own name.</p>
+        <div class="inspiration-grid">
+          <article><img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Walt_Disney_1942_signature.svg" alt="Walt Disney’s 1942 signature" loading="lazy"><h3>Walt Disney</h3><p>Notice the looping initials and lively movement. Does the playful feel fit you?</p><button type="button" class="button outline small" data-inspire="1">I like those loops</button><a href="https://commons.wikimedia.org/wiki/File:Walt_Disney_1942_signature.svg" target="_blank" rel="noopener noreferrer">Signature source · public domain</a></article>
+          <article><img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Keith_Haring_signature.png" alt="Keith Haring’s 1988 signature" loading="lazy"><h3>Keith Haring</h3><p>Notice the direct, informal line. Would you rather keep your mark relaxed?</p><button type="button" class="button outline small" data-inspire="5">I like that loose feel</button><a href="https://commons.wikimedia.org/wiki/File:Keith_Haring_signature.png" target="_blank" rel="noopener noreferrer">P.Lameiro / Jan Arkesteijn · source</a><a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0 · unchanged</a></article>
+          <article><img src="https://upload.wikimedia.org/wikipedia/commons/9/90/JohnHancockSignature.svg" alt="John Hancock’s signature" loading="lazy"><h3>John Hancock</h3><p>Notice the large capitals and sweeping finish. Like the confidence? Try that feeling.</p><button type="button" class="button outline small" data-inspire="3">I like that flowing finish</button><a href="https://commons.wikimedia.org/wiki/File:JohnHancockSignature.svg" target="_blank" rel="noopener noreferrer">Crazytales · source · public domain</a></article>
+        </div>
+      </details>
+      <div class="review-actions"><button class="button primary" id="show-signatures" type="button">See my signatures →</button><span id="taste-status" role="status">There’s no wrong answer. You can also explore them all.</span></div>
+    </section>
+    <section id="collection" aria-labelledby="collection-title" hidden>
       <div class="section-heading">
-        <div><p class="eyebrow">01 / FIND YOUR FEEL</p><h2 id="collection-title">Which ones feel like you?</h2></div>
+        <div><p class="eyebrow">02 / FIND YOUR FIVE</p><h2 id="collection-title">Which ones feel like you?</h2></div>
         <p>Tap the star on your five favorites.<br>You can change your mind anytime.</p>
       </div>
       <div class="favorites-bar" aria-label="Your five favorite signatures">
         <div class="favorite-count"><span id="favorite-count">0</span><small> / 5 picked</small></div>
         <div class="favorite-slots" id="favorite-slots"></div>
-        <button class="button dark small" id="practice-favorites" type="button" disabled>Try my picks <span aria-hidden="true">↗</span></button>
+        <button class="button dark small" id="practice-favorites" type="button" disabled>Review my picks <span aria-hidden="true">↗</span></button>
       </div>
       <div class="filters" aria-label="Filter signature designs">
         <button type="button" data-filter="all" aria-pressed="true">All 20</button>
@@ -58,9 +72,24 @@
       <p class="collection-note">Full names, short forms, and initials. Borrow a detail. Mix two ideas. Your hand gets the final say.</p>
     </section>
 
-    <section id="practice" class="practice-section" aria-labelledby="practice-title">
+    <section id="review" class="practice-section" aria-labelledby="review-title" hidden>
+      <div class="section-heading"><div><p class="eyebrow">03 / MAKE IT YOURS</p><h2 id="review-title">Keep it. Or give it a twist.</h2></div><p>One favorite at a time.<br>Approve your version before you learn it.</p></div>
+      <div class="review-panel">
+        <div class="review-actions"><label for="review-design">Your favorite</label><select id="review-design"></select><span id="review-count" role="status"></span></div>
+        <div class="revision-comparison"><div><h3>Original idea</h3><div id="review-original" class="review-art"></div></div><div><h3 id="revision-label">Your version</h3><div id="review-current" class="review-art"></div></div></div>
+        <label class="feedback-label" for="revision-feedback">What would you change?</label>
+        <textarea id="revision-feedback" rows="3" maxlength="1000" placeholder="I like the A. Make the rest rounder, remove the underline, and make it easier to write quickly."></textarea>
+        <div class="review-actions"><button class="button outline" id="dictate-feedback" type="button" aria-pressed="false">Speak my changes 🎙</button><button class="text-button" id="keep-original" type="button">Use the original</button></div>
+        <p class="review-note" id="speech-status" role="status">Type your idea, or tap the microphone. You can edit the words before sending. Dictation may use your browser’s speech service.</p>
+        <div class="review-actions"><button class="button primary" id="redraw-signature" type="button">Redraw my signature ✦</button><button class="button dark" id="approve-signature" type="button">I like this one ✓</button></div>
+        <p class="review-note" id="revision-status" role="status" aria-live="polite">Keep the parts you love. Ask for one small change to start.</p>
+        <div class="review-actions"><button class="button primary" id="start-approved" type="button" disabled>Learn my approved signatures →</button><button class="text-button" id="back-gallery" type="button">Back to all designs</button></div>
+        <details class="family-setup"><summary>Family setup</summary><p>Automatic redraws use a family access code to protect the image service. Enter the code Eric set for this studio.</p><label for="family-code">Family access code</label><input id="family-code" type="password" autocomplete="off"><p id="service-status" role="status">Checking redraw service…</p></details>
+      </div>
+    </section>
+    <section id="practice" class="practice-section" aria-labelledby="practice-title" hidden>
       <div class="section-heading">
-        <div><p class="eyebrow">02 / ONE SMALL WIN AT A TIME</p><h2 id="practice-title">Confidence starts here.</h2></div>
+        <div><p class="eyebrow">04 / ONE SMALL WIN AT A TIME</p><h2 id="practice-title">Confidence starts here.</h2></div>
         <p>A few tiny moves. A signature that feels like yours.<br>Pause whenever you like. We'll keep your place.</p>
       </div>
       <div class="practice-studio">
@@ -115,7 +144,7 @@
     </section>
 
     <div class="closing-note"><span aria-hidden="true">✳</span><p>It doesn't have to be perfect.<br><strong>It just has to feel like you.</strong></p></div>
-    <footer>Made for August Farewell. <span>Favorites &amp; progress save in this browser. Drawings stay in memory until you leave or refresh.</span></footer>
+    <footer>Made for August Farewell. <span>Favorites, approved artwork &amp; progress save in this browser. Practice drawings stay in memory until you leave or refresh. Redraws send your design and changes to OpenAI.</span></footer>
     <noscript><p class="no-script">This studio needs JavaScript for the gallery and drawing pad. Please enable it to get started.</p></noscript>
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>

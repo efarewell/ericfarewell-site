@@ -1,6 +1,7 @@
 {
   "version": 1,
   "include": [
+    "/api/augustsignature/*",
     "/time-audit",
     "/time-audit/*",
     "/tools-library",
