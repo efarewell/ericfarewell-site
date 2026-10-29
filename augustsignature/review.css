@@ -3,3 +3,4 @@
 .hero-motion{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
 .inspiration-kind{display:block;min-height:32px;font-size:10px;font-weight:700;letter-spacing:.08em;line-height:1.5;color:var(--muted);margin-bottom:12px}.inspiration-grid article{display:flex;flex-direction:column}.inspiration-grid img{height:130px}.inspiration-grid p{flex:1}.inspiration-grid .button{align-self:flex-start;white-space:normal}.inspiration-board .inspiration-footnote{font-size:12px;max-width:85ch;margin-top:18px}@media(min-width:701px) and (max-width:1000px){.inspiration-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .inspiration-grid button[aria-pressed=true]{background:var(--soft-blue);border-color:var(--blue);color:var(--blue)}
+.inspiration-grid .autograph-detail{display:block;width:100%;height:130px;margin-bottom:16px;overflow:hidden}.inspiration-grid h3 small{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-top:5px}
