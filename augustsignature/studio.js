@@ -25,7 +25,12 @@
     {name:'Lightning',family:'tag',text:'A Farewell',note:'Forward angles. A decisive exit.',crop:[282,520,716,221],motion:'angular'},
     {name:'The stamp',family:'tag',text:'AF',note:'A bold two-letter mark in a few moves.',crop:[420,783,419,217],motion:'angular'},
     {name:'Loose cannon',family:'tag',text:'Aug. Farewell',note:'Playful curves with a marker feel.',crop:[214,1030,840,196],motion:'loop'}
-  ].map((d,id) => ({...d,id,asset:`assets/${d.family}-ink.png`}));
+  ].map((d,id) => ({...d,id,asset:`assets/${d.family}-ink.png`,features:[
+    ['open','connected'],['tall','compact'],['loops','open'],['compact','sweep'],['loops','sweep'],
+    ['compact','connected'],['open','bold'],['angles','connected'],['compact','connected'],['compact','loops'],
+    ['fine','loops'],['bold','connected'],['loops','sweep'],['playful','bold'],['angles','bold'],
+    ['angles','sweep'],['loops','bold'],['angles','sweep'],['bold','compact'],['playful','loops']
+  ][id]}));
 
   const steps = [
     {short:'Flow',title:'Start with a little flow.',instruction:'Follow the three loops once. Keep your hand loose.',hint:'Rest your hand. Let your fingers hold the pen lightly. Follow the blue starting dot into the loops. One pass through all three loops is one try.',goal:3,time:'about 20 sec',win:'First spark.',message:'You showed up and got moving. That counts.'},
@@ -43,7 +48,7 @@
   let saved = {};
   try { saved = JSON.parse(localStorage.getItem(storageKey) || '{}') || {}; } catch { storageWorks = false; }
   const validId = id => Number.isInteger(id) && id >= 0 && id < designs.length;
-  const favorites = Array.isArray(saved.favorites) ? [...new Set(saved.favorites.filter(validId))].slice(0,5) : [];
+  const favorites = Array.isArray(saved.favorites) ? [...new Set(saved.favorites.filter(validId))] : [];
   let selected = validId(saved.selected) ? saved.selected : 0;
   let filter = 'all';
   let paperMode = false;
@@ -64,10 +69,10 @@
   let toastTimeout, timerInterval = null, timerEnds = 0, timerRemaining = 30;
   const reviews = saved.reviews && typeof saved.reviews === 'object' ? saved.reviews : {};
   const people = window.augustAutographs || [];
-  const peoplePicks = Array.isArray(saved.people) ? [...new Set(saved.people.filter(id=>people.some(p=>p.id===id)))].slice(0,5) : [];
+  const peoplePicks = Array.isArray(saved.people) ? [...new Set(saved.people.filter(id=>people.some(p=>p.id===id)))] : [];
   // Version the ranking contract so saved numeric picks never change meaning.
   const peopleBasis = () => 'contrast-v2:' + [...peoplePicks].sort().join('|');
-  const tastePicks = saved.tasteBasis === peopleBasis() && Array.isArray(saved.tastes) ? [...new Set(saved.tastes.filter(x => Number.isInteger(x) && x >= 0 && x < 6))].slice(0,3) : [];
+  const tastePicks = saved.tasteBasis === peopleBasis() && Array.isArray(saved.tastes) ? [...new Set(saved.tastes.filter(x => Number.isInteger(x) && x >= 0 && x < 6))] : [];
   let currentStage = 'people';
   const customArtwork = new Map();
   let reviewing = favorites[0] ?? 0, busyRedraw = false, recognition = null;
@@ -102,6 +107,18 @@
       });
   }
   let tastes = buildTasteOptions();
+  const featureLabels = {angles:'sharp corners',compact:'compact shapes',loops:'rounded loops',open:'open spacing',bold:'bold strokes',fine:'fine lines',connected:'joined letters',sweep:'long finishing sweeps',playful:'playful details',tall:'tall strokes'};
+  function preferenceClues(items) {
+    const votes={};
+    items.forEach(item=>item.features.forEach(feature=>votes[feature]=(votes[feature]||0)+1));
+    return Object.keys(votes).sort((a,b)=>votes[b]-votes[a]||a.localeCompare(b)).slice(0,3).map(feature=>featureLabels[feature]).join(', ');
+  }
+  function renderSignatureClues() {
+    const picks=favorites.map(id=>designs[id]);
+    $('signature-clues').textContent=picks.length
+      ? `Your ${picks.length===1?'pick has':'picks include'} ${preferenceClues(picks)}. Is one of those details what you like? You get to decide. Next, try: “Keep the A, but change the finish.”`
+      : 'Tap the artwork, star, or “Pick this one” to save a favorite. Nothing opens yet. One favorite is enough to continue.';
+  }
   const artDB = new Promise(resolve => {
     if (!window.indexedDB) return resolve(null);
     const request = indexedDB.open('august-signature-artwork',1);
@@ -138,19 +155,20 @@
     $('favorite-count').textContent = favorites.length;
     $('filter-count').textContent = favorites.length;
     $('practice-favorites').disabled = favorites.length === 0;
+    $('review-picks-bottom').disabled = favorites.length === 0;
     $('practice-favorites').innerHTML = 'Review my picks <span aria-hidden="true">↗</span>';
-    $('favorite-slots').innerHTML = Array.from({length:5},(_,i) => {
-      const id = favorites[i];
-      return id === undefined ? '<span class="favorite-slot" aria-label="Empty favorite slot">✧</span>' : `<button type="button" class="favorite-slot filled" data-remove="${id}" aria-label="Remove ${designs[id].name} from favorites" title="${designs[id].name} · tap to remove">${String(id+1).padStart(2,'0')}</button>`;
-    }).join('');
+    $('favorite-slots').innerHTML = favorites.map(id=>`<button type="button" class="favorite-slot filled" data-remove="${id}" aria-label="Remove ${designs[id].name} from favorites" title="${designs[id].name} · tap to remove">${String(id+1).padStart(2,'0')}</button>`).join('');
     document.querySelectorAll('.style-card').forEach(card => {
       const liked = favorites.includes(Number(card.dataset.id));
       card.classList.toggle('is-favorite',liked);
-      const button = card.querySelector('.star-button');
-      button.setAttribute('aria-pressed',String(liked));
-      button.setAttribute('aria-label',`${liked ? 'Remove' : 'Add'} ${designs[card.dataset.id].name} ${liked ? 'from' : 'to'} your five favorites`);
-      button.textContent = liked ? '★' : '☆';
+      card.querySelectorAll('[data-favorite]').forEach(button=>{
+        button.setAttribute('aria-pressed',String(liked));
+        button.setAttribute('aria-label',`${liked ? 'Remove' : 'Pick'} ${designs[card.dataset.id].name}${liked ? ' from favorites' : ' as a favorite'}`);
+        if(button.classList.contains('star-button'))button.textContent=liked?'★':'☆';
+        if(button.classList.contains('practice-card-button'))button.textContent=liked?'Picked ✓':'Pick this one ☆';
+      });
     });
+    renderSignatureClues();
     if(!favorites.includes(selected) || !reviews[selected]?.approved)$('practice').hidden=true;
     if(!busyRedraw)updatePracticeOptions();
     updateStageNavigation();
@@ -163,10 +181,10 @@
     const rounds={};
     const shown = mixed.map(id=>designs[id]).filter(d => filter === 'all' || filter === d.family || (filter === 'favorites' && favorites.includes(d.id))).map(d=>({...d,round:(rounds[d.family]=(rounds[d.family]||0)+1)-1})).sort((a,b)=>a.round-b.round||score(b)-score(a));
     $('style-grid').innerHTML = shown.map(d => `<article class="style-card" data-id="${d.id}">
-      <div class="card-top"><span class="design-number">NO. ${String(d.id+1).padStart(2,'0')}</span><button type="button" class="star-button" data-favorite="${d.id}" aria-pressed="false" aria-label="Add ${d.name} to your five favorites">☆</button></div>
-      <button class="card-art" type="button" data-practice="${d.id}" aria-label="Review ${d.name}: ${d.text}">${art(d,true)}</button>
-      <div class="card-meta"><h3>${d.name}</h3><p>${d.note}</p></div>
-      <div class="card-bottom"><span class="family-chip" data-family="${d.family}">${families[d.family]}</span><button type="button" class="practice-card-button" data-practice="${d.id}" aria-label="Review ${d.name}">Make it mine ↗</button></div>
+      <div class="card-top"><span class="design-number">NO. ${String(d.id+1).padStart(2,'0')}</span><button type="button" class="star-button" data-favorite="${d.id}" aria-pressed="false" aria-label="Pick ${d.name} as a favorite">☆</button></div>
+      <button class="card-art" type="button" data-favorite="${d.id}" aria-pressed="false" aria-label="Pick ${d.name} as a favorite">${art(d,true)}</button>
+      <div class="card-meta"><h3>${d.name}</h3><p>${d.note}</p><p class="detail-cue">Look for: ${d.features.map(feature=>featureLabels[feature]).join(' + ')}. Keep either detail, not necessarily both.</p></div>
+      <div class="card-bottom"><span class="family-chip" data-family="${d.family}">${families[d.family]}</span><button type="button" class="practice-card-button" data-favorite="${d.id}" aria-pressed="false" aria-label="Pick ${d.name} as a favorite">Pick this one ☆</button></div>
     </article>`).join('');
     $('empty-message').hidden = shown.length > 0;
     renderFavorites();
@@ -175,11 +193,10 @@
     const index = favorites.indexOf(id);
     if (index >= 0) {
       favorites.splice(index,1);
-      announce(`${designs[id].name} removed. Room for a new favorite.`);
+      announce(`${designs[id].name} unpicked. Keep only what you like.`);
     } else {
-      if (favorites.length === 5) { announce('Your five are full. Tap a selected star to make room.'); return; }
       favorites.push(id);
-      announce(favorites.length === 5 ? 'Your five are in. Time to see how they feel.' : `${designs[id].name} is in. ${favorites.length} of 5 picked.`);
+      announce(`${designs[id].name} picked. ${favorites.length===1?'One is enough to continue.':'Keep browsing, or review your picks when you’re ready.'}`);
     }
     persist();
     if (filter === 'favorites') {
@@ -385,8 +402,8 @@
   }
 
   function stageReady(stage) {
-    const peopleDone=peoplePicks.length===5,styleDone=peopleDone&&tastePicks.length===3;
-    return stage==='people'||(stage==='style-discovery'&&peopleDone)||(stage==='collection'&&styleDone)||(stage==='review'&&styleDone&&favorites.length>0)||(stage==='practice'&&styleDone&&favorites.some(id=>reviews[id]?.approved));
+    const peopleDone=peoplePicks.length>0;
+    return stage==='people'||(stage==='style-discovery'&&peopleDone)||(stage==='collection'&&peopleDone)||(stage==='review'&&peopleDone&&favorites.length>0)||(stage==='practice'&&peopleDone&&favorites.some(id=>reviews[id]?.approved));
   }
   function updateStageNavigation() {
     document.querySelectorAll('.studio-journey [data-stage]').forEach(button=>{
@@ -396,7 +413,7 @@
   }
   function showStage(stage,focus=true) {
     if(busyRedraw&&stage!=='review'){announce('Your redraw is still working. Your original is safe.');return false;}
-    if(!stageReady(stage)){announce(peoplePicks.length<5?'Choose five autographs first.':tastePicks.length<3?'Choose three style options first.':'Pick a signature in the previous round first.');return false;}
+    if(!stageReady(stage)){announce(!peoplePicks.length?'Pick one inspiration mark first. One is enough.':!favorites.length?'Pick one signature first. You don’t need more than one.':'Approve a favorite in Refine before learning it.');return false;}
     if(currentStage==='practice'&&stage!=='practice'){finishActiveStroke();rememberDraft();stopTimer();}
     if(currentStage==='review'&&stage!=='review')recognition?.stop();
     currentStage=stage;
@@ -424,38 +441,41 @@
       const picked=peoplePicks.includes(p.id),button=document.querySelector(`[data-person="${p.id}"]`);
       button.setAttribute('aria-pressed',String(picked));
       button.setAttribute('aria-label',`${picked?'Remove':'Pick'} ${p.name}`);
-      button.querySelector('.pick-label').textContent=picked?'Picked ✓ · tap to swap':'Pick this mark ☆';
+      button.querySelector('.pick-label').textContent=picked?'Picked ✓ · tap to unpick':'Pick this mark ☆';
       button.closest('article').classList.toggle('is-picked',picked);
     });
-    $('people-count').textContent=`${peoplePicks.length} / 5 picked`;
-    $('people-next').disabled=$('people-next-bottom').disabled=peoplePicks.length!==5;
-    $('people-status').textContent=peoplePicks.length===5?'Your five are in. Your style round is ready.':`${5-peoplePicks.length} more ${peoplePicks.length===4?'autograph':'autographs'} to find. You can change your mind.`;
+    $('people-count').textContent=`${peoplePicks.length} picked`;
+    $('people-next').disabled=$('people-next-bottom').disabled=peoplePicks.length===0;
+    $('people-status').textContent=peoplePicks.length?'Ready when you are. Keep exploring, or continue with these picks.':'Pick one that catches your eye. No need to fill a quota.';
     updateStageNavigation();
   }
   function togglePerson(id) {
     if(!people.some(p=>p.id===id))return;
     const index=peoplePicks.indexOf(id);
     if(index>=0)peoplePicks.splice(index,1);
-    else if(peoplePicks.length<5)peoplePicks.push(id);
-    else{announce('Your five are full. Tap a picked autograph to make room.');return;}
+    else peoplePicks.push(id);
     const hadStyles=tastePicks.length>0;
     tastePicks.splice(0);tastes=buildTasteOptions();
     renderPeople();renderTastes();persist();
-    announce(hadStyles?'Autograph picks changed. Your six style options are refreshed; choose three again.':peoplePicks.length===5?'Five picked. Your own style round is ready.':`${peoplePicks.length} of 5 picked. A little closer.`);
+    announce(hadStyles?'Your style options are refreshed. Pick any you like, or skip that round.':peoplePicks.length?`${peoplePicks.length} picked. You can continue whenever you’re ready.`:'No picks yet. Find one detail you like.');
   }
   function renderTastes() {
-    $('taste-grid').innerHTML=tastes.map((t,i)=>`<button class="taste-choice" type="button" data-taste="${i}" data-profile="${t.id}" aria-pressed="${tastePicks.includes(i)}"><svg viewBox="0 0 240 120" aria-hidden="true"><path d="${t.path}" stroke-width="${t.width}"/></svg><strong>${t.name}</strong><span>${t.note}</span><span class="taste-origin">${t.basis}</span><span class="taste-check">${tastePicks.includes(i)?'Picked ✓':'Pick this feel ☆'}</span></button>`).join('');
-    $('taste-explanation').textContent='Four directions borrow movement from your picks. Two deliberate contrasts keep street-style edge and fine, flowing lines in view, even if they differ from your favorites. Choose three you would like to try with your own name.';
-    $('taste-count').textContent=`${tastePicks.length} / 3 picked`;
-    $('show-signatures').disabled=tastePicks.length!==3||peoplePicks.length!==5;
-    $('taste-status').textContent=tastePicks.length===3?'Three picked. Let’s put your name to those ideas.':`${3-tastePicks.length} more ${tastePicks.length===2?'style':'styles'} to pick. Nothing has to be perfect.`;
+    $('taste-grid').innerHTML=tastes.map((t,i)=>`<button class="taste-choice" type="button" data-taste="${i}" data-profile="${t.id}" aria-pressed="${tastePicks.includes(i)}"><svg viewBox="0 0 240 120" aria-hidden="true"><path d="${t.path}" stroke-width="${t.width}"/></svg><strong>${t.name}</strong><span>${t.note}</span><span class="detail-cue">Notice: ${t.features.map(feature=>featureLabels[feature]).join(' + ')}. Which detail would you keep?</span><span class="taste-origin">${t.basis}</span><span class="taste-check">${tastePicks.includes(i)?'Picked ✓ · tap to unpick':'Pick this feel ☆'}</span></button>`).join('');
+    $('taste-explanation').textContent='Four directions explore details in your inspiration picks. Two contrasts keep street-style edge and fine, flowing lines in view. Pick just the ones you like, or skip ahead if none feel right. All 20 signature designs will still be there.';
+    $('taste-clues').textContent=peoplePicks.length?`Your inspiration picks include ${preferenceClues(people.filter(p=>peoplePicks.includes(p.id)))}. Maybe one of those details drew you in. Compare the shapes below and see if that fits.`:'Look for a shape or movement you would enjoy making. You decide what fits.';
+    $('taste-reflection').textContent=tastePicks.length?`In your style picks: ${preferenceClues(tastePicks.map(index=>tastes[index]))}. If that sounds right, look for those parts in your name next. These are clues, not rules.`:'No need to choose just to move on. Your inspiration picks are already enough to start.';
+    $('taste-count').textContent=`${tastePicks.length} picked · optional`;
+    ['show-signatures','show-signatures-bottom'].forEach(id=>{
+      $(id).disabled=peoplePicks.length===0;
+      $(id).textContent=tastePicks.length?'See my signatures →':'Skip to my signatures →';
+    });
+    $('taste-status').textContent=tastePicks.length?'Ready whenever you are. One style is enough; more are welcome.':'Nothing here? You can go straight to your name.';
     updateStageNavigation();
   }
   function reviewRecord(id) {return reviews[id] || (reviews[id]={feedback:'',approved:false,useCustom:false});}
   function openReview(id) {
     if (busyRedraw) return;
     if (!favorites.includes(id)) {
-      if (favorites.length>=5) {announce('Your five are full. Remove a star to make room.');return;}
       toggleFavorite(id);
     }
     reviewing=id;
@@ -521,8 +541,9 @@
     } catch(error){$('revision-status').dataset.error='true';$('revision-status').textContent=error.name==='TimeoutError'?'That took too long. Your original and feedback are saved. Please try again.':error.message;}
     finally{busyRedraw=false;['redraw-signature','approve-signature','keep-original','review-design','dictate-feedback','back-gallery'].forEach(key=>$(key).disabled=false);$('redraw-signature').removeAttribute('aria-busy');renderReview();}
   }
-  $('taste-grid').addEventListener('click',event=>{const button=event.target.closest('[data-taste]');if(!button)return;const id=Number(button.dataset.taste),index=tastePicks.indexOf(id);if(index>=0)tastePicks.splice(index,1);else if(tastePicks.length<3)tastePicks.push(id);else{announce('Your three are full. Tap a picked style to make room.');return;}persist();renderTastes();renderGallery();document.querySelector(`[data-taste="${id}"]`).focus({preventScroll:true});announce(tastePicks.length===3?'Three picked. Your name is next.':`${tastePicks.length} of 3 picked. Keep following your eye.`);});
+  $('taste-grid').addEventListener('click',event=>{const button=event.target.closest('[data-taste]');if(!button)return;const id=Number(button.dataset.taste),index=tastePicks.indexOf(id);if(index>=0)tastePicks.splice(index,1);else tastePicks.push(id);persist();renderTastes();renderGallery();document.querySelector(`[data-taste="${id}"]`).focus({preventScroll:true});announce(tastePicks.length?`${tastePicks.length} picked. Continue whenever you’re ready.`:'No styles picked. You can skip straight to your signatures.');});
   $('show-signatures').addEventListener('click',()=>showStage('collection'));
+  $('show-signatures-bottom').addEventListener('click',()=>showStage('collection'));
   $('people-grid').addEventListener('click',event=>{const button=event.target.closest('[data-person]');if(button)togglePerson(button.dataset.person);});
   $('people-next').addEventListener('click',()=>showStage('style-discovery'));
   $('people-next-bottom').addEventListener('click',()=>showStage('style-discovery'));
@@ -576,15 +597,15 @@
     renderGallery();
   }));
   $('style-grid').addEventListener('click',event=>{
-    const favoriteButton=event.target.closest('[data-favorite]'), practiceButton=event.target.closest('[data-practice]');
+    const favoriteButton=event.target.closest('[data-favorite]');
     if(favoriteButton) toggleFavorite(Number(favoriteButton.dataset.favorite));
-    else if(practiceButton) openReview(Number(practiceButton.dataset.practice));
   });
   $('favorite-slots').addEventListener('click',event=>{
     const button=event.target.closest('[data-remove]');
     if(button){toggleFavorite(Number(button.dataset.remove));$('practice-favorites').focus({preventScroll:true});}
   });
   $('practice-favorites').addEventListener('click',()=>{if(favorites.length)openReview(favorites[0]);});
+  $('review-picks-bottom').addEventListener('click',()=>{if(favorites.length)openReview(favorites[0]);});
   $('practice-style').innerHTML = Object.entries(families).map(([key,label])=>`<optgroup label="${label}">${designs.filter(d=>d.family===key).map(d=>`<option value="${d.id}">${String(d.id+1).padStart(2,'0')} · ${d.name}</option>`).join('')}</optgroup>`).join('');
   $('practice-style').addEventListener('change',event=>selectDesign(Number(event.target.value)));
   $('ladder').addEventListener('click',event=>{const button=event.target.closest('[data-step]');if(button)setStep(Number(button.dataset.step));});

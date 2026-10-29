@@ -6,13 +6,13 @@
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="theme-color" content="#f5f3eb">
   <title>August's Signature Studio — Make your mark.</title>
-  <meta name="description" content="August's private studio. Find your five favorite signatures and learn one small move at a time.">
+  <meta name="description" content="August's private studio. Find a signature you love and learn one small move at a time.">
   <link rel="canonical" href="https://ericfarewell.com/augustsignature/">
   <link rel="icon" href="assets/studio-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="studio.css">
   <script src="autographs.js?v=contrast-2" defer></script>
-  <script src="studio.js?v=contrast-2" defer></script>
-  <link rel="stylesheet" href="review.css?v=contrast-2">
+  <script src="studio.js?v=free-picks-1" defer></script>
+  <link rel="stylesheet" href="review.css?v=free-picks-1">
 </head>
 <body>
   <main>
@@ -41,29 +41,31 @@
       <button type="button" data-stage="people" aria-current="step">1 · People</button><button type="button" data-stage="style-discovery" disabled>2 · Your style</button><button type="button" data-stage="collection" disabled>3 · Your name</button><button type="button" data-stage="review" disabled>4 · Refine</button><button type="button" data-stage="practice" disabled>5 · Learn</button>
     </nav>
     <section id="people" aria-labelledby="people-title">
-      <div class="section-heading"><div><p class="eyebrow">01 / FIND YOUR INSPIRATION</p><h1 id="people-title" tabindex="-1">Your kind of people.<br>Your kind of mark.</h1></div><p>Pick five marks you like the look of.<br>Autographs and an original street-style wildcard.</p></div>
-      <p class="discovery-intro">Hey August. Compare the marks. Look for a loop, a sharp turn, or a finish you’d want to make your own. Your five picks will shape the next six options.</p>
-      <div class="discovery-tray"><div><strong id="people-count" role="status">0 / 5 picked</strong><span>Tap a picked autograph again to swap it.</span></div><button class="button primary" id="people-next" type="button" disabled>Find my style →</button></div>
+      <div class="section-heading"><div><p class="eyebrow">01 / FIND YOUR INSPIRATION</p><h1 id="people-title" tabindex="-1">Your kind of people.<br>Your kind of mark.</h1></div><p>Pick one mark or as many as you like.<br>Only keep what catches your eye.</p></div>
+      <p class="discovery-intro">Hey August. Compare the marks. Look for a loop, a sharp turn, or a finish you’d want to make your own. Even one pick is enough to shape the next six options.</p>
+      <div class="discovery-tray"><div><strong id="people-count" role="status">0 picked</strong><span>One is enough. Tap again to unpick.</span></div><button class="button primary" id="people-next" type="button" disabled>Find my style →</button></div>
       <div class="inspiration-grid" id="people-grid"></div>
       <p class="inspiration-footnote">Sourced handwritten autograph samples, not band logos, alongside a clearly labeled original street-style study. Some samples are vector extractions of handwriting. Borrow a quality, not someone’s identity. Autographs vary between signings. No artist or athlete is affiliated with this studio.</p>
-      <div class="review-actions"><button class="button primary" id="people-next-bottom" type="button" disabled>Find my style →</button><span id="people-status" role="status">Five small choices. No wrong answers.</span></div>
+      <div class="review-actions"><button class="button primary" id="people-next-bottom" type="button" disabled>Find my style →</button><span id="people-status" role="status">Pick one that catches your eye. No need to fill a quota.</span></div>
     </section>
     <section id="style-discovery" aria-labelledby="discovery-title" hidden>
-      <div class="section-heading"><div><p class="eyebrow">02 / YOUR PICKS, REMIXED</p><h2 id="discovery-title" tabindex="-1">What feels like you?</h2></div><p>Four matches and two contrasts to explore.<br>Choose three. Still no names to worry about.</p></div>
+      <div class="section-heading"><div><p class="eyebrow">02 / YOUR PICKS, REMIXED</p><h2 id="discovery-title" tabindex="-1">What feels like you?</h2></div><p>Pick any styles you like, or skip this round.<br>No required number. No names yet.</p></div>
       <p class="discovery-intro" id="taste-explanation"></p>
-      <div class="discovery-tray"><div><strong id="taste-count" role="status">0 / 3 picked</strong><span>Tap a picked style again to swap it.</span></div><button class="button primary" id="show-signatures" type="button" disabled>See my signatures →</button></div>
+      <aside class="detail-coach" aria-labelledby="taste-clues-title"><h3 id="taste-clues-title">What caught your eye?</h3><p id="taste-clues"></p><p class="coach-prompt">Try looking at just one thing: the opening stroke, the line weight, or the finish. You can like the loop without liking the whole mark.</p><p id="taste-reflection" role="status" aria-live="polite"></p></aside>
+      <div class="discovery-tray"><div><strong id="taste-count" role="status">0 picked · optional</strong><span>Pick none, one, or as many as you like.</span></div><button class="button primary" id="show-signatures" type="button">Skip to my signatures →</button></div>
       <div class="taste-grid" id="taste-grid"></div>
-      <div class="review-actions"><button class="text-button" type="button" data-stage="people">← Change my autograph picks</button><span id="taste-status" role="status">Choose three that catch your eye.</span></div>
+      <div class="review-actions"><button class="button primary" id="show-signatures-bottom" type="button">Skip to my signatures →</button><button class="text-button" type="button" data-stage="people">← Change my autograph picks</button><span id="taste-status" role="status">Nothing here? You can go straight to your name.</span></div>
       <p class="inspiration-footnote">Changing your autograph picks refreshes this round. Your signature revisions and practice progress stay saved.</p>
     </section>
     <section id="collection" aria-labelledby="collection-title" hidden>
       <div class="section-heading">
         <div><p class="eyebrow">03 / YOUR NAME, YOUR WAY</p><h2 id="collection-title" tabindex="-1">Which ones feel like you?</h2></div>
-        <p>Tap the star on your five favorites.<br>You can change your mind anytime.</p>
+        <p>Pick one signature or as many as you like.<br>We’ll edit them only when you’re ready.</p>
       </div>
-      <button class="text-button stage-back" type="button" data-stage="style-discovery">← Change my three style picks</button>
-      <div class="favorites-bar" aria-label="Your five favorite signatures">
-        <div class="favorite-count"><span id="favorite-count">0</span><small> / 5 picked</small></div>
+      <button class="text-button stage-back" type="button" data-stage="style-discovery">← Explore the style options again</button>
+      <aside class="detail-coach" aria-labelledby="signature-clues-title"><h3 id="signature-clues-title">Find the part you’d keep.</h3><p>Look at the A, the F, the connections, then the finish. You don’t have to love every letter. Pick a whole design for now; you can ask to change just one part next.</p><p id="signature-clues" role="status" aria-live="polite">Tap the artwork, star, or “Pick this one” to save a favorite. Nothing opens yet. One favorite is enough to continue.</p></aside>
+      <div class="favorites-bar" aria-label="Your favorite signatures">
+        <div class="favorite-count"><span id="favorite-count">0</span><small> picked</small></div>
         <div class="favorite-slots" id="favorite-slots"></div>
         <button class="button dark small" id="practice-favorites" type="button" disabled>Review my picks <span aria-hidden="true">↗</span></button>
       </div>
@@ -73,11 +75,12 @@
         <button type="button" data-filter="quick" aria-pressed="false">Quick &amp; simple <span>5</span></button>
         <button type="button" data-filter="calligraphy" aria-pressed="false">Calligraphy <span>5</span></button>
         <button type="button" data-filter="tag" aria-pressed="false">Street tags <span>5</span></button>
-        <button type="button" data-filter="favorites" aria-pressed="false">My five <span id="filter-count">0</span></button>
+        <button type="button" data-filter="favorites" aria-pressed="false">My picks <span id="filter-count">0</span></button>
       </div>
       <div class="style-grid" id="style-grid"></div>
       <p class="empty-message" id="empty-message" hidden>Your favorites will land here. Tap a star on any design to start.</p>
       <p class="collection-note">Full names, short forms, and initials. Borrow a detail. Mix two ideas. Your hand gets the final say.</p>
+      <div class="review-actions"><button class="button primary" id="review-picks-bottom" type="button" disabled>Review my picks →</button><span>One favorite is enough. Choose more only if you like them.</span></div>
     </section>
 
     <section id="review" class="practice-section" aria-labelledby="review-title" hidden>
