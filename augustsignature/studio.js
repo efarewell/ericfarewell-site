@@ -63,17 +63,37 @@
   let artSerial = 0;
   let toastTimeout, timerInterval = null, timerEnds = 0, timerRemaining = 30;
   const reviews = saved.reviews && typeof saved.reviews === 'object' ? saved.reviews : {};
-  const tastePicks = Array.isArray(saved.tastes) ? saved.tastes.filter(x => Number.isInteger(x) && x >= 0 && x < 6).slice(0,3) : [];
+  const people = window.augustAutographs || [];
+  const peoplePicks = Array.isArray(saved.people) ? [...new Set(saved.people.filter(id=>people.some(p=>p.id===id)))].slice(0,5) : [];
+  const peopleBasis = () => [...peoplePicks].sort().join('|');
+  const tastePicks = saved.tasteBasis === peopleBasis() && Array.isArray(saved.tastes) ? [...new Set(saved.tastes.filter(x => Number.isInteger(x) && x >= 0 && x < 6))].slice(0,3) : [];
+  let currentStage = 'people';
   const customArtwork = new Map();
   let reviewing = favorites[0] ?? 0, busyRedraw = false, recognition = null;
-  const tastes = [
+  const tastePool = [
     {name:'Sharp & fast',note:'Corners, points, forward energy.',families:['tag','quick'],path:'M30 85 L82 20 L64 94 L40 70 L127 43 L101 88 L148 62 L130 92 L205 76',width:5},
     {name:'Soft & looping',note:'Round shapes with room to breathe.',families:['everyday','calligraphy'],path:'M25 80 C70 65 100 5 80 18 C40 40 50 101 93 78 C115 66 132 32 117 32 C96 32 98 93 140 78 C180 65 173 21 155 36 C139 50 159 95 205 72',width:3},
     {name:'Bold marker',note:'Thick lines and a little attitude.',families:['tag','calligraphy'],path:'M28 88 Q55 10 74 33 L63 86 Q83 54 97 56 Q113 61 104 85 L133 48 L126 87 Q151 61 165 70 L196 65 M34 99 Q118 87 205 93',width:10},
     {name:'Fine & flowing',note:'Light lines, long sweeps.',families:['calligraphy','everyday'],path:'M22 83 C68 65 94 3 77 13 C55 26 53 102 92 80 C114 69 111 44 103 53 C92 68 118 90 143 75 C173 55 193 28 181 20 C164 10 145 100 205 73 M48 99 Q132 85 210 94',width:2},
-    {name:'Small & simple',note:'A compact mark. Fewer moves.',families:['quick','everyday'],path:'M58 87 L100 27 L91 85 M66 67 L114 57 M111 84 L135 34 M119 44 L166 31 M119 64 L151 55',width:4},
-    {name:'Loose & playful',note:'Bounce, curves, a surprising finish.',families:['tag','everyday'],path:'M25 77 C29 28 67 19 65 50 C63 83 31 97 39 74 C45 58 70 78 83 63 C107 35 105 91 128 71 C141 58 134 34 149 37 C167 42 155 90 181 73 Q198 61 210 70',width:6}
-  ];
+    {name:'Small & simple',note:'A compact mark. Fewer moves.',families:['quick','everyday'],path:'M70 76 L97 41 L92 78 Q107 51 113 64 Q113 79 124 67 L142 50 L136 78 L165 66',width:4},
+    {name:'Loose & playful',note:'Bounce, curves, a surprising finish.',families:['tag','everyday'],path:'M25 77 C29 28 67 19 65 50 C63 83 31 97 39 74 C45 58 70 78 83 63 C107 35 105 91 128 71 C141 58 134 34 149 37 C167 42 155 90 181 73 Q198 61 210 70',width:6},
+    {name:'Tall & narrow',note:'High strokes, a small footprint.',families:['quick','tag'],path:'M65 91 L86 17 L82 88 Q107 15 108 23 L100 89 Q118 67 123 75 L119 90 L145 21 L138 92 L169 75',width:4},
+    {name:'The long exit',note:'Light movement and one finishing sweep.',families:['calligraphy','quick'],path:'M25 78 C68 59 71 32 58 36 C43 41 51 92 82 78 Q102 57 110 78 Q124 91 142 70 L157 81 Q184 98 218 53 M47 103 Q117 81 214 97',width:2},
+    {name:'Round & bold',note:'Marker weight. Softer corners.',families:['tag','calligraphy'],path:'M25 82 C29 27 65 19 65 52 C65 88 32 97 39 73 Q57 48 79 70 C101 29 127 48 108 78 Q123 94 143 62 C157 30 180 55 160 77 Q185 91 211 65',width:9},
+    {name:'Open & airy',note:'Light strokes with room between them.',families:['everyday','calligraphy'],path:'M18 86 C49 53 71 16 64 35 C54 69 42 97 78 80 M103 80 C111 44 134 44 130 65 Q126 86 145 76 M170 83 C181 62 199 56 215 72',width:2},
+    {name:'One joined rhythm',note:'Let one movement lead into the next.',families:['everyday','calligraphy'],path:'M20 81 Q35 48 46 77 C50 88 60 51 65 67 Q72 90 83 70 C97 42 104 79 117 70 C138 55 132 17 124 30 C107 53 133 100 155 75 Q177 50 187 76 Q197 91 217 69',width:4},
+    {name:'Angles with a flourish',note:'Sharp starts. A sweeping finish.',families:['tag','quick'],path:'M25 86 L70 24 L56 89 L111 50 L94 88 L147 43 L132 89 L180 61 Q218 36 211 58 Q205 88 92 102',width:5}
+  ].map((t,id)=>({...t,id,features:[['angles','compact'],['loops','open'],['bold','angles'],['fine','connected'],['compact','connected'],['playful','open'],['tall','compact'],['sweep','fine'],['loops','bold'],['open','fine'],['connected','loops'],['angles','sweep']][id]}));
+  function buildTasteOptions() {
+    const picks=people.filter(p=>peoplePicks.includes(p.id));
+    const votes={};picks.forEach(p=>p.features.forEach(f=>votes[f]=(votes[f]||0)+1));
+    return tastePool.map(t=>({...t,score:t.features.reduce((sum,f)=>sum+(votes[f]||0),0)+picks.filter(p=>t.features.every(f=>p.features.includes(f))).length*.6}))
+      .sort((a,b)=>b.score-a.score||a.id-b.id).slice(0,6).map(t=>{
+        const echoes=picks.map(p=>({person:p,match:t.features.filter(f=>p.features.includes(f)).length})).filter(x=>x.match).sort((a,b)=>b.match-a.match).slice(0,2).map(x=>x.person.name);
+        return {...t,basis:echoes.length?`Echoes of ${echoes.join(' + ')}`:'A different direction to try'};
+      });
+  }
+  let tastes = buildTasteOptions();
   const artDB = new Promise(resolve => {
     if (!window.indexedDB) return resolve(null);
     const request = indexedDB.open('august-signature-artwork',1);
@@ -88,7 +108,7 @@
   }
 
   function persist() {
-    try { localStorage.setItem(storageKey,JSON.stringify({favorites,selected,reviews,tastes:tastePicks,progress:state,pen:Number($('pen-size').value)})); }
+    try { localStorage.setItem(storageKey,JSON.stringify({favorites,selected,reviews,people:peoplePicks,tasteBasis:peopleBasis(),tastes:tastePicks,stage:currentStage,progress:state,pen:Number($('pen-size').value)})); }
     catch { storageWorks = false; }
     if (!storageWorks) document.querySelector('footer span').textContent = 'Browser storage is unavailable. Keep this page open to retain your picks and progress. Drawings stay in memory.';
   }
@@ -125,11 +145,15 @@
     });
     if(!favorites.includes(selected) || !reviews[selected]?.approved)$('practice').hidden=true;
     if(!busyRedraw)updatePracticeOptions();
+    updateStageNavigation();
   }
   function renderGallery() {
     const mixed = [0,15,10,5,16,1,6,11,12,17,2,7,8,13,18,3,19,9,4,14];
-    const score = d => tastePicks.reduce((sum,t) => sum + (tastes[t].families.includes(d.family) ? 1 : 0),0);
-    const shown = mixed.map(id=>designs[id]).filter(d => filter === 'all' || filter === d.family || (filter === 'favorites' && favorites.includes(d.id))).sort((a,b)=>score(b)-score(a));
+    const score = d => tastePicks.reduce((sum,t) => sum + (tastes[t]?.families.includes(d.family) ? 1 : 0),0);
+    // Keep every family interleaved; preference changes the first choice in
+    // each round, never pushes an entire style into a block at the bottom.
+    const rounds={};
+    const shown = mixed.map(id=>designs[id]).filter(d => filter === 'all' || filter === d.family || (filter === 'favorites' && favorites.includes(d.id))).map(d=>({...d,round:(rounds[d.family]=(rounds[d.family]||0)+1)-1})).sort((a,b)=>a.round-b.round||score(b)-score(a));
     $('style-grid').innerHTML = shown.map(d => `<article class="style-card" data-id="${d.id}">
       <div class="card-top"><span class="design-number">NO. ${String(d.id+1).padStart(2,'0')}</span><button type="button" class="star-button" data-favorite="${d.id}" aria-pressed="false" aria-label="Add ${d.name} to your five favorites">☆</button></div>
       <button class="card-art" type="button" data-practice="${d.id}" aria-label="Review ${d.name}: ${d.text}">${art(d,true)}</button>
@@ -352,10 +376,72 @@
     finishActiveStroke(); strokes=[]; activeStroke=null;pointerId=null;hasNewInk=false;rememberDraft();redraw();
   }
 
+  function stageReady(stage) {
+    const peopleDone=peoplePicks.length===5,styleDone=peopleDone&&tastePicks.length===3;
+    return stage==='people'||(stage==='style-discovery'&&peopleDone)||(stage==='collection'&&styleDone)||(stage==='review'&&styleDone&&favorites.length>0)||(stage==='practice'&&styleDone&&favorites.some(id=>reviews[id]?.approved));
+  }
+  function updateStageNavigation() {
+    document.querySelectorAll('.studio-journey [data-stage]').forEach(button=>{
+      button.disabled=!stageReady(button.dataset.stage);
+      if(button.dataset.stage===currentStage)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');
+    });
+  }
+  function showStage(stage,focus=true) {
+    if(busyRedraw&&stage!=='review'){announce('Your redraw is still working. Your original is safe.');return false;}
+    if(!stageReady(stage)){announce(peoplePicks.length<5?'Choose five autographs first.':tastePicks.length<3?'Choose three style options first.':'Pick a signature in the previous round first.');return false;}
+    if(currentStage==='practice'&&stage!=='practice'){finishActiveStroke();rememberDraft();stopTimer();}
+    if(currentStage==='review'&&stage!=='review')recognition?.stop();
+    currentStage=stage;
+    ['people','style-discovery','collection','review','practice'].forEach(id=>$(id).hidden=id!==stage);
+    updateStageNavigation();persist();
+    if(stage==='style-discovery')renderTastes();
+    if(stage==='collection')renderGallery();
+    if(stage==='review'){if(!favorites.includes(reviewing))reviewing=favorites[0];renderReview();}
+    if(stage==='practice'){
+      const approved=updatePracticeOptions();
+      selectDesign(approved.includes(selected)?selected:approved[0],false);
+    }
+    if(focus){
+      const heading=$(stage).querySelector('h1,h2');
+      $(stage).scrollIntoView({behavior:reducedMotion()?'auto':'smooth',block:'start'});
+      heading?.focus({preventScroll:true});
+    }
+    return true;
+  }
+  function renderPeople() {
+    if(!$('people-grid').children.length){
+      $('people-grid').innerHTML=people.map(p=>`<article data-person-card="${p.id}"><span class="inspiration-kind">AUTOGRAPH SAMPLE · ${p.group}</span><button type="button" class="autograph-pick" data-person="${p.id}" aria-pressed="false" aria-label="Pick ${p.name}’s autograph"><span class="people-art">${p.crop?`<svg viewBox="${p.crop}" role="img" aria-label="${p.name}’s handwritten autograph"><image href="${p.image}" width="${p.size[0]}" height="${p.size[1]}"/></svg>`:`<img src="${p.image}" alt="${p.name}’s handwritten autograph sample">`}</span><span class="pick-label">Pick this signature ☆</span></button><h3>${p.name}</h3><p>${p.note}</p><details class="autograph-source"><summary>Source &amp; attribution</summary><a href="${p.source}" target="_blank" rel="noopener noreferrer">${p.credit}</a>${p.license?`<a href="https://creativecommons.org/licenses/by-sa/${p.license}/" target="_blank" rel="noopener noreferrer">CC BY-SA ${p.license} · unchanged</a>`:''}</details></article>`).join('');
+    }
+    people.forEach(p=>{
+      const picked=peoplePicks.includes(p.id),button=document.querySelector(`[data-person="${p.id}"]`);
+      button.setAttribute('aria-pressed',String(picked));
+      button.setAttribute('aria-label',`${picked?'Remove':'Pick'} ${p.name}’s autograph`);
+      button.querySelector('.pick-label').textContent=picked?'Picked ✓ · tap to swap':'Pick this signature ☆';
+      button.closest('article').classList.toggle('is-picked',picked);
+    });
+    $('people-count').textContent=`${peoplePicks.length} / 5 picked`;
+    $('people-next').disabled=$('people-next-bottom').disabled=peoplePicks.length!==5;
+    $('people-status').textContent=peoplePicks.length===5?'Your five are in. Your style round is ready.':`${5-peoplePicks.length} more ${peoplePicks.length===4?'autograph':'autographs'} to find. You can change your mind.`;
+    updateStageNavigation();
+  }
+  function togglePerson(id) {
+    if(!people.some(p=>p.id===id))return;
+    const index=peoplePicks.indexOf(id);
+    if(index>=0)peoplePicks.splice(index,1);
+    else if(peoplePicks.length<5)peoplePicks.push(id);
+    else{announce('Your five are full. Tap a picked autograph to make room.');return;}
+    const hadStyles=tastePicks.length>0;
+    tastePicks.splice(0);tastes=buildTasteOptions();
+    renderPeople();renderTastes();persist();
+    announce(hadStyles?'Autograph picks changed. Your six style options are refreshed; choose three again.':peoplePicks.length===5?'Five picked. Your own style round is ready.':`${peoplePicks.length} of 5 picked. A little closer.`);
+  }
   function renderTastes() {
-    $('taste-grid').innerHTML=tastes.map((t,i)=>`<button class="taste-choice" type="button" data-taste="${i}" aria-pressed="${tastePicks.includes(i)}"><svg viewBox="0 0 240 120" aria-hidden="true"><path d="${t.path}" stroke-width="${t.width}"/></svg><strong>${t.name}</strong><span>${t.note}</span></button>`).join('');
-    document.querySelectorAll('[data-inspire]').forEach(button=>button.setAttribute('aria-pressed',String(tastePicks.includes(Number(button.dataset.inspire)))));
-    $('taste-status').textContent=tastePicks.length ? `${tastePicks.length} of 3 picked. We’ll bring these qualities forward; all 20 designs stay available.` : 'There’s no wrong answer. You can also explore them all.';
+    $('taste-grid').innerHTML=tastes.map((t,i)=>`<button class="taste-choice" type="button" data-taste="${i}" data-profile="${t.id}" aria-pressed="${tastePicks.includes(i)}"><svg viewBox="0 0 240 120" aria-hidden="true"><path d="${t.path}" stroke-width="${t.width}"/></svg><strong>${t.name}</strong><span>${t.note}</span><span class="taste-origin">${t.basis}</span><span class="taste-check">${tastePicks.includes(i)?'Picked ✓':'Pick this feel ☆'}</span></button>`).join('');
+    $('taste-explanation').textContent='We pulled shapes and movement from your five picks—not copies of their signatures. These six directions are just for you. Choose three you’d like to try with your own name.';
+    $('taste-count').textContent=`${tastePicks.length} / 3 picked`;
+    $('show-signatures').disabled=tastePicks.length!==3||peoplePicks.length!==5;
+    $('taste-status').textContent=tastePicks.length===3?'Three picked. Let’s put your name to those ideas.':`${3-tastePicks.length} more ${tastePicks.length===2?'style':'styles'} to pick. Nothing has to be perfect.`;
+    updateStageNavigation();
   }
   function reviewRecord(id) {return reviews[id] || (reviews[id]={feedback:'',approved:false,useCustom:false});}
   function openReview(id) {
@@ -365,9 +451,7 @@
       toggleFavorite(id);
     }
     reviewing=id;
-    $('review').hidden=false;
-    renderReview();
-    $('review').scrollIntoView({behavior:reducedMotion()?'auto':'smooth',block:'start'});
+    showStage('review');
   }
   function renderReview() {
     const record=reviewRecord(reviewing),design=designs[reviewing];
@@ -429,16 +513,19 @@
     } catch(error){$('revision-status').dataset.error='true';$('revision-status').textContent=error.name==='TimeoutError'?'That took too long. Your original and feedback are saved. Please try again.':error.message;}
     finally{busyRedraw=false;['redraw-signature','approve-signature','keep-original','review-design','dictate-feedback','back-gallery'].forEach(key=>$(key).disabled=false);$('redraw-signature').removeAttribute('aria-busy');renderReview();}
   }
-  $('taste-grid').addEventListener('click',event=>{const button=event.target.closest('[data-taste]');if(!button)return;const id=Number(button.dataset.taste),index=tastePicks.indexOf(id);if(index>=0)tastePicks.splice(index,1);else if(tastePicks.length<3)tastePicks.push(id);else{announce('Pick up to three. Tap one again to make room.');return;}persist();renderTastes();renderGallery();});
-  $('show-signatures').addEventListener('click',()=>{$('collection').hidden=false;$('collection').scrollIntoView({behavior:reducedMotion()?'auto':'smooth'});});
-  document.querySelectorAll('[data-inspire]').forEach(button=>button.addEventListener('click',()=>{const id=Number(button.dataset.inspire),index=tastePicks.indexOf(id);if(index>=0)tastePicks.splice(index,1);else if(tastePicks.length>=3){announce('You have three qualities picked. Tap one again to make room.');return;}else tastePicks.push(id);persist();renderTastes();renderGallery();announce(index>=0?'Removed that quality. There’s room to try another.':'Added that quality to your style picks.');}));
+  $('taste-grid').addEventListener('click',event=>{const button=event.target.closest('[data-taste]');if(!button)return;const id=Number(button.dataset.taste),index=tastePicks.indexOf(id);if(index>=0)tastePicks.splice(index,1);else if(tastePicks.length<3)tastePicks.push(id);else{announce('Your three are full. Tap a picked style to make room.');return;}persist();renderTastes();renderGallery();document.querySelector(`[data-taste="${id}"]`).focus({preventScroll:true});announce(tastePicks.length===3?'Three picked. Your name is next.':`${tastePicks.length} of 3 picked. Keep following your eye.`);});
+  $('show-signatures').addEventListener('click',()=>showStage('collection'));
+  $('people-grid').addEventListener('click',event=>{const button=event.target.closest('[data-person]');if(button)togglePerson(button.dataset.person);});
+  $('people-next').addEventListener('click',()=>showStage('style-discovery'));
+  $('people-next-bottom').addEventListener('click',()=>showStage('style-discovery'));
+  document.querySelectorAll('[data-stage]').forEach(button=>button.addEventListener('click',()=>showStage(button.dataset.stage)));
   $('review-design').addEventListener('change',event=>{recognition?.stop();reviewing=Number(event.target.value);renderReview();$('revision-status').textContent='Keep what you love, or ask for a little change.';});
   $('revision-feedback').addEventListener('input',()=>{reviewRecord(reviewing).feedback=$('revision-feedback').value;persist();});
   $('redraw-signature').addEventListener('click',redrawSignature);
   $('keep-original').addEventListener('click',()=>{Object.assign(reviewRecord(reviewing),{useCustom:false,approved:false});state[reviewing]={counts:steps.map(()=>0),step:0};for(const key of drafts.keys())if(key.startsWith(`${reviewing}:`))drafts.delete(key);if(selected===reviewing){strokes=[];hasNewInk=false;renderLesson();}persist();renderReview();renderGallery();$('revision-status').textContent='Back to the original. You can approve it or ask for a different change.';});
-  $('approve-signature').addEventListener('click',()=>{reviewRecord(reviewing).approved=true;persist();renderReview();updatePracticeOptions();const next=favorites.find(id=>!reviews[id]?.approved);$('revision-status').textContent=next===undefined?'Your picks are ready. Let’s learn one small move at a time.':'Small decision, big step. Your next favorite is ready to review.';if(next!==undefined){reviewing=next;renderReview();}});
-  $('start-approved').addEventListener('click',()=>{const approved=updatePracticeOptions();if(!approved.length)return;$('practice').hidden=false;selectDesign(approved[0],true);});
-  $('back-gallery').addEventListener('click',()=>{$('collection').hidden=false;$('collection').scrollIntoView({behavior:reducedMotion()?'auto':'smooth'});});
+  $('approve-signature').addEventListener('click',()=>{reviewRecord(reviewing).approved=true;persist();renderReview();updatePracticeOptions();updateStageNavigation();const next=favorites.find(id=>!reviews[id]?.approved);$('revision-status').textContent=next===undefined?'Your picks are ready. Let’s learn one small move at a time.':'Small decision, big step. Your next favorite is ready to review.';if(next!==undefined){reviewing=next;renderReview();}});
+  $('start-approved').addEventListener('click',()=>showStage('practice'));
+  $('back-gallery').addEventListener('click',()=>showStage('collection'));
   const Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
   $('dictate-feedback').addEventListener('click',()=>{
     if(!Speech){$('speech-status').textContent='Voice input is unavailable here. On your Chromebook, you can also use keyboard dictation, or type your changes.';return;}
@@ -550,7 +637,8 @@
 
   $('hero-signature').innerHTML=`<svg class="signature-art hero-motion" viewBox="0 0 240 120" aria-hidden="true"><path d="${tastes[1].path}" stroke-width="3"/></svg>`;
   $('hero-tag').innerHTML=`<svg class="signature-art hero-motion" viewBox="0 0 240 120" aria-hidden="true"><path d="${tastes[0].path}" stroke-width="6"/></svg>`;
-  renderTastes();renderGallery();loadDraft();renderLesson();updatePracticeOptions();persist();
+  renderPeople();renderTastes();renderGallery();loadDraft();renderLesson();updatePracticeOptions();
+  showStage(stageReady(saved.stage)?saved.stage:'people',false);
   if(typeof ResizeObserver!=='undefined')new ResizeObserver(resizeCanvas).observe($('draw-wrap'));
   else window.addEventListener('resize',resizeCanvas);
 })();

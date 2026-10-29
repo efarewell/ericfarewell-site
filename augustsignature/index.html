@@ -10,8 +10,9 @@
   <link rel="canonical" href="https://ericfarewell.com/augustsignature/">
   <link rel="icon" href="assets/studio-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="studio.css">
-  <script src="studio.js?v=pop-culture-1" defer></script>
-  <link rel="stylesheet" href="review.css?v=autographs-2">
+  <script src="autographs.js?v=guided-1" defer></script>
+  <script src="studio.js?v=guided-1" defer></script>
+  <link rel="stylesheet" href="review.css?v=guided-1">
 </head>
 <body>
   <main>
@@ -20,7 +21,7 @@
       <span class="private-label"><span aria-hidden="true"></span> Just for you</span>
     </div>
 
-    <section class="hero" aria-labelledby="hero-title">
+    <section class="hero" aria-labelledby="hero-title" hidden>
       <div class="hero-copy">
         <p class="eyebrow">YOUR NAME. YOUR WAY.</p>
         <h1 id="hero-title">Make<br>your <span>mark<svg viewBox="0 0 370 25" aria-hidden="true"><path d="M7 17C90 1 232 3 360 10M19 23C101 13 232 11 329 17"/></svg>.</span></h1>
@@ -36,28 +37,31 @@
       </div>
     </section>
 
-    <section id="style-discovery" aria-labelledby="discovery-title">
-      <div class="section-heading"><div><p class="eyebrow">01 / FOLLOW YOUR EYE</p><h2 id="discovery-title">What feels like you?</h2></div><p>No names yet. Just shapes and movement.<br>Tap up to three that catch your eye.</p></div>
+    <nav class="studio-journey" aria-label="Your signature journey">
+      <button type="button" data-stage="people" aria-current="step">1 · People</button><button type="button" data-stage="style-discovery" disabled>2 · Your style</button><button type="button" data-stage="collection" disabled>3 · Your name</button><button type="button" data-stage="review" disabled>4 · Refine</button><button type="button" data-stage="practice" disabled>5 · Learn</button>
+    </nav>
+    <section id="people" aria-labelledby="people-title">
+      <div class="section-heading"><div><p class="eyebrow">01 / FIND YOUR INSPIRATION</p><h1 id="people-title" tabindex="-1">Your kind of people.<br>Your kind of mark.</h1></div><p>Pick five autographs you like the look of.<br>It’s about the handwriting—not who’s most famous.</p></div>
+      <p class="discovery-intro">Hey August. Compare the marks. Look for a loop, a sharp turn, or a finish you’d want to make your own. Your five picks will shape the next six options.</p>
+      <div class="discovery-tray"><div><strong id="people-count" role="status">0 / 5 picked</strong><span>Tap a picked autograph again to swap it.</span></div><button class="button primary" id="people-next" type="button" disabled>Find my style →</button></div>
+      <div class="inspiration-grid" id="people-grid"></div>
+      <p class="inspiration-footnote">Sourced handwritten autograph samples, not band logos. Some samples are vector extractions of handwriting. Borrow a quality, not someone’s identity. Autographs vary between signings. No artist or athlete is affiliated with this studio.</p>
+      <div class="review-actions"><button class="button primary" id="people-next-bottom" type="button" disabled>Find my style →</button><span id="people-status" role="status">Five small choices. No wrong answers.</span></div>
+    </section>
+    <section id="style-discovery" aria-labelledby="discovery-title" hidden>
+      <div class="section-heading"><div><p class="eyebrow">02 / YOUR PICKS, REMIXED</p><h2 id="discovery-title" tabindex="-1">What feels like you?</h2></div><p>Six options shaped by your five autographs.<br>Choose three. Still no names to worry about.</p></div>
+      <p class="discovery-intro" id="taste-explanation"></p>
+      <div class="discovery-tray"><div><strong id="taste-count" role="status">0 / 3 picked</strong><span>Tap a picked style again to swap it.</span></div><button class="button primary" id="show-signatures" type="button" disabled>See my signatures →</button></div>
       <div class="taste-grid" id="taste-grid"></div>
-      <details class="inspiration-board" open><summary>Your kind of people. Your kind of mark.</summary>
-        <p>Music you know. Players you recognize. Look at the mark before the name: what detail would you make your own? Tap a quality to add it to your three picks above.</p>
-        <div class="inspiration-grid">
-          <article><span class="inspiration-kind">AUTOGRAPH SAMPLE · GORILLAZ</span><svg class="autograph-detail" viewBox="40 60 430 365" role="img" aria-label="Damon Albarn’s handwritten autograph and kiss mark, detail of a 2007 autograph-book page"><image href="https://images.eil.com/large_image/DAMON_ALBARN_PAGE%2BFROM%2BAN%2BAUTOGRAPH%2BBOOK-603279.jpg" width="500" height="651"/></svg><h3>Damon Albarn <small>Gorillaz</small></h3><p>Big loops, joined strokes, and a relaxed finish. The person behind the music has his own handwriting, too. Would you borrow that looping movement?</p><button type="button" class="button outline small" data-inspire="1">I like those relaxed loops</button><a href="https://eil.com/shop/moreinfo.asp?catalogid=603279" target="_blank" rel="noopener noreferrer">Autograph-book detail · EIL.com · collected 2007 · source</a></article>
-          <article><span class="inspiration-kind">AUTOGRAPH SAMPLE · BASKETBALL</span><img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Stephen_Curry_sig.svg" alt="Stephen Curry’s compact, angular signature sample" loading="lazy"><h3>Steph Curry</h3><p>Quick turns and a compact mark. You don’t have to spell every letter slowly to make it yours.</p><button type="button" class="button outline small" data-inspire="0">I like those quick angles</button><a href="https://commons.wikimedia.org/wiki/File:Stephen_Curry_sig.svg" target="_blank" rel="noopener noreferrer">Stephen Curry · Dwarfroe vector · source via PSA</a></article>
-          <article><span class="inspiration-kind">AUTOGRAPH SAMPLE · MUSIC</span><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/Joji_sig.svg" alt="Joji’s loose, compact autograph sample" loading="lazy"><h3>Joji</h3><p>A few loose strokes can become a whole identity. Would you rather have a small mark than a long, fancy name?</p><button type="button" class="button outline small" data-inspire="4">Keep mine small &amp; simple</button><a href="https://commons.wikimedia.org/wiki/File:Joji_sig.svg" target="_blank" rel="noopener noreferrer">Joji · Dwarfroe vector · source sample</a></article>
-          <article><span class="inspiration-kind">AUTOGRAPH SAMPLE · PARAMORE</span><img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Hayley_Williams_Signature.jpg" alt="Hayley Williams’s handwritten autograph with bold crossing strokes and a heart" loading="lazy"><h3>Hayley Williams <small>Paramore</small></h3><p>Bold crossing strokes and a little heart. A signature can have its own small extra. What would make yours feel personal?</p><button type="button" class="button outline small" data-inspire="2">I like that bold marker feel</button><a href="https://commons.wikimedia.org/wiki/File:Hayley_Williams_Signature.jpg" target="_blank" rel="noopener noreferrer">SSENSE JPG · Hayley Williams autograph · source</a><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0 · unchanged</a></article>
-          <article><span class="inspiration-kind">AUTOGRAPH SAMPLE · FOOTBALL</span><img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Firma_de_Lionel_Messi.svg" alt="Lionel Messi’s flowing autograph sample" loading="lazy"><h3>Lionel Messi</h3><p>Connected movement instead of separate printed letters. Like that feeling? Start with an easy loop.</p><button type="button" class="button outline small" data-inspire="1">I like that looping motion</button><a href="https://commons.wikimedia.org/wiki/File:Firma_de_Lionel_Messi.svg" target="_blank" rel="noopener noreferrer">Lionel Messi · signature extraction · source</a></article>
-          <article><span class="inspiration-kind">AUTOGRAPH SAMPLE · MUSIC</span><img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Billie_Eilish_signature.svg" alt="Billie Eilish’s long, flowing signature sample" loading="lazy"><h3>Billie Eilish</h3><p>Long lines and a sweeping finish. You could borrow the movement without needing a perfectly neat letter.</p><button type="button" class="button outline small" data-inspire="3">I like that flowing finish</button><a href="https://commons.wikimedia.org/wiki/File:Billie_Eilish_signature.svg" target="_blank" rel="noopener noreferrer">Rangel Carregosa / Edu! · signature source</a><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0 · unchanged</a></article>
-        </div>
-        <p class="inspiration-footnote">Real people’s handwritten marks—not band logos. Borrow a quality, not their identity: these are visual references, not signatures to trace or copy. Autographs vary from one signing to another. No artist or athlete is affiliated with this studio.</p>
-      </details>
-      <div class="review-actions"><button class="button primary" id="show-signatures" type="button">See my signatures →</button><span id="taste-status" role="status">There’s no wrong answer. You can also explore them all.</span></div>
+      <div class="review-actions"><button class="text-button" type="button" data-stage="people">← Change my autograph picks</button><span id="taste-status" role="status">Choose three that catch your eye.</span></div>
+      <p class="inspiration-footnote">Changing your autograph picks refreshes this round. Your signature revisions and practice progress stay saved.</p>
     </section>
     <section id="collection" aria-labelledby="collection-title" hidden>
       <div class="section-heading">
-        <div><p class="eyebrow">02 / FIND YOUR FIVE</p><h2 id="collection-title">Which ones feel like you?</h2></div>
+        <div><p class="eyebrow">03 / YOUR NAME, YOUR WAY</p><h2 id="collection-title" tabindex="-1">Which ones feel like you?</h2></div>
         <p>Tap the star on your five favorites.<br>You can change your mind anytime.</p>
       </div>
+      <button class="text-button stage-back" type="button" data-stage="style-discovery">← Change my three style picks</button>
       <div class="favorites-bar" aria-label="Your five favorite signatures">
         <div class="favorite-count"><span id="favorite-count">0</span><small> / 5 picked</small></div>
         <div class="favorite-slots" id="favorite-slots"></div>
@@ -77,7 +81,7 @@
     </section>
 
     <section id="review" class="practice-section" aria-labelledby="review-title" hidden>
-      <div class="section-heading"><div><p class="eyebrow">03 / MAKE IT YOURS</p><h2 id="review-title">Keep it. Or give it a twist.</h2></div><p>One favorite at a time.<br>Approve your version before you learn it.</p></div>
+      <div class="section-heading"><div><p class="eyebrow">04 / MAKE IT YOURS</p><h2 id="review-title" tabindex="-1">Keep it. Or give it a twist.</h2></div><p>One favorite at a time.<br>Approve your version before you learn it.</p></div>
       <div class="review-panel">
         <div class="review-actions"><label for="review-design">Your favorite</label><select id="review-design"></select><span id="review-count" role="status"></span></div>
         <div class="revision-comparison"><div><h3>Original idea</h3><div id="review-original" class="review-art"></div></div><div><h3 id="revision-label">Your version</h3><div id="review-current" class="review-art"></div></div></div>
@@ -93,7 +97,7 @@
     </section>
     <section id="practice" class="practice-section" aria-labelledby="practice-title" hidden>
       <div class="section-heading">
-        <div><p class="eyebrow">04 / ONE SMALL WIN AT A TIME</p><h2 id="practice-title">Confidence starts here.</h2></div>
+        <div><p class="eyebrow">05 / ONE SMALL WIN AT A TIME</p><h2 id="practice-title" tabindex="-1">Confidence starts here.</h2></div>
         <p>A few tiny moves. A signature that feels like yours.<br>Pause whenever you like. We'll keep your place.</p>
       </div>
       <div class="practice-studio">
@@ -148,7 +152,7 @@
     </section>
 
     <div class="closing-note"><span aria-hidden="true">✳</span><p>It doesn't have to be perfect.<br><strong>It just has to feel like you.</strong></p></div>
-    <footer>Made for August Farewell. <span>Favorites, approved artwork &amp; progress save in this browser. Practice drawings stay in memory until you leave or refresh. Redraws send your design and changes to OpenAI.</span></footer>
+    <footer>Made for August Farewell. <span>Autograph picks, style picks, favorites, approved artwork &amp; progress save in this browser. Practice drawings stay in memory until you leave or refresh. Redraws send your design and changes to OpenAI.</span></footer>
     <noscript><p class="no-script">This studio needs JavaScript for the gallery and drawing pad. Please enable it to get started.</p></noscript>
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
