@@ -10,13 +10,22 @@
   <link rel="canonical" href="https://ericfarewell.com/augustsignature/">
   <link rel="icon" href="assets/studio-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="studio.css">
-  <script src="autographs.js?v=contrast-2" defer></script>
+  <script src="autographs.js?v=black-on-white-1" defer></script>
   <script src="lessons.js?v=actual-design-1" defer></script>
-  <script src="studio.js?v=actual-design-1" defer></script>
+  <script src="studio.js?v=black-on-white-1" defer></script>
   <link rel="stylesheet" href="review.css?v=free-picks-1">
   <link rel="stylesheet" href="lessons.css?v=actual-design-1">
+  <link rel="stylesheet" href="signature-display.css?v=black-on-white-1">
 </head>
 <body>
+  <svg class="signature-filter-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>
+    <filter id="signature-black-on-white" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncR type="linear" slope="1" intercept="0.05"/><feFuncG type="linear" slope="1" intercept="0.05"/><feFuncB type="linear" slope="1" intercept="0.05"/></feComponentTransfer>
+      <feComponentTransfer result="ink"><feFuncR type="discrete" tableValues="0 1"/><feFuncG type="discrete" tableValues="0 1"/><feFuncB type="discrete" tableValues="0 1"/></feComponentTransfer>
+      <feFlood flood-color="#ffffff" result="paper"/><feMerge><feMergeNode in="paper"/><feMergeNode in="ink"/></feMerge>
+    </filter>
+  </defs></svg>
   <main>
     <div class="studio-masthead">
       <div class="studio-brand"><span class="brand-mark" aria-hidden="true">a<span>f</span></span><span>AUGUST'S<br>SIGNATURE STUDIO</span></div>

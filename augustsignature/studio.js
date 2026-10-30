@@ -432,9 +432,16 @@
     }
     return true;
   }
+  function autographImage(p) {
+    if(!p.crop)return `<img src="${p.image}" alt="${p.kind==='study'?'Original street handstyle study':p.name+'’s handwritten autograph sample'}">`;
+    const [x,y,width,height]=p.crop.trim().split(/\s+/).map(Number),clipId=`autograph-crop-${++artSerial}`;
+    // A viewBox scales content but does not clip its letterboxed margins.
+    // Explicit clipping keeps the book edge/surroundings out of the sample.
+    return `<svg viewBox="${p.crop}" role="img" aria-label="${p.name}’s handwritten autograph"><defs><clipPath id="${clipId}"><rect x="${x}" y="${y}" width="${width}" height="${height}"/></clipPath></defs><image href="${p.image}" width="${p.size[0]}" height="${p.size[1]}" clip-path="url(#${clipId})"/></svg>`;
+  }
   function renderPeople() {
     if(!$('people-grid').children.length){
-      $('people-grid').innerHTML=people.map(p=>`<article data-person-card="${p.id}"><span class="inspiration-kind">${p.kind==='study'?'STREET-STYLE WILDCARD':'AUTOGRAPH SAMPLE'} · ${p.group}</span><button type="button" class="autograph-pick" data-person="${p.id}" aria-pressed="false" aria-label="Pick ${p.name}"><span class="people-art">${p.crop?`<svg viewBox="${p.crop}" role="img" aria-label="${p.name}’s handwritten autograph"><image href="${p.image}" width="${p.size[0]}" height="${p.size[1]}"/></svg>`:`<img src="${p.image}" alt="${p.kind==='study'?'Original street handstyle study':p.name+'’s handwritten autograph sample'}">`}</span><span class="pick-label">Pick this mark ☆</span></button><h3>${p.name}</h3><p>${p.note}</p><details class="autograph-source"><summary>Source &amp; attribution</summary>${p.source?`<a href="${p.source}" target="_blank" rel="noopener noreferrer">${p.credit}</a>`:`<p>${p.credit}</p>`}${p.license?`<a href="https://creativecommons.org/licenses/by-sa/${p.license}/" target="_blank" rel="noopener noreferrer">CC BY-SA ${p.license} · unchanged</a>`:''}</details></article>`).join('');
+      $('people-grid').innerHTML=people.map(p=>`<article data-person-card="${p.id}"><span class="inspiration-kind">${p.kind==='study'?'STREET-STYLE WILDCARD':'AUTOGRAPH SAMPLE'} · ${p.group}</span><button type="button" class="autograph-pick" data-person="${p.id}" aria-pressed="false" aria-label="Pick ${p.name}"><span class="people-art">${autographImage(p)}</span><span class="pick-label">Pick this mark ☆</span></button><h3>${p.name}</h3><p>${p.note}</p><details class="autograph-source"><summary>Source &amp; attribution</summary>${p.source?`<a href="${p.source}" target="_blank" rel="noopener noreferrer">${p.credit}</a><p>Display normalized to black ink on white. Original source linked above.</p>`:`<p>${p.credit}</p>`}${p.license?`<a href="https://creativecommons.org/licenses/by-sa/${p.license}/" target="_blank" rel="noopener noreferrer">CC BY-SA ${p.license} · monochrome display treatment</a>`:''}</details></article>`).join('');
     }
     people.forEach(p=>{
       const picked=peoplePicks.includes(p.id),button=document.querySelector(`[data-person="${p.id}"]`);

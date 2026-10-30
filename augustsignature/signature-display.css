@@ -1,0 +1,9 @@
+/* Signature artwork contract: black ink on pure white, never colored paper.
+   Normalize the source's tones; never regenerate a person's autograph.
+   Focus boxes, start markers and faint tracing overlays are teaching UI. */
+.signature-filter-defs{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
+.people-art,.people-art svg,.selected-art,.card-art,.review-art,.reference-strip>div,.signature-art,.custom-signature{background-color:#ffffff}
+.people-art img,.people-art svg>image,.signature-art>image,.custom-signature{filter:url(#signature-black-on-white)}
+.taste-choice svg,.hero-motion{stroke:#000000;background-color:#ffffff}
+.draw-wrap{background-color:#ffffff}
+.signature-display-note{font-size:11px;line-height:1.6;color:var(--muted)}
