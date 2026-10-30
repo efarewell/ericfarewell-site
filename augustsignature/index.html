@@ -12,10 +12,11 @@
   <link rel="stylesheet" href="studio.css">
   <script src="autographs.js?v=black-on-white-1" defer></script>
   <script src="lessons.js?v=actual-design-1" defer></script>
-  <script src="studio.js?v=black-on-white-1" defer></script>
+  <script src="studio.js?v=own-hand-1" defer></script>
   <link rel="stylesheet" href="review.css?v=free-picks-1">
   <link rel="stylesheet" href="lessons.css?v=actual-design-1">
   <link rel="stylesheet" href="signature-display.css?v=black-on-white-1">
+  <link rel="stylesheet" href="practice-session.css?v=own-hand-1">
 </head>
 <body>
   <svg class="signature-filter-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>
@@ -126,6 +127,7 @@
         </aside>
 
         <div class="lesson">
+          <div class="focus-controls"><button type="button" class="button outline small" id="focus-move" aria-pressed="false">Focus on this move</button><span id="focus-caption">Less on screen. Same saved progress.</span></div>
           <div class="lesson-topline"><span id="step-kicker">OPTIONAL WARM-UP</span><span class="goal-chip" id="goal-chip">3 tries · at your own pace</span></div>
           <h3 id="lesson-title" tabindex="-1">A little warm-up, if you want it.</h3>
           <p class="one-instruction" id="instruction"></p>
@@ -147,7 +149,7 @@
             <span class="canvas-corner" id="canvas-caption">Follow the light line. Any speed.</span>
             <span class="canvas-dot" aria-hidden="true"></span>
           </div>
-          <div class="paper-card" id="paper-card" hidden><span aria-hidden="true">✎</span><strong>Pen. Paper. Same small win.</strong><p>Make one attempt on your paper, then tap “That's one try.”</p></div>
+          <div class="paper-card" id="paper-card" hidden><strong>Pen. Paper. Same small win.</strong><p>Make one attempt on your paper, then tap “That's one try.” Keep the first whole mark so you can compare it with a later one.</p><button class="button outline small" id="print-practice" type="button">Print my practice page</button></div>
           <div class="drawing-tools" id="drawing-tools">
             <div class="tool-group"><button type="button" id="undo" disabled>↶ <span>Undo</span></button><button type="button" id="clear">Fresh space</button></div>
             <label class="pen-control" for="pen-size">Pen <input id="pen-size" type="range" min="1" max="8" step="1" value="3"><output id="pen-value" for="pen-size">3</output></label>
@@ -155,6 +157,7 @@
           <div class="lesson-actions">
             <div class="rep-status"><div id="rep-dots" class="rep-dots" aria-hidden="true"></div><span id="rep-caption">0 of 3 tries</span></div>
             <button class="button primary" id="count-try" type="button" disabled>That's one try <span aria-hidden="true">✓</span></button>
+            <button class="button primary" id="keep-session-ink" type="button" hidden disabled>Keep this whole-mark try</button>
           </div>
           <div class="lesson-feedback" id="lesson-feedback" role="status">One small move is all you need to start.</div>
           <div class="step-win" id="step-win" hidden>
@@ -167,9 +170,20 @@
           </div>
           <div class="lesson-footer"><button type="button" id="timer-button" class="text-button" aria-label="Start an optional 30 second practice timer">◷ <span id="timer-label">Optional 30-second focus</span></button><button type="button" id="save-drawing" class="text-button" disabled>Save my ink ↓</button></div>
           <p class="micro-note" id="micro-note">The warm-up is optional. Signature practice uses your selected artwork.</p>
+          <section class="ink-journal" aria-labelledby="ink-journal-title">
+            <p class="eyebrow">YOUR HAND. YOUR RECORD.</p><h4 id="ink-journal-title">See what changes. Keep what fits.</h4>
+            <p>Count a whole-mark try in Trace, Copy or Own it to keep a session-only picture here. Letter drills do not fill this space.</p>
+            <div id="ink-comparison" class="ink-comparison"><p class="journal-empty">Your first whole mark will go here. No score. Just your own handwriting to look back on.</p></div>
+            <p id="ink-session-status" role="status"></p>
+            <div class="journal-actions"><button class="button outline small" id="download-comparison" type="button" disabled>Download my comparison</button><button class="text-button" id="forget-comparison" type="button" disabled>Forget these pictures</button></div>
+            <fieldset class="reflection"><legend>What would you like to work on next?</legend><div id="reflection-choices"></div><p id="reflection-cue" role="status">Choose one detail, if you want. The next try does not have to fix everything.</p></fieldset>
+            <p class="journal-privacy">For each design, only the first and latest pictures are held in this open tab. They are not uploaded or saved to browser storage. Refreshing clears them. Download first if you want a copy. Forgetting pictures does not change practice counts.</p>
+          </section>
+          <details class="real-world-check"><summary>Will it work away from the screen?</summary><p>Try it three times on paper at a size you would use on a form. Keep a version you can repeat without drawing every letter carefully. If it feels fiddly, shorten the finish or return to Refine.</p><label><input type="checkbox" id="everyday-check"> I tried three at an everyday size.</label><p id="everyday-feedback" role="status"></p></details>
         </div>
       </div>
     </section>
+    <section class="practice-print" id="practice-print" aria-label="Printable signature practice sheet"></section>
 
     <div class="closing-note"><span aria-hidden="true">✳</span><p>It doesn't have to be perfect.<br><strong>It just has to feel like you.</strong></p></div>
     <footer>Made for August Farewell. <span>Autograph picks, style picks, favorites, approved artwork &amp; progress save in this browser. Practice drawings stay in memory until you leave or refresh. Redraws send your design and changes to OpenAI.</span></footer>

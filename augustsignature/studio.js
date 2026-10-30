@@ -1,5 +1,7 @@
-(() => {
+(async () => {
   'use strict';
+  // Optional session tools must never prevent the original studio from opening.
+  const sessionInk = await import('./ink-session.mjs?v=own-hand-1').catch(() => null);
 
   // Original generated ink artwork. Each crop is measured around one complete
   // signature, with white breathing room; neighboring rows are never included.
@@ -64,6 +66,7 @@
   const canvas = $('practice-canvas');
   const ctx = canvas.getContext('2d');
   const drafts = new Map();
+  const inkComparisons = new Map();
   let strokes = [], activeStroke = null, pointerId = null, hasNewInk = false;
   let artSerial = 0, artworkReady = false;
   let toastTimeout, timerInterval = null, timerEnds = 0, timerRemaining = 30;
@@ -225,6 +228,7 @@
     finishActiveStroke();
     rememberDraft();
     stopTimer();
+    if(selected!==id){$('everyday-check').checked=false;$('everyday-feedback').textContent='';document.querySelectorAll('[data-reflection]').forEach(button=>button.setAttribute('aria-pressed','false'));$('reflection-cue').textContent='Choose one detail, if you want. The next try does not have to fix everything.';}
     selected = id;
     freeMode = false;
     loadDraft();
@@ -304,6 +308,7 @@
     updateGuides();
     updateLessonProgress();
     resizeCanvas();
+    renderInkJournal();
   }
   function updateLessonProgress() {
     const record = state[selected], index = record.step, plan = lessonSteps(), step = plan[index], count = record.counts[index];
@@ -313,6 +318,8 @@
     $('rep-caption').textContent = freeMode ? 'You set the pace' : `${count} of ${step.goal} ${step.goal === 1 ? 'try' : 'tries'}`;
     $('count-try').disabled = done || (!paperMode && !hasNewInk);
     $('count-try').hidden = freeMode;
+    $('keep-session-ink').hidden = !freeMode || paperMode;
+    $('keep-session-ink').disabled = !hasNewInk;
     $('step-win').hidden = !done || allDone || freeMode;
     $('finish-card').hidden = !allDone || freeMode;
     $('win-title').textContent = step.win;
@@ -342,7 +349,7 @@
     const points = stroke.points;
     if (!points.length) return;
     context.save();
-    context.strokeStyle = context.fillStyle = '#263843';
+    context.strokeStyle = context.fillStyle = '#000000';
     context.lineCap = 'round'; context.lineJoin = 'round';
     if (points.length === 1) {
       context.beginPath();context.arc(points[0].x*width,points[0].y*height,stroke.size/2,0,Math.PI*2);context.fill();
@@ -365,6 +372,7 @@
     $('undo').disabled = strokes.length === 0;
     $('save-drawing').disabled = strokes.length === 0;
     $('count-try').disabled = state[selected].counts[state[selected].step] >= steps[state[selected].step].goal || (!paperMode && !hasNewInk);
+    $('keep-session-ink').disabled = !hasNewInk || !!activeStroke;
   }
   function point(event) {
     const rect = canvas.getBoundingClientRect();
@@ -372,6 +380,9 @@
   }
   function finishActiveStroke(event) {
     if (!activeStroke || (event && event.pointerId !== pointerId)) return;
+    if (event && event.type !== 'pointerup') {
+      activeStroke=null;pointerId=null;rememberDraft();redraw();return;
+    }
     if (event?.type === 'pointerup') activeStroke.points.push(point(event));
     strokes.push(activeStroke);
     if (pointerId !== null && canvas.hasPointerCapture(pointerId)) canvas.releasePointerCapture(pointerId);
@@ -379,7 +390,7 @@
     rememberDraft(); redraw();
   }
   canvas.addEventListener('pointerdown',event => {
-    if (pointerId !== null || event.button > 0) return;
+    if (pointerId !== null || event.button > 0 || !event.isPrimary || strokes.length >= 128) return;
     event.preventDefault();
     pointerId = event.pointerId;
     canvas.setPointerCapture(pointerId);
@@ -390,7 +401,7 @@
     if (event.pointerId !== pointerId || !activeStroke) return;
     event.preventDefault();
     const events = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : [event];
-    (events.length ? events : [event]).forEach(item=>activeStroke.points.push(point(item)));
+    (events.length ? events : [event]).forEach(item=>{if(activeStroke.points.length<8192)activeStroke.points.push(point(item));});
     redraw();
   });
   canvas.addEventListener('pointerup',finishActiveStroke);
@@ -398,6 +409,34 @@
   canvas.addEventListener('lostpointercapture',finishActiveStroke);
   function clearInk() {
     finishActiveStroke(); strokes=[]; activeStroke=null;pointerId=null;hasNewInk=false;rememberDraft();redraw();
+  }
+  function renderInkJournal() {
+    const comparison=inkComparisons.get(selected);
+    $('download-comparison').disabled=$('forget-comparison').disabled=!comparison;
+    if(!comparison){
+      $('ink-comparison').innerHTML='<p class="journal-empty">Your first whole mark will go here. No score. Just your own handwriting to look back on.</p>';
+      $('ink-session-status').textContent=sessionInk?paperMode?'Paper stays on your paper. Keep the first try beside the latest.':'Whole-mark screen attempts will appear when you count them.':'The comparison tool did not load. Your gallery, drawing pad and progress still work. Refresh to try the comparison again.';
+      return;
+    }
+    $('ink-comparison').innerHTML=[['First whole-mark try',comparison.first],['Latest whole-mark try',comparison.latest]].map(([label,shot])=>`<figure><figcaption>${label}<small>${shot.label}</small></figcaption><svg class="own-ink" viewBox="0 0 1000 ${shot.height}" role="img" aria-label="${label}">${shot.paths.map(path=>`<path d="${path.d}" stroke-width="${path.width}"/>`).join('')}</svg></figure>`).join('');
+    $('ink-session-status').textContent=`${comparison.count} whole-mark ${comparison.count===1?'attempt kept':'attempts seen'} this session. Guidance levels are labeled, not graded.`;
+  }
+  function keepWholeInk() {
+    if(!sessionInk || paperMode || activeStroke || !hasNewInk)return;
+    const index=state[selected].step;
+    if(!freeMode && index<4)return;
+    const rect=canvas.getBoundingClientRect();
+    const visible=index<6 || $('hint-button').getAttribute('aria-expanded')==='true' || freeMode;
+    const snapshot=sessionInk.captureInk(strokes,{width:rect.width,height:rect.height,mode:freeMode?'open':index===4?'trace':index===5?'copy':'memory',guideVisible:visible});
+    if(snapshot)inkComparisons.set(selected,sessionInk.keepInk(inkComparisons.get(selected),snapshot));
+    renderInkJournal();
+  }
+  function setFocusMode(on) {
+    $('practice').classList.toggle('is-focused',on);
+    $('focus-move').setAttribute('aria-pressed',String(on));
+    $('focus-move').textContent=on?'Show my practice path':'Focus on this move';
+    $('focus-caption').textContent=on?'One move in view. Escape brings back the path.':'Less on screen. Same saved progress.';
+    resizeCanvas();
   }
 
   function stageReady(stage) {
@@ -536,6 +575,7 @@
       const blob=await response.blob();
       if(!blob.type.startsWith('image/'))throw new Error('The redraw did not return artwork. Please try again.');
       await writeArtwork(id,blob);
+      inkComparisons.delete(id);
       const old=customArtwork.get(id);if(old)URL.revokeObjectURL(old);
       customArtwork.set(id,URL.createObjectURL(blob));
       Object.assign(reviewRecord(id),{feedback,approved:false,useCustom:true});
@@ -557,7 +597,7 @@
   $('review-design').addEventListener('change',event=>{recognition?.stop();reviewing=Number(event.target.value);renderReview();$('revision-status').textContent='Keep what you love, or ask for a little change.';});
   $('revision-feedback').addEventListener('input',()=>{reviewRecord(reviewing).feedback=$('revision-feedback').value;persist();});
   $('redraw-signature').addEventListener('click',redrawSignature);
-  $('keep-original').addEventListener('click',()=>{Object.assign(reviewRecord(reviewing),{useCustom:false,approved:false});state[reviewing]={counts:steps.map(()=>0),step:0};for(const key of drafts.keys())if(key.startsWith(`${reviewing}:`))drafts.delete(key);if(selected===reviewing){strokes=[];hasNewInk=false;renderLesson();}persist();renderReview();renderGallery();$('revision-status').textContent='Back to the original. You can approve it or ask for a different change.';});
+  $('keep-original').addEventListener('click',()=>{Object.assign(reviewRecord(reviewing),{useCustom:false,approved:false});inkComparisons.delete(reviewing);state[reviewing]={counts:steps.map(()=>0),step:0};for(const key of drafts.keys())if(key.startsWith(`${reviewing}:`))drafts.delete(key);if(selected===reviewing){strokes=[];hasNewInk=false;renderLesson();}persist();renderReview();renderGallery();$('revision-status').textContent='Back to the original. You can approve it or ask for a different change.';});
   $('approve-signature').addEventListener('click',()=>{reviewRecord(reviewing).approved=true;persist();renderReview();updatePracticeOptions();updateStageNavigation();const next=favorites.find(id=>!reviews[id]?.approved);$('revision-status').textContent=next===undefined?'Your picks are ready. Let’s learn one small move at a time.':'Small decision, big step. Your next favorite is ready to review.';if(next!==undefined){reviewing=next;renderReview();}});
   $('start-approved').addEventListener('click',()=>showStage('practice'));
   $('back-gallery').addEventListener('click',()=>showStage('collection'));
@@ -635,10 +675,11 @@
       requestAnimationFrame(()=>$('guide-layer').classList.add('demonstrating'));
     }
   });
-  $('paper-mode').addEventListener('change',event=>{finishActiveStroke();paperMode=event.target.checked;updateGuides();updateLessonProgress();resizeCanvas();});
+  $('paper-mode').addEventListener('change',event=>{finishActiveStroke();paperMode=event.target.checked;updateGuides();updateLessonProgress();renderInkJournal();resizeCanvas();});
   $('count-try').addEventListener('click',()=>{
     const record=state[selected],index=record.step;
-    if(record.counts[index]>=steps[index].goal || (!paperMode && !hasNewInk))return;
+    if(record.counts[index]>=steps[index].goal || activeStroke || (!paperMode && !hasNewInk))return;
+    keepWholeInk();
     record.counts[index]++;
     hasNewInk=false;
     if(record.counts[index]<steps[index].goal)clearInk();else rememberDraft();
@@ -665,6 +706,19 @@
   });
   $('undo').addEventListener('click',()=>{finishActiveStroke();strokes.pop();hasNewInk=strokes.length>0;rememberDraft();redraw();});
   $('clear').addEventListener('click',clearInk);
+  $('keep-session-ink').addEventListener('click',()=>{keepWholeInk();clearInk();announce('Whole-mark try kept for this session. No course counts were changed.');});
+  $('download-comparison').addEventListener('click',()=>sessionInk?.downloadComparison(inkComparisons.get(selected),"August's signature practice"));
+  $('forget-comparison').addEventListener('click',()=>{inkComparisons.delete(selected);renderInkJournal();announce('Session pictures forgotten. Practice counts stay saved.');});
+  $('focus-move').addEventListener('click',()=>setFocusMode($('focus-move').getAttribute('aria-pressed')!=='true'));
+  document.addEventListener('keydown',event=>{if(event.key==='Escape')setFocusMode(false);});
+  $('everyday-check').addEventListener('change',event=>{$('everyday-feedback').textContent=event.target.checked?'A useful check. Keep the comfortable parts. This does not add practice counts or claim mastery.':'';});
+  if(sessionInk)$('reflection-choices').innerHTML=sessionInk.reflectionChoices.map(choice=>`<button type="button" data-reflection="${choice.id}" aria-pressed="false">${choice.label}</button>`).join('');
+  $('reflection-choices').addEventListener('click',event=>{const button=event.target.closest('[data-reflection]');if(!button)return;document.querySelectorAll('[data-reflection]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));$('reflection-cue').textContent=sessionInk.reflectionChoices.find(choice=>choice.id===button.dataset.reflection).cue;});
+  $('print-practice').addEventListener('click',()=>{
+    const design=designs[selected],step=lessonSteps()[state[selected].step];
+    $('practice-print').innerHTML=`<h1>August's signature practice</h1><p>${design.name} · ${step.title}</p><p>${step.instruction}</p><h2>Look, then try.</h2><div class="print-reference">${art(design)}</div><p>Trace the light guide, copy with a reference, then try a blank line. Keep the first try for comparison.</p>${[0,1,2,3].map(i=>`<div class="paper-practice-row">${i<2?art(design):''}</div>`).join('')}<h2>Now try an everyday size.</h2><p>The reference fits in a 72 mm space. Print at 100% for the intended size. Try it three times at a comfortable pace.</p><div class="paper-everyday">${art(design)}<div></div><div></div><div></div></div><p>Small differences are normal. Keep a version you can repeat without carefully drawing each letter.</p>`;
+    window.print();
+  });
   $('pen-size').addEventListener('input',()=>{$('pen-value').value=$('pen-size').value;persist();});
   $('timer-button').addEventListener('click',startTimer);
   document.addEventListener('visibilitychange',()=>{
