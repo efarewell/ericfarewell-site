@@ -33,10 +33,10 @@
   ][id]}));
 
   const steps = [
-    {short:'Flow',title:'Start with a little flow.',instruction:'Follow the three loops once. Keep your hand loose.',hint:'Rest your hand. Let your fingers hold the pen lightly. Follow the blue starting dot into the loops. One pass through all three loops is one try.',goal:3,time:'about 20 sec',win:'First spark.',message:'You showed up and got moving. That counts.'},
-    {short:'Your A',title:'Give your A some attitude.',instruction:'Make one A: climb, come down, then cross.',hint:'This is a simple practice shape for your A. Make it big enough to feel the movement. Later, borrow the details you love from your chosen design.',goal:3,time:'about 30 sec',win:'A is yours.',message:'One letter. Three attempts. A real little win.'},
-    {short:'Your F',title:'Find your F.',instruction:'Pull the tall stroke down. Add its two cross-strokes.',hint:'Start at the blue dot. Make the long stroke first, then the top and middle strokes. You can lift your pen between them.',goal:3,time:'about 30 sec',win:'Two strong starts.',message:'Your A and F now have something to build on.'},
-    {short:'Connect',title:'Make a little connection.',instruction:'Follow the low curve into one tall loop.',hint:'This warm-up is for the way letters connect. Let the curve carry you into the next stroke. It is okay to lift the pen whenever that feels easier.',goal:3,time:'about 20 sec',win:'Finding your rhythm.',message:'You practiced the move between the letters.'},
+    {short:'Warm-up',title:'An optional warm-up.',instruction:'Try the loose loops, or skip straight to your signature.',hint:'A separate warm-up, not a part of the selected artwork.',goal:3,time:'at your own pace',win:'First spark.',message:'You showed up and got moving. That counts.'},
+    {short:'Your A',title:'Practice your chosen A.',instruction:'Use the actual A focus area from your selected artwork.',hint:'Notice the main shape and slant. Crossing strokes may still be visible.',goal:3,time:'at your own pace',win:'A is yours.',message:'One letter. Three attempts. A real little win.'},
+    {short:'Your F',title:'Practice your chosen F.',instruction:'Use the actual F focus area from the same artwork.',hint:'Try its main shape. There is no guessed pen order to follow.',goal:3,time:'at your own pace',win:'Two strong starts.',message:'Your A and F now have something to build on.'},
+    {short:'Together',title:'Put the main shapes together.',instruction:'Use the selected artwork to place its main shapes. Do not force a join.',hint:'Practice their size, slant, and spacing. A pen lift is fine.',goal:3,time:'at your own pace',win:'Finding your rhythm.',message:'You practiced the main shapes in their places.'},
     {short:'Trace',title:'Bring your name together.',instruction:'Trace your chosen signature once, at your own speed.',hint:'Start with the A and work across. Lift between words. Leave dots, cross-strokes, or an underline until the end if that feels natural. Simple letters first; extra flair can wait.',goal:2,time:'about 40 sec',win:'Your name, in motion.',message:'The little moves are becoming one whole signature.'},
     {short:'Copy',title:'Look. Then let it flow.',instruction:'Look at the reference, then copy it on the empty space.',hint:'Look back as often as you like. Keep the big A, the F, and the general rhythm. Small differences are part of handwriting.',goal:2,time:'about 40 sec',win:'Less help. More you.',message:'You made it with your own hand and a little reference.'},
     {short:'Own it',title:'This one is all you.',instruction:'Write your signature once from memory.',hint:'Take a quick look if you want one. Then try again when you feel ready. Keep the parts that feel comfortable.',goal:1,time:'one brave try',win:'You made your mark.',message:'You wrote it. Your next small win is waiting.'}
@@ -65,7 +65,7 @@
   const ctx = canvas.getContext('2d');
   const drafts = new Map();
   let strokes = [], activeStroke = null, pointerId = null, hasNewInk = false;
-  let artSerial = 0;
+  let artSerial = 0, artworkReady = false;
   let toastTimeout, timerInterval = null, timerEnds = 0, timerRemaining = 30;
   const reviews = saved.reviews && typeof saved.reviews === 'object' ? saved.reviews : {};
   const people = window.augustAutographs || [];
@@ -143,13 +143,17 @@
     clearTimeout(toastTimeout);
     toastTimeout = setTimeout(() => $('toast').classList.remove('show'),3500);
   }
-  function art(design, decorative = false, original = false) {
-    if (!original && customArtwork.has(design.id) && reviews[design.id]?.useCustom) {
-      return `<img class="custom-signature" src="${customArtwork.get(design.id)}" alt="${decorative ? '' : 'Your revised signature'}" ${decorative ? 'aria-hidden="true"' : ''}>`;
+  function art(design, decorative = false, original = false, focus = null, boxes = []) {
+    if (!original && reviews[design.id]?.useCustom) {
+      if (!customArtwork.has(design.id)) return `<span class="artwork-status">${artworkReady ? 'Your revised artwork is unavailable here. Return to Refine to reload it or choose the original.' : 'Loading your approved revision…'}</span>`;
+      return `<img class="custom-signature" src="${customArtwork.get(design.id)}" alt="${decorative ? '' : 'Your revised signature; full artwork shown without guessed letter crops'}" ${decorative ? 'aria-hidden="true"' : ''}>`;
     }
-    const accessibility = decorative ? 'aria-hidden="true"' : `role="img" aria-label="Handwritten ${design.text}, ${design.name} design"`;
-    const [x,y,width,height] = design.crop, clipId = `ink-crop-${++artSerial}`;
-    return `<svg class="signature-art" viewBox="${design.crop.join(' ')}" preserveAspectRatio="xMidYMid meet" ${accessibility}><defs><clipPath id="${clipId}"><rect x="${x}" y="${y}" width="${width}" height="${height}"/></clipPath></defs><image href="${design.asset}" width="1254" height="1254" clip-path="url(#${clipId})"/></svg>`;
+    const accessibility = decorative ? 'aria-hidden="true"' : `role="img" aria-label="${focus ? 'Actual artwork focus area; crossing strokes may be visible. ' : ''}Handwritten ${design.text}, ${design.name} design"`;
+    const crop = focus || design.crop;
+    const [x,y,width,height] = crop, clipId = `ink-crop-${++artSerial}`;
+    const [ox,oy,ow,oh] = design.crop;
+    const overlay = boxes.map(([left,top,w,h])=>`<rect class="focus-window" x="${ox+ow*left}" y="${oy+oh*top}" width="${ow*w}" height="${oh*h}"/>`).join('');
+    return `<svg class="signature-art" viewBox="${crop.join(' ')}" preserveAspectRatio="xMidYMid meet" ${accessibility}><defs><clipPath id="${clipId}"><rect x="${x}" y="${y}" width="${width}" height="${height}"/></clipPath></defs><image href="${design.asset}" width="1254" height="1254" clip-path="url(#${clipId})"/>${overlay}</svg>`;
   }
   function renderFavorites() {
     $('favorite-count').textContent = favorites.length;
@@ -244,72 +248,67 @@
     if (focus) $('lesson-title').focus({preventScroll:true});
   }
   function reducedMotion() { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
-  function demonstration(step, motion) {
-    let paths = [], start = [100,142], arrow = 'M111 129l-1-12 12 1';
-    if (step === 0) paths = ['M100 142 C117 128 155 53 138 49 C110 44 107 143 159 142 C182 141 224 53 206 49 C177 43 177 145 229 142 C254 140 293 54 278 49 C250 43 247 144 300 142 C323 140 347 120 373 117'];
-    if (step === 1) {
-      if (motion === 'loop') {
-        paths = ['M156 143 C169 102 263 19 286 33 C306 48 257 141 205 147 C159 152 196 86 263 48 C246 84 232 129 243 146 C250 154 273 147 292 130','M183 110 C214 97 249 89 279 93'];
-        start = [156,143];
-      } else {
-        paths = [motion === 'angular' ? 'M162 151 L283 32 L245 151 L229 124' : 'M162 151 C199 103 248 49 283 32 C274 57 257 112 247 151','M184 115 Q240 91 291 91'];
-        start = [162,151];
-      }
-    }
-    if (step === 2) {
-      paths = ['M274 43 C255 83 235 128 223 159','M206 67 Q270 30 333 35','M216 106 Q262 86 303 88'];
-      start = [274,43]; arrow = 'M270 62l-4 12 12-2';
-    }
-    if (step === 3) {
-      paths = motion === 'angular' ? ['M125 141 L165 111 L161 142 L194 111 L189 141 L276 41 L235 141 L300 124'] : ['M125 142 C144 137 157 113 165 108 C163 124 154 147 173 142 C194 136 229 87 253 49 C267 23 281 36 265 68 C243 110 205 155 246 143 C264 138 282 126 300 121'];
-      start = [125,142];
-    }
-    return `<svg viewBox="65 10 330 175" role="img" aria-label="${steps[step].short} practice movement"><g>${paths.map(d => `<path class="demo-path" d="${d}"/>`).join('')}</g><circle class="demo-start" cx="${start[0]}" cy="${start[1]}" r="5"/><text class="demo-start-label" x="${start[0]-8}" y="${start[1]+22}">start</text>${step < 1 ? `<path class="demo-arrow" d="${arrow}"/>` : ''}</svg>`;
+  function warmupDemonstration() {
+    return '<svg viewBox="65 10 330 175" role="img" aria-label="Optional loose-loop warm-up, not part of the selected signature"><path class="demo-path" d="M100 142 C117 128 155 53 138 49 C110 44 107 143 159 142 C182 141 224 53 206 49 C177 43 177 145 229 142 C254 140 293 54 278 49 C250 43 247 144 300 142 C323 140 347 120 373 117"/><circle class="demo-start" cx="100" cy="142" r="5"/><text class="demo-start-label" x="92" y="164">start</text></svg>';
   }
+  const lessons = window.augustSignatureLessons;
+  function revisedDesign() { return !!reviews[selected]?.useCustom; }
+  function lessonSteps() { return lessons.planFor(designs[selected],steps,revisedDesign()); }
+  function courseProgress(record) { return lessons.progress(record.counts,steps); }
   function updateGuides() {
     const current = state[selected].step;
     const design = designs[selected];
-    const isDemo = current < 4;
-    const example = isDemo ? demonstration(current,design.motion) : art(design);
+    const revised = revisedDesign(), isDemo = current === 0;
+    const crop = lessons.focusCrop(design,current,revised);
+    const example = isDemo ? warmupDemonstration() : art(design,false,false,crop);
     $('guide-layer').innerHTML = current < 5 ? example : '';
     $('guide-layer').classList.toggle('has-demo',isDemo);
+    $('guide-layer').classList.toggle('has-artwork',!isDemo);
+    $('guide-layer').classList.remove('demonstrating');
     $('reference-art').innerHTML = example;
-    const peeking = current === 6 && $('hint-button').getAttribute('aria-expanded') === 'true';
-    $('selected-art').style.visibility = current === 6 && !peeking ? 'hidden' : 'visible';
-    $('selected-art').setAttribute('aria-hidden',String(current === 6 && !peeking));
-    $('reference-strip').hidden = !(paperMode && current < 6) && current !== 5 && !peeking;
+    const memory = current === 6 && !freeMode;
+    const peeking = memory && $('hint-button').getAttribute('aria-expanded') === 'true';
+    $('selected-art').style.visibility = memory && !peeking ? 'hidden' : 'visible';
+    $('selected-art').setAttribute('aria-hidden',String(memory && !peeking));
+    $('reference-strip').hidden = !(paperMode && !memory) && current !== 5 && !peeking && !freeMode;
+    $('reference-strip').classList.toggle('is-focus',!!crop);
+    $('reference-label').textContent = isDemo ? 'OPTIONAL WARM-UP' : crop ? `YOUR ${current===1?'A':'F'} · FOCUS AREA` : 'YOUR APPROVED ARTWORK';
+    $('lesson-map').hidden = current >= 5;
+    $('lesson-map').innerHTML = current < 5 ? art(design,false,false,null,lessons.focusBoxes(design,current,revised)) : '';
+    $('lesson-map-caption').textContent = revised ? 'Revised artwork shown whole. No automatic letter crop or verified pen order is available.' : current===0 ? 'Your selected signature, for comparison. The loops below are a separate, optional warm-up.' : crop ? 'Blue box: the area enlarged below. Crossing strokes may overlap it. This is the actual image, not a pen-order diagram.' : current===3 ? 'Blue boxes: the main letters in your actual design. The guide below shows the whole mark—no invented connection.' : current===4 ? 'The guide is your selected artwork, not a substitute practice shape.' : 'A suggested practice sequence, not a verified recording of the artist’s pen order.';
+    $('lesson-source').textContent = `YOUR SELECTED DESIGN · ${design.name}${revised?' · revised':''}`;
+    $('lesson-why').textContent = lessons.explanation(design,current,revised);
+    $('skip-warmup').hidden = current!==0 || freeMode;
     $('draw-wrap').hidden = paperMode;
     $('paper-card').hidden = !paperMode;
     $('drawing-tools').hidden = paperMode;
     $('save-drawing').hidden = paperMode;
-    $('canvas-caption').textContent = current < 4 ? 'Follow the light line. Any speed.' : current === 4 ? 'Follow your name. Let it feel natural.' : current === 5 ? 'Look above. Make it your own here.' : 'Your hand knows more than you think.';
+    $('canvas-caption').textContent = isDemo ? 'Optional warm-up · not part of your mark.' : crop ? `Your selected ${current===1?'A':'F'} area. Try just the main letter.` : current < 5 ? 'Your actual design. Any comfortable pace.' : current === 5 || freeMode ? 'Look above. Make it your own here.' : 'Try it from memory, or take a quick peek.';
   }
   function renderLesson() {
-    const design = designs[selected], record = state[selected], index = record.step, step = steps[index];
+    const design = designs[selected], record = state[selected], index = record.step, plan = lessonSteps(), step = plan[index];
     $('practice-style').value = String(selected);
     $('selected-art').innerHTML = art(design);
     $('selected-description').textContent = design.note;
-    const completed = record.counts.filter((count,i) => count >= steps[i].goal).length;
-    $('ladder-count').textContent = `${completed} / 7`;
-    $('ladder').innerHTML = steps.map((item,i) => `<li><button type="button" data-step="${i}" ${i===index ? 'aria-current="step"' : ''} class="${record.counts[i] >= item.goal ? 'is-done' : ''}" aria-label="Step ${i+1}: ${item.short}${record.counts[i] >= item.goal ? ', completed' : ''}"><span class="step-number" aria-hidden="true">${record.counts[i] >= item.goal ? '✓' : i+1}</span><span>${item.short}</span></button></li>`).join('');
-    $('step-kicker').textContent = freeMode ? 'YOUR SPACE TO PLAY' : `STEP ${index+1} OF 7`;
+    $('ladder-count').textContent = `${courseProgress(record).completed} / 6`;
+    $('ladder').innerHTML = plan.map((item,i) => `<li><button type="button" data-step="${i}" ${i===index ? 'aria-current="step"' : ''} class="${record.counts[i] >= item.goal ? 'is-done' : ''}" aria-label="${i===0?'Optional warm-up':`Signature step ${i}`}: ${item.short}${record.counts[i] >= item.goal ? ', completed' : ''}"><span class="step-number" aria-hidden="true">${record.counts[i] >= item.goal ? '✓' : i===0?'↝':i}</span><span>${item.short}${i===0?'<small class="warmup-label"> · optional</small>':''}</span></button></li>`).join('');
+    $('step-kicker').textContent = freeMode ? 'YOUR SPACE TO PLAY' : index===0 ? 'OPTIONAL WARM-UP' : `SIGNATURE STEP ${index} OF 6`;
     $('goal-chip').textContent = freeMode ? 'No target. Just you.' : `${step.goal} ${step.goal === 1 ? 'try' : 'tries'} · ${step.time}`;
     $('lesson-title').textContent = freeMode ? 'Keep making it yours.' : step.title;
     $('instruction').textContent = freeMode ? 'Try a smaller version, a faster version, or a new little twist.' : step.instruction;
-    if (index === 1 && design.motion === 'loop' && !freeMode) $('instruction').textContent = 'Loop up into an A, come down, then cross.';
     $('hint').textContent = step.hint;
     $('hint').hidden = true;
     $('hint-button').setAttribute('aria-expanded','false');
     $('hint-button').innerHTML = `${index === 6 ? 'Take a quick peek' : 'A little hint'} <span aria-hidden="true">+</span>`;
-    $('micro-note').textContent = index < 4 ? 'These simple shapes build the movement. Your exact signature comes together in step 5.' : 'Keep the parts you like. Small differences are part of handwriting.';
+    $('micro-note').textContent = index===0 ? 'Skipping this warm-up does not block the six signature steps or award practice tries.' : 'Practice counts effort, not accuracy. Your earlier tries stay saved; the references now use your selected artwork.';
     updateGuides();
     updateLessonProgress();
     resizeCanvas();
   }
   function updateLessonProgress() {
-    const record = state[selected], index = record.step, step = steps[index], count = record.counts[index];
+    const record = state[selected], index = record.step, plan = lessonSteps(), step = plan[index], count = record.counts[index];
     const done = count >= step.goal;
-    const allDone = record.counts.every((value,i) => value >= steps[i].goal);
+    const allDone = courseProgress(record).allDone;
     $('rep-dots').innerHTML = Array.from({length:step.goal},(_,i) => `<span class="${i<count?'filled':''}"></span>`).join('');
     $('rep-caption').textContent = freeMode ? 'You set the pace' : `${count} of ${step.goal} ${step.goal === 1 ? 'try' : 'tries'}`;
     $('count-try').disabled = done || (!paperMode && !hasNewInk);
@@ -320,12 +319,12 @@
     $('win-message').textContent = step.message;
     $('next-step').innerHTML = `${index === 6 ? 'Find my next win' : 'Next tiny win'} <span aria-hidden="true">→</span>`;
     $('lesson-feedback').textContent = freeMode ? 'No score. No finish line. Just a little room to play.' : done ? 'Small win collected. Take a breath.' : count === 0 ? 'One small move is all you need to start.' : count === 1 ? 'That counts. Give it one more easy go.' : 'You are building the feeling. One more.';
-    $('ladder-count').textContent = `${record.counts.filter((value,i)=>value>=steps[i].goal).length} / 7`;
+    $('ladder-count').textContent = `${courseProgress(record).completed} / 6`;
     document.querySelectorAll('[data-step]').forEach(button => {
       const i = Number(button.dataset.step), complete = record.counts[i] >= steps[i].goal;
       button.classList.toggle('is-done',complete);
-      button.querySelector('.step-number').textContent = complete ? '✓' : i+1;
-      button.setAttribute('aria-label',`Step ${i+1}: ${steps[i].short}${complete ? ', completed' : ''}`);
+      button.querySelector('.step-number').textContent = complete ? '✓' : i===0?'↝':i;
+      button.setAttribute('aria-label',`${i===0?'Optional warm-up':`Signature step ${i}`}: ${plan[i].short}${complete ? ', completed' : ''}`);
     });
   }
 
@@ -567,7 +566,17 @@
     speech.onend=()=>{recognition=null;$('dictate-feedback').setAttribute('aria-pressed','false');$('dictate-feedback').textContent='Speak my changes 🎙';};
     try{speech.start();}catch{recognition=null;$('speech-status').textContent='Could not start the microphone. Please type or try again.';}
   });
-  artDB.then(async db=>{if(!db)return;const records=await new Promise(resolve=>{const request=db.transaction('art').objectStore('art').getAllKeys();request.onsuccess=()=>resolve(request.result);request.onerror=()=>resolve([]);});for(const id of records){if(!validId(id))continue;const blob=await new Promise(resolve=>{const request=db.transaction('art').objectStore('art').get(id);request.onsuccess=()=>resolve(request.result);request.onerror=()=>resolve(null);});if(blob instanceof Blob)customArtwork.set(id,URL.createObjectURL(blob));}renderGallery();if(!$('review').hidden)renderReview();renderLesson();});
+  artDB.then(async db=>{
+    if(db){
+      const records=await new Promise(resolve=>{const request=db.transaction('art').objectStore('art').getAllKeys();request.onsuccess=()=>resolve(request.result);request.onerror=()=>resolve([]);});
+      for(const id of records){
+        if(!validId(id))continue;
+        const blob=await new Promise(resolve=>{const request=db.transaction('art').objectStore('art').get(id);request.onsuccess=()=>resolve(request.result);request.onerror=()=>resolve(null);});
+        if(blob instanceof Blob)customArtwork.set(id,URL.createObjectURL(blob));
+      }
+    }
+    artworkReady=true;renderGallery();if(!$('review').hidden)renderReview();renderLesson();
+  });
   fetch('/api/augustsignature/redraw').then(response=>response.json()).then(data=>{$('service-status').textContent=data.ready?'Automatic redraws are ready. Enter the family code to use them.':'Automatic redraws need Eric to finish the image-service setup. Feedback and favorites can still be saved.';if(!data.ready){$('revision-status').textContent='Redraws are waiting for Eric to connect the image service. Save your ideas here, or approve an original to practice for now.';}}).catch(()=>{$('service-status').textContent='The redraw service could not be reached. Your ideas can still be saved.';});
 
   function stopTimer() {
@@ -614,7 +623,7 @@
     $('hint-button').setAttribute('aria-expanded',String(expanded));$('hint').hidden=!expanded;
     $('hint-button').querySelector('span').textContent=expanded?'−':'+';
     updateGuides();
-    if(expanded && state[selected].step<4 && !reducedMotion()){
+    if(expanded && state[selected].step===0 && !reducedMotion()){
       $('guide-layer').classList.remove('demonstrating');
       requestAnimationFrame(()=>$('guide-layer').classList.add('demonstrating'));
     }
@@ -628,8 +637,8 @@
     if(record.counts[index]<steps[index].goal)clearInk();else rememberDraft();
     persist();updateLessonProgress();
     if(record.counts[index]>=steps[index].goal){
-      announce(steps[index].win);
-      const allDone=record.counts.every((value,i)=>value>=steps[i].goal);
+      announce(lessonSteps()[index].win);
+      const allDone=courseProgress(record).allDone;
       (allDone?$('free-practice'):$('next-step')).focus({preventScroll:true});
     }
   });
@@ -638,6 +647,7 @@
     if(next>=steps.length)next=record.counts.findIndex((value,i)=>value<steps[i].goal);
     if(next>=0)setStep(next);
   });
+  $('skip-warmup').addEventListener('click',()=>{setStep(1);announce('Straight to your selected A. No warm-up tries were added.');});
   $('free-practice').addEventListener('click',()=>{
     setStep(6,false);freeMode=true;clearInk();renderLesson();$('lesson-title').focus({preventScroll:true});
   });

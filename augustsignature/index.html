@@ -11,8 +11,10 @@
   <link rel="icon" href="assets/studio-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="studio.css">
   <script src="autographs.js?v=contrast-2" defer></script>
-  <script src="studio.js?v=free-picks-1" defer></script>
+  <script src="lessons.js?v=actual-design-1" defer></script>
+  <script src="studio.js?v=actual-design-1" defer></script>
   <link rel="stylesheet" href="review.css?v=free-picks-1">
+  <link rel="stylesheet" href="lessons.css?v=actual-design-1">
 </head>
 <body>
   <main>
@@ -109,21 +111,27 @@
           <select id="practice-style" aria-label="Choose a signature to practice"></select>
           <div class="selected-art" id="selected-art"></div>
           <p class="selected-description" id="selected-description"></p>
-          <div class="ladder-header"><span>YOUR CONFIDENCE LADDER</span><strong id="ladder-count">0 / 7</strong></div>
+          <div class="ladder-header"><span>YOUR SIGNATURE STEPS</span><strong id="ladder-count">0 / 6</strong></div>
           <ol class="ladder" id="ladder" aria-label="Practice steps"></ol>
           <div class="small-promise"><span aria-hidden="true">✦</span><p>Every attempt counts.<br>Messy ones included.</p></div>
         </aside>
 
         <div class="lesson">
-          <div class="lesson-topline"><span id="step-kicker">STEP 1 OF 7</span><span class="goal-chip" id="goal-chip">3 tries · about 20 sec</span></div>
-          <h3 id="lesson-title" tabindex="-1">Loosen up.</h3>
+          <div class="lesson-topline"><span id="step-kicker">OPTIONAL WARM-UP</span><span class="goal-chip" id="goal-chip">3 tries · at your own pace</span></div>
+          <h3 id="lesson-title" tabindex="-1">A little warm-up, if you want it.</h3>
           <p class="one-instruction" id="instruction"></p>
+          <aside class="lesson-bridge" aria-labelledby="lesson-bridge-title">
+            <div><p class="lesson-source" id="lesson-source">FROM YOUR SELECTED DESIGN</p><h4 id="lesson-bridge-title">How this fits your signature</h4><p id="lesson-why"></p></div>
+            <div class="lesson-map" id="lesson-map"></div>
+            <p class="lesson-map-caption" id="lesson-map-caption"></p>
+            <button type="button" class="text-button skip-warmup" id="skip-warmup" hidden>Skip the warm-up · start my signature →</button>
+          </aside>
           <div class="lesson-options">
             <button type="button" class="text-button" id="hint-button" aria-expanded="false" aria-controls="hint">A little hint <span aria-hidden="true">+</span></button>
             <label class="paper-toggle"><input type="checkbox" id="paper-mode"><span>I'm using paper</span></label>
           </div>
           <p class="hint" id="hint" hidden></p>
-          <div class="reference-strip" id="reference-strip" hidden><span>YOUR REFERENCE</span><div id="reference-art"></div></div>
+          <div class="reference-strip" id="reference-strip" hidden><span id="reference-label">YOUR REFERENCE</span><div id="reference-art"></div></div>
           <div class="draw-wrap" id="draw-wrap">
             <div class="guide-layer" id="guide-layer" aria-hidden="true"></div>
             <canvas id="practice-canvas" aria-label="Signature practice drawing area. Draw with a finger, stylus, or mouse. For keyboard-only practice, choose I'm using paper.">Use paper to practice the shape, then select “I'm using paper” above to count your tries.</canvas>
@@ -145,11 +153,11 @@
             <button class="button dark" id="next-step" type="button">Next tiny win <span aria-hidden="true">→</span></button>
           </div>
           <div class="finish-card" id="finish-card" hidden>
-            <span class="finish-stars" aria-hidden="true">✦ &nbsp; ✦ &nbsp; ✦</span><h4>You made your mark.</h4><p>From a few loops to a signature. That was you.<br>Keep the parts you like. Let the rest evolve.</p>
+            <span class="finish-stars" aria-hidden="true">✦ &nbsp; ✦ &nbsp; ✦</span><h4>You made your mark.</h4><p>You practiced all six signature steps.<br>Keep the parts you like. Let the rest evolve.</p>
             <div><button class="button dark" id="free-practice" type="button">Keep playing</button><button class="button outline" id="another-style" type="button">Try another pick ↗</button></div>
           </div>
           <div class="lesson-footer"><button type="button" id="timer-button" class="text-button" aria-label="Start an optional 30 second practice timer">◷ <span id="timer-label">Optional 30-second focus</span></button><button type="button" id="save-drawing" class="text-button" disabled>Save my ink ↓</button></div>
-          <p class="micro-note" id="micro-note">The early shapes are warm-ups. Your chosen signature comes together in step 5.</p>
+          <p class="micro-note" id="micro-note">The warm-up is optional. Signature practice uses your selected artwork.</p>
         </div>
       </div>
     </section>
