@@ -15,3 +15,6 @@
 
 /dauss*
   X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+
+/qualityfire*
+  X-Robots-Tag: noindex, nofollow
