@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-labelledby="title desc">
+  <title id="title">30 Ninety 7° Texas mark</title>
+  <desc id="desc">A refined Texas silhouette crossed by a Hill Country contour, with the numbers 30 and 7 degrees.</desc>
+  <path d="M6 41.8L14.3 49.9L17.5 51.8L20.3 59.3L28.5 64.4L29.6 64.4L31.3 62.5L32.6 58.5L34.5 58.3L35 57.4L41.1 58.3L42.1 60.2L46 63.5L48.6 69.9L51 72.2L51.3 73.6L53.8 75.4L54.2 79.6L56.6 84.5L58.5 84.7L62.6 87.1L66.2 87.3L67.9 88.8L68.7 87.9L70 87.9L68.5 78.9L70.9 73L75.7 68.7L81.8 65.6L86.5 61.2L90.5 59.4L91.9 59.6L91.2 58L92.7 56L92.4 52.3L94 48.5L91.8 44.2L91.9 42.7L90.4 41L90.2 28.6L88.1 29L82.6 25.7L82.1 26.4L80 25.9L78.4 26.7L77.3 26.4L75 27.9L73.3 26.2L72.2 26.8L70.7 25.8L69.8 27.6L69.2 26.1L67.8 26.8L66.1 25.5L65 26.5L64.1 26.3L63.2 24.2L60.6 24.9L59.9 24.2L56 23.8L54.8 21.9L54.5 22.5L52.6 22.5L50.5 21.1L50.5 6L30.1 6L30 41L6.2 41Z" fill="#b79253" fill-opacity=".09" stroke="#171815" stroke-width="1.3"/>
+  <path d="M20 54C36 43 49 65 65.6 54.4S82 43 90 49" fill="none" stroke="#b79253" stroke-width="1.6"/>
+  <path d="M65.6 47V61M58.6 54.4H72.6" fill="none" stroke="#171815" stroke-width=".65" opacity=".62"/>
+  <circle cx="65.6" cy="54.4" r="1.8" fill="#b79253" stroke="#171815" stroke-width=".6"/>
+  <g fill="#171815" font-family="Georgia, 'Times New Roman', serif" font-size="10" font-weight="600">
+    <text x="33" y="18">30</text>
+    <text x="59" y="76">7°</text>
+  </g>
+</svg>
