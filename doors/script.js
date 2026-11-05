@@ -122,26 +122,3 @@ window.addEventListener('resize', () => {
   }, 120);
 });
 
-document.querySelector('[data-inquiry-form]').addEventListener('submit', event => {
-  event.preventDefault();
-  const form = event.currentTarget;
-  const data = new FormData(form);
-  const subject = `30 Ninety 7° inquiry from ${data.get('name')}`;
-  const body = [
-    'Hello Eric and Kovid,',
-    '',
-    'I would like to discuss a 30 Ninety 7° commission.',
-    '',
-    `Name: ${data.get('name')}`,
-    `Email: ${data.get('email')}`,
-    `Project location: ${data.get('project') || 'Not specified'}`,
-    `Landscape reference: ${data.get('landscape')}`,
-    '',
-    'What I am imagining:',
-    data.get('brief') || 'Not specified',
-    '',
-    'Please contact me to continue the conversation.'
-  ].join('\n');
-  document.querySelector('[data-form-note]').textContent = 'Your private inquiry is ready. Your mail app will open so you can review and send it.';
-  window.location.href = `mailto:eric@ericfarewell.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-});
