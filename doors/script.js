@@ -126,11 +126,11 @@ document.querySelector('[data-inquiry-form]').addEventListener('submit', event =
   event.preventDefault();
   const form = event.currentTarget;
   const data = new FormData(form);
-  const subject = `30 Ninety Seven° inquiry from ${data.get('name')}`;
+  const subject = `30 Ninety 7° inquiry from ${data.get('name')}`;
   const body = [
     'Hello Eric and Kovid,',
     '',
-    'I would like to discuss a 30 Ninety Seven° commission.',
+    'I would like to discuss a 30 Ninety 7° commission.',
     '',
     `Name: ${data.get('name')}`,
     `Email: ${data.get('email')}`,
