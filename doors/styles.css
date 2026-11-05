@@ -50,6 +50,8 @@ button, input, select, textarea { font: inherit; }
 .brand { display: inline-flex; align-items: center; gap: 13px; text-decoration: none; }
 .brand-symbol { width: 52px; height: 52px; flex: 0 0 auto; overflow: visible; }
 .brand-texas { fill: currentColor; stroke: none; }
+.brand-coordinates { fill: none; stroke: var(--brass-light); stroke-width: 1.05; opacity: .92; vector-effect: non-scaling-stroke; }
+.brand-austin { fill: var(--brass-light); stroke: #f7f5ef; stroke-width: .75; vector-effect: non-scaling-stroke; }
 .brand-lockup { display: grid; text-transform: uppercase; white-space: nowrap; }
 .brand-line { display: flex; align-items: baseline; gap: .48rem; }
 .brand-line strong { font: 500 1.08rem/.9 var(--display); letter-spacing: .045em; }
