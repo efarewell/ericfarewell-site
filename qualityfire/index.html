@@ -246,6 +246,45 @@ dl.spec dd{font-size:.97rem}
 @media (max-width:960px){.csteps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:30px}}
 @media (max-width:520px){.csteps{grid-template-columns:1fr}}
 
+/* spotlight */
+.spot{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(12px,1.4vw,20px)}
+.spot figure{position:relative;overflow:hidden;min-width:0}
+.spot img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.spot figure:hover img{transform:scale(1.03)}
+.spot figcaption{position:absolute;left:0;bottom:0;background:var(--paper);font-size:.72rem;letter-spacing:.06em;padding:8px 12px}
+.s-a{grid-column:span 7;aspect-ratio:3/2}.s-b{grid-column:span 5;aspect-ratio:auto}.s-c{grid-column:span 4;aspect-ratio:4/5}.s-d{grid-column:span 4;aspect-ratio:4/5}.s-e{grid-column:span 4;aspect-ratio:4/5}.s-f{grid-column:span 6;aspect-ratio:3/2}.s-g{grid-column:span 6;aspect-ratio:3/2}
+.spot-foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:clamp(28px,4vw,48px);border-top:1px solid var(--rule);padding-top:22px}
+.tally{display:flex;gap:clamp(20px,4vw,56px);flex-wrap:wrap}
+.tally span{font-size:.8rem;color:var(--ink-3)}
+.tally b{display:block;font-family:var(--f-display);font-weight:300;font-size:1.6rem;line-height:1.1;color:var(--ink)}
+@media (max-width:760px){.s-a,.s-b,.s-f,.s-g{grid-column:1/-1}.s-b{aspect-ratio:3/2}.s-c,.s-d,.s-e{grid-column:span 6}.s-e{grid-column:1/-1;aspect-ratio:3/2}}
+
+/* portfolio */
+.pf-top{padding-top:calc(clamp(130px,15vw,190px) + env(safe-area-inset-top,0px));padding-bottom:clamp(32px,4vw,52px)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:clamp(28px,4vw,44px)}
+.chip{font:inherit;font-size:.72rem;font-variation-settings:"wdth" 118;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:10px 16px;border:1px solid var(--rule);background:transparent;color:var(--ink-2);cursor:pointer;transition:all .2s}
+.chip:hover{border-color:var(--ink);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.chip small{font-size:.66rem;opacity:.6;margin-left:6px;letter-spacing:.06em}
+.masonry{columns:3 320px;column-gap:clamp(12px,1.4vw,20px)}
+.tile{break-inside:avoid;margin:0 0 clamp(12px,1.4vw,20px);cursor:zoom-in;display:block;width:100%;padding:0;border:0;background:none;text-align:left;font:inherit;color:inherit}
+.tile img{width:100%;height:auto;background:#e8e6e1;transition:opacity .3s}
+.tile:hover img{opacity:.88}
+.tile span{display:flex;justify-content:space-between;gap:12px;font-size:.8rem;color:var(--ink-3);padding-top:10px}
+.tile span b{color:var(--ink);font-weight:600}
+.pf-count{font-size:.8rem;color:var(--ink-3);margin-top:14px}
+dialog.lb{border:0;padding:0;max-width:none;max-height:none;width:100vw;height:100vh;background:rgba(10,10,10,.96);color:var(--night-ink)}
+dialog.lb::backdrop{background:rgba(10,10,10,.96)}
+.lb-in{position:relative;width:100%;height:100%;display:grid;grid-template-rows:minmax(0,1fr) auto;padding:calc(64px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));gap:16px}
+.lb-in img{width:100%;height:100%;object-fit:contain;min-height:0}
+.lb-cap{display:flex;justify-content:space-between;gap:16px;align-items:baseline;font-size:.86rem;color:var(--night-2)}
+.lb-cap b{color:var(--night-ink);font-weight:600;margin-right:10px}
+.lb-btn{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));font:inherit;font-size:.72rem;font-variation-settings:"wdth" 118;font-weight:600;letter-spacing:.16em;text-transform:uppercase;background:none;border:1px solid #3b3a37;color:var(--night-ink);padding:10px 14px;cursor:pointer}
+.lb-btn:hover{border-color:var(--night-ink)}
+.lb-close{right:max(20px,env(safe-area-inset-right,0px))}
+.lb-prev{left:max(20px,env(safe-area-inset-left,0px))}
+.lb-next{left:calc(max(20px,env(safe-area-inset-left,0px)) + 92px)}
+
 footer.site{background:var(--night);color:var(--night-2);border-top:1px solid var(--night-rule)}
 .foot{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:28px 48px;align-items:center;padding-block:44px;font-size:.84rem}
 .foot nav{display:flex;gap:24px;flex-wrap:wrap}
@@ -279,6 +318,7 @@ footer.site{background:var(--night);color:var(--night-2);border-top:1px solid va
     <a class="badge" href="#home" aria-label="Quality Fire home"><img src="img/qf-badge-640.png" alt="Quality Fire, Tried and True, Your Fireplace Solutions" width="640" height="463"></a>
     <nav class="main" aria-label="Main">
       <a href="#home" data-nav="home">Our Work</a>
+      <a href="#portfolio" data-nav="portfolio">Portfolio</a>
       <a href="#bespoke" data-nav="bespoke">Bespoke</a>
       <a class="cta" href="#home" data-scroll="quote">Request a Quote</a>
     </nav>
@@ -338,6 +378,29 @@ footer.site{background:var(--night);color:var(--night-2);border-top:1px solid va
     </div>
   </section>
 
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="label muted">Project spotlight · One Hill Country home</p>
+        <h2>One house. Every kind of fire.</h2>
+        <p class="prose">See-through linear units in black and white marble, a frameless great-room fire on a marble hearth, stone fireplaces under reclaimed beam mantels, cast stone surrounds and outdoor fires on two levels. Every one of them in a single home, and every one of them ours.</p>
+      </div>
+      <div class="spot">
+        <figure class="s-a"><img src="img/pc-see-through-black.jpg" alt="See-through linear gas fireplace in a black steel and marble surround with a stepped hearth" loading="lazy"><figcaption>See-through linear, black marble</figcaption></figure>
+        <figure class="s-b"><img src="img/pc-see-through-white.jpg" alt="See-through linear gas fireplace set in a white marble wall" loading="lazy"><figcaption>See-through linear, white marble</figcaption></figure>
+        <figure class="s-c"><img src="img/pc-study-beam-mantel.jpg" alt="Stone fireplace with a reclaimed beam mantel and herringbone firebrick between built-in cabinets" style="object-position:50% 50%" loading="lazy"><figcaption>Stone, reclaimed beam mantel</figcaption></figure>
+        <figure class="s-d"><img src="img/pc-fireball-media.jpg" alt="Close view of flames among ceramic fire balls on glass media" style="object-position:40% 50%" loading="lazy"><figcaption>Fire balls on glass media</figcaption></figure>
+        <figure class="s-e"><img src="img/pc-stone-beam-mantel.jpg" alt="Limestone fireplace with herringbone firebrick, gas logs and a hand-hewn beam mantel" style="object-position:50% 50%" loading="lazy"><figcaption>Limestone, hand-hewn beam</figcaption></figure>
+        <figure class="s-f"><img src="img/pc-outdoor-porch.jpg" alt="Covered outdoor fireplace with a cast stone surround beside an infinity pool" loading="lazy"><figcaption>Pool porch, cast stone surround</figcaption></figure>
+        <figure class="s-g"><img src="img/pc-outdoor-terrace-view.jpg" alt="Outdoor linear fireplace in a tiled chase on an upper terrace overlooking the Hill Country" loading="lazy"><figcaption>Upper terrace, tiled chase</figcaption></figure>
+      </div>
+      <div class="spot-foot">
+        <div class="tally"><div><b>Linear</b><span>Frameless and see-through</span></div><div><b>Masonry</b><span>Stone and cast stone</span></div><div><b>Outdoor</b><span>Porch and two terraces</span></div></div>
+        <a class="text-link" href="#portfolio">See the full portfolio</a>
+      </div>
+    </div>
+  </section>
+
   <section class="sec" style="background:var(--white)">
     <div class="wrap">
       <div class="sec-head">
@@ -358,7 +421,7 @@ footer.site{background:var(--night);color:var(--night-2);border-top:1px solid va
           <img class="on" src="img/limestone-mantel-detail.jpg" alt="" loading="lazy">
           <img src="img/marble-linear-room.jpg" alt="" loading="lazy">
           <img src="img/linear-greatroom-tall.jpg" alt="" loading="lazy">
-          <img src="img/site-log-set-closeup.jpg" alt="" loading="lazy">
+          <img src="img/pc-fireball-media.jpg" alt="" loading="lazy">
           <img src="img/site-copper-chimney-pots.jpg" alt="" loading="lazy">
           <img src="img/site-herringbone-firebrick.jpg" alt="" loading="lazy">
           <span class="cap" id="stage-cap">Masonry, stone surround</span>
@@ -463,6 +526,40 @@ footer.site{background:var(--night);color:var(--night-2);border-top:1px solid va
     </div>
   </section>
 </div>
+
+<!-- ================= PORTFOLIO ================= -->
+<div data-view="portfolio" hidden>
+  <section class="wrap pf-top">
+    <div class="sec-head" style="margin-bottom:0">
+      <p class="label muted">Portfolio</p>
+      <h1 style="font-size:clamp(2.4rem,1.5rem + 3.4vw,4.4rem)">The work, room by room.</h1>
+      <p class="prose">Masonry and linear, indoor and out, from the firebox behind the wall to the cap on the roof. Filter by the kind of work you're planning, or scroll the whole body of it.</p>
+    </div>
+    <div class="chips" id="chips" role="toolbar" aria-label="Filter the portfolio"></div>
+    <p class="pf-count" id="pf-count" aria-live="polite"></p>
+  </section>
+  <section class="wrap" style="padding-bottom:clamp(84px,10vw,140px)">
+    <div class="masonry" id="pf-grid"></div>
+  </section>
+  <section class="band">
+    <img src="img/pc-see-through-black.jpg" alt="" loading="lazy">
+    <div class="wrap">
+      <p class="label" style="opacity:.85">Your project next</p>
+      <blockquote>Send us the plans. We'll tell you what's possible in the room, what it costs and when it can be burning.</blockquote>
+      <div><a class="btn light arrow" href="#home" data-scroll="quote">Request a quote</a></div>
+    </div>
+  </section>
+</div>
+
+<dialog class="lb" id="lb" aria-label="Photo viewer">
+  <div class="lb-in">
+    <button class="lb-btn lb-prev" type="button" id="lb-prev">Prev</button>
+    <button class="lb-btn lb-next" type="button" id="lb-next">Next</button>
+    <button class="lb-btn lb-close" type="button" id="lb-close">Close</button>
+    <img id="lb-img" alt="">
+    <p class="lb-cap"><span><b id="lb-t"></b><span id="lb-d"></span></span><span id="lb-n"></span></p>
+  </div>
+</dialog>
 
 <!-- ================= BESPOKE ================= -->
 <div data-view="bespoke" data-hero hidden>
@@ -595,7 +692,7 @@ footer.site{background:var(--night);color:var(--night-2);border-top:1px solid va
 <footer class="site">
   <div class="wrap foot">
     <a class="badge" href="#home" aria-label="Quality Fire home"><img src="img/qf-badge-640.png" alt="Quality Fire" width="640" height="463" style="height:80px;filter:none"></a>
-    <nav aria-label="Footer"><a href="#home">Our Work</a><a href="#bespoke">Bespoke</a><a href="#home" data-scroll="quote">Request a Quote</a></nav>
+    <nav aria-label="Footer"><a href="#home">Our Work</a><a href="#portfolio">Portfolio</a><a href="#bespoke">Bespoke</a><a href="#home" data-scroll="quote">Request a Quote</a></nav>
     <div class="reach"><b>512-790-0689</b><span>info@qualityfiretx.com</span></div>
     <small>Custom fireplaces for Austin, the Hill Country and Houston. Family-owned since 2014. © 2026 Quality Fire.</small>
   </div>
@@ -603,7 +700,7 @@ footer.site{background:var(--night);color:var(--night-2);border-top:1px solid va
 
 <script>
 (function(){
-  var views=['home','bespoke'], hdr=document.getElementById('hdr');
+  var views=['home','portfolio','bespoke'], hdr=document.getElementById('hdr');
   function current(){var h=location.hash.replace('#','');return views.indexOf(h)<0?'home':h;}
   function setHeader(){
     var v=document.querySelector('[data-view="'+current()+'"]');
@@ -627,7 +724,7 @@ footer.site{background:var(--night);color:var(--night-2);border-top:1px solid va
     if(current()!=='home'){location.hash='home'; setTimeout(go,160);} else go();
   });
 
-  var caps=['Masonry, stone surround','Frameless linear, marble wall','Linear gas, plaster chimney breast','Birch log set','Copper chimney pots','Herringbone firebrick'];
+  var caps=['Masonry, stone surround','Frameless linear, marble wall','Linear gas, plaster chimney breast','Fire balls on glass media','Copper chimney pots','Herringbone firebrick'];
   var cats=document.getElementById('cats');
   if(cats){
     var items=cats.querySelectorAll('li'), imgs=cats.querySelectorAll('.stage img'), cap=document.getElementById('stage-cap');
@@ -651,6 +748,70 @@ footer.site{background:var(--night);color:var(--night-2);border-top:1px solid va
       try{navigator.clipboard.writeText(txt).then(done,fb);}catch(err){fb();}
     });
   });
+
+  var PF=[
+    ['linear','linear-greatroom','Frameless linear gas','Plaster chimney breast, marble hearth'],
+    ['linear','pc-see-through-black','See-through linear','Black steel and marble surround'],
+    ['linear','marble-linear-flame','Frameless linear gas','Set flush in white marble'],
+    ['linear','pc-see-through-white','See-through linear','White marble wall'],
+    ['linear','black-marble-linear','Linear gas','Black marble wall, stepped hearth'],
+    ['linear','marble-linear-room','Linear gas','Marble wall, open plan'],
+    ['linear','linear-greatroom-tall','Frameless linear gas','Full-height chimney breast'],
+    ['linear','marble-linear-view','Linear gas','Marble wall facing the view'],
+    ['masonry','limestone-mantel-lit','Masonry fireplace','Stone surround, herringbone firebrick'],
+    ['masonry','pc-study-beam-mantel','Stone fireplace','Reclaimed beam mantel'],
+    ['masonry','primary-suite-stone','Primary suite','Stacked stone to the ceiling'],
+    ['masonry','pc-stone-beam-mantel','Limestone fireplace','Hand-hewn beam mantel'],
+    ['masonry','limestone-mantel-library','Library','Cast stone surround'],
+    ['masonry','stone-hearth-windows','Raised hearth','Stone surround between tall windows'],
+    ['masonry','limestone-mantel-detail','Cast stone surround','Herringbone firebrick, log set'],
+    ['outdoor','outdoor-stacked','Outdoor, two levels','Stacked in a single chase'],
+    ['outdoor','pc-outdoor-porch','Pool porch','Cast stone surround'],
+    ['outdoor','pc-outdoor-terrace-view','Upper terrace','Linear gas in a tiled chase'],
+    ['outdoor','pc-outdoor-terrace-detail','Outdoor linear','Fire balls, brick-lined firebox'],
+    ['outdoor','site-outdoor-terrace-linear','Terrace linear','Behind a glass wind guard'],
+    ['bespoke','site-carved-limestone-mantel','Carved limestone mantel','Corbels, rosettes, stone fire bowl'],
+    ['bespoke','site-carved-stone-surround','Carved stone mantel','Scrolled legs, log set'],
+    ['details','pc-fireball-media','Fire balls','Ceramic spheres on glass media'],
+    ['details','site-log-set-closeup','Birch log set','Gas logs, ember bed'],
+    ['details','site-herringbone-firebrick','Herringbone firebrick','Refractory brick, before the fire'],
+    ['details','site-copper-chimney-pots','Copper chimney pots','Weathering to patina'],
+    ['details','site-custom-chimney-shroud','Custom chase shroud','Fabricated to the roofline'],
+    ['job','site-crew-install','On the job','Measuring a steel firebox frame'],
+    ['job','site-masonry-rough-in','On the job','Laying firebrick at rough-in'],
+    ['job','site-chase-framing','On the job','Masonry chase rising through the framing']
+  ];
+  var CATS=[['all','All work'],['linear','Linear & see-through'],['masonry','Masonry & stone'],['outdoor','Outdoor'],['bespoke','Carved stone'],['details','Media, brick & caps'],['job','On the job']];
+  var grid=document.getElementById('pf-grid'), chips=document.getElementById('chips'), pfc=document.getElementById('pf-count'), shown=[];
+  function renderPF(cat){
+    if(cat==='all'){var by={};PF.forEach(function(p){(by[p[0]]=by[p[0]]||[]).push(p);});var ks=Object.keys(by);shown=[];for(var r=0;shown.length<PF.length;r++){ks.forEach(function(k){if(by[k][r])shown.push(by[k][r]);});}}
+    else shown=PF.filter(function(p){return p[0]===cat;});
+    grid.innerHTML='';
+    shown.forEach(function(p,i){
+      var b=document.createElement('button');b.type='button';b.className='tile';
+      b.innerHTML='<img src="img/'+p[1]+'.jpg" alt="'+p[2]+', '+p[3]+'" loading="lazy"><span><b>'+p[2]+'</b>'+p[3]+'</span>';
+      b.addEventListener('click',function(){openLB(i);});
+      grid.appendChild(b);
+    });
+    pfc.textContent=shown.length+' photographs';
+    chips.querySelectorAll('.chip').forEach(function(c){c.setAttribute('aria-pressed',c.dataset.cat===cat);});
+  }
+  CATS.forEach(function(c){
+    var n=c[0]==='all'?PF.length:PF.filter(function(p){return p[0]===c[0];}).length;
+    var b=document.createElement('button');b.type='button';b.className='chip';b.dataset.cat=c[0];b.innerHTML=c[1]+'<small>'+n+'</small>';
+    b.addEventListener('click',function(){renderPF(c[0]);});
+    chips.appendChild(b);
+  });
+  renderPF('all');
+  var lb=document.getElementById('lb'), li=document.getElementById('lb-img'), idx=0;
+  function paint(){var p=shown[idx];li.src='img/'+p[1]+'.jpg';li.alt=p[2]+', '+p[3];document.getElementById('lb-t').textContent=p[2];document.getElementById('lb-d').textContent=p[3];document.getElementById('lb-n').textContent=(idx+1)+' / '+shown.length;}
+  function openLB(i){idx=i;paint();if(lb.showModal)lb.showModal();else lb.setAttribute('open','');}
+  function step(d){idx=(idx+d+shown.length)%shown.length;paint();}
+  document.getElementById('lb-prev').addEventListener('click',function(){step(-1);});
+  document.getElementById('lb-next').addEventListener('click',function(){step(1);});
+  document.getElementById('lb-close').addEventListener('click',function(){lb.close?lb.close():lb.removeAttribute('open');});
+  lb.addEventListener('click',function(e){if(e.target===lb||e.target.classList.contains('lb-in'))lb.close();});
+  lb.addEventListener('keydown',function(e){if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1);});
 
   var form=document.getElementById('rfq-form'), st=document.getElementById('q-status');
   form.addEventListener('submit',function(e){
