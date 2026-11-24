@@ -21,3 +21,6 @@
 
 /unleash*
   X-Robots-Tag: noindex, nofollow
+
+/practicecourt/*
+  Permissions-Policy: camera=(self), geolocation=(), microphone=()
