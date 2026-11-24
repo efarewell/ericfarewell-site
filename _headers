@@ -23,4 +23,5 @@
   X-Robots-Tag: noindex, nofollow
 
 /practicecourt/*
+  ! Permissions-Policy
   Permissions-Policy: camera=(self), geolocation=(), microphone=()
