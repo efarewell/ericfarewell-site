@@ -25,3 +25,6 @@
 /practicecourt/*
   ! Permissions-Policy
   Permissions-Policy: camera=(self), geolocation=(), microphone=()
+
+/cabo*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet

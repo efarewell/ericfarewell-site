@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cabo | The Standard</title>
+<meta name="description" content="What the Cabo retreat cost, and an invitation to send what the week was worth to you.">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE occasion, hushed: a thank-you with the real numbers, not a bill
+   IDEA the receipt for the week, printed in The Standard's black, white and red
+   PICTURE the group photo on the hill above Cabo, full width, every face in frame
+   COLOUR black ground, white ink, Standard red #D01F13 for the hard number and the card button
+   TYPE Poppins (The Standard's face) + Inter
+   LAYOUT logo bar, photo band, then a 640px column: title, receipt, guidance, ways to send, close */
+:root{color-scheme:dark;--bg:#0b0b0b;--panel:#161616;--rule:#2a2a2a;--ink:#f4f4f2;--soft:#b9b9b4;--red:#D01F13;--red-hi:#e8392c}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:17px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px max(5vw,16px);border-bottom:1px solid var(--rule)}
+.top img{height:38px;width:auto}
+.when{color:var(--soft);font-size:14px;white-space:nowrap}
+.photo{margin:0;background:#000}
+.photo img{width:100%;height:clamp(260px,52vw,600px);object-fit:cover;object-position:50% 70%}
+main{max-width:640px;margin:0 auto;padding:clamp(28px,5vw,56px) max(5vw,16px) 24px}
+h1{font:700 clamp(34px,5.6vw,48px)/1.08 Poppins,system-ui,sans-serif;letter-spacing:-.02em;margin:0 0 18px;text-wrap:balance}
+h2{font:700 24px/1.2 Poppins,system-ui,sans-serif;margin:0 0 10px}
+p{margin:0 0 16px}
+.lede{font-size:19px}
+.receipt{margin:30px 0 8px;background:var(--panel);border-top:3px solid var(--red);padding:20px 22px 22px}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:11px 0;border-bottom:1px dashed var(--rule)}
+.row span:last-child,.hard .amt{white-space:nowrap;font-variant-numeric:tabular-nums}
+.row.total{border-bottom:0;padding-top:14px;font-weight:600}
+.row.total span:first-child{font-size:15px;color:var(--soft);font-weight:500}
+.hard{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:14px;padding-top:16px;border-top:1px solid var(--rule)}
+.hard .who{color:var(--soft);font-size:15px}
+.hard .amt{font:700 clamp(42px,8vw,58px)/1 Poppins,system-ui,sans-serif;letter-spacing:-.02em;color:var(--red-hi)}
+.note{font-size:15px;color:var(--soft);margin:12px 0 34px}
+.guide{margin-bottom:40px}
+.send{background:var(--panel);padding:24px 22px;margin-bottom:40px}
+.send p{color:var(--soft);font-size:16px}
+.btn{display:flex;align-items:center;justify-content:center;min-height:54px;width:100%;border:0;border-radius:4px;background:var(--red);color:#fff;font:600 18px/1 Inter,system-ui,sans-serif;text-decoration:none;cursor:pointer;margin:18px 0 10px;transition:background .15s}
+.btn:hover{background:var(--red-hi)}
+.btn:focus-visible,.copy:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.btn[aria-disabled=true]{background:#3a3a3a;color:var(--soft);cursor:default;pointer-events:none}
+.venmo{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border:1px solid var(--rule);border-radius:4px;padding:10px 10px 10px 16px;margin-top:8px}
+.venmo .lab{font-size:14px;color:var(--soft)}
+.venmo .handle{font-weight:600;font-size:18px;overflow-wrap:anywhere}
+.copy{min-height:44px;padding:0 16px;border:1px solid var(--soft);border-radius:4px;background:transparent;color:var(--ink);font:500 15px Inter,system-ui,sans-serif;cursor:pointer}
+.copy[hidden]{display:none}
+.else{font-size:15px;color:var(--soft);margin:16px 0 0}
+.close{font-size:18px;margin:0 0 8px}
+.sig{width:150px;height:auto;margin-top:22px;opacity:.9}
+footer{border-top:1px solid var(--rule);margin-top:32px;padding:22px max(5vw,16px);color:var(--soft);font-size:13px;text-align:center}
+@media(max-width:600px){body{font-size:16px}.lede,.close{font-size:17px}.receipt,.send{padding-inline:16px}.top img{height:30px}.when{font-size:13px}}
+@media(prefers-reduced-motion:reduce){.btn{transition:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a href="https://thestandardformen.com"><img src="assets/img/cabo/standard-logo-white.png" alt="The Standard For Men" width="960" height="229"></a>
+  <span class="when">Cabo &middot; Nov 19 to 22</span>
+</header>
+
+<figure class="photo">
+  <img src="assets/img/cabo/cabo-group.jpg" alt="The men of The Standard in a group selfie on a hilltop above Cabo, the town and the Pacific behind them" width="1024" height="768">
+</figure>
+
+<main>
+  <h1>Send what Cabo was worth to you</h1>
+  <p class="lede">This isn't a bill. These are the real numbers, and what you do with them is yours to decide.</p>
+
+  <section class="receipt" aria-label="What the week cost">
+    <div class="row"><span>Groceries and food, all of it</span><span>$1,963.45</span></div>
+    <div class="row"><span>Preston's flight and mine</span><span>$1,589.24</span></div>
+    <div class="row"><span>Ubers to the house and the airport</span><span>$141.29</span></div>
+    <div class="row total"><span>Total</span><span>$3,693.98</span></div>
+    <div class="hard">
+      <span class="who">Thirteen men, at cost</span>
+      <span class="amt">$284.15</span>
+    </div>
+  </section>
+  <p class="note">That's the hard number, not the asking price.</p>
+
+  <section class="guide">
+    <p>If you can send the hard number, send it. If the week was worth more to you, send more, and anything over goes back into The Standard as your thank you for what the week gave you. If this is a tight month, send less, or send it when the timing is better. Not right now is okay, and please don't think about it twice.</p>
+    <p>Nobody will see what anyone sent.</p>
+  </section>
+
+  <section class="send" aria-labelledby="send-h">
+    <h2 id="send-h">Ways to send it</h2>
+    <p>Preston is collecting for all of us.</p>
+    <a id="card" class="btn" href="#" target="_blank" rel="noopener">Send what you want</a>
+    <div class="venmo">
+      <div>
+        <div class="lab">Venmo</div>
+        <div class="handle" id="venmo-handle">Preston's handle</div>
+      </div>
+      <button class="copy" id="copy-venmo" type="button">Copy</button>
+    </div>
+    <p class="else">If neither works, text Preston or me and we'll sort it out.</p>
+  </section>
+
+  <p class="close">Four days in Cabo. Thank you for showing up the way you did, every one of you. (We promise to provide smoke detectors next time.)</p>
+  <img class="sig" src="assets/img/signature-white.png" alt="Eric Farewell" loading="lazy" decoding="async">
+</main>
+
+<footer>&copy; 2026 Eric Farewell &middot; The Standard For Men</footer>
+
+<script>
+{
+  // Fill these in once Preston's links exist. While a value is empty, the page shows it as coming soon.
+  const STRIPE_URL = "";      // e.g. https://buy.stripe.com/...
+  const VENMO_HANDLE = "";    // e.g. @Preston-Smiles
+
+  const card = document.getElementById("card");
+  if (STRIPE_URL) { card.href = STRIPE_URL; }
+  else { card.textContent = "Card link coming soon"; card.setAttribute("aria-disabled", "true"); card.removeAttribute("href"); }
+
+  const handle = document.getElementById("venmo-handle");
+  const copy = document.getElementById("copy-venmo");
+  if (VENMO_HANDLE) { handle.textContent = VENMO_HANDLE; }
+  else { handle.textContent = "Preston's handle, coming soon"; copy.hidden = true; }
+
+  copy.addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(VENMO_HANDLE); copy.textContent = "Copied"; }
+    catch (e) { copy.textContent = "Select and copy"; }
+    setTimeout(() => { copy.textContent = "Copy"; }, 2000);
+  });
+}
+</script>
+</body>
+</html>
