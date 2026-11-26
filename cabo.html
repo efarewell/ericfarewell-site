@@ -36,6 +36,9 @@ p{margin:0 0 16px}
 .row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:11px 0;border-bottom:1px dashed var(--rule)}
 .row span:last-child,.hard .amt{white-space:nowrap;font-variant-numeric:tabular-nums}
 .row.total{border-bottom:0;padding-top:14px;font-weight:600}
+.row em{display:block;font-style:normal;font-size:13px;color:var(--soft)}
+.row.sub{border-bottom:0;border-top:1px solid var(--rule);margin-top:6px;padding-top:14px;font-weight:600}
+.row.paid{color:var(--soft)}
 .row.total span:first-child{font-size:15px;color:var(--soft);font-weight:500}
 .hard{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:14px;padding-top:16px;border-top:1px solid var(--rule)}
 .hard .who{color:var(--soft);font-size:15px}
@@ -76,10 +79,13 @@ footer{border-top:1px solid var(--rule);margin-top:32px;padding:22px max(5vw,16p
   <p class="lede">This isn't a bill. These are the real numbers, and what you do with them is yours to decide.</p>
 
   <section class="receipt" aria-label="What the week cost">
+    <div class="row"><span>The house, three nights <em>estimated value</em></span><span>$8,000.00</span></div>
     <div class="row"><span>Groceries and food, all of it</span><span>$1,963.45</span></div>
     <div class="row"><span>Preston's flight and mine</span><span>$1,589.24</span></div>
     <div class="row"><span>Ubers to the house and the airport</span><span>$141.29</span></div>
-    <div class="row total"><span>Total</span><span>$3,693.98</span></div>
+    <div class="row sub"><span>The week</span><span>$11,693.98</span></div>
+    <div class="row paid"><span>The house, covered by your dues</span><span>&minus;$8,000.00</span></div>
+    <div class="row total"><span>Left to cover</span><span>$3,693.98</span></div>
     <div class="hard">
       <span class="who">Thirteen men, at cost</span>
       <span class="amt">$284.15</span>
