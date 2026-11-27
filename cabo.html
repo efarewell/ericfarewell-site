@@ -53,7 +53,7 @@ p{margin:0 0 16px}
 .btn[aria-disabled=true]{background:#3a3a3a;color:var(--soft);cursor:default;pointer-events:none}
 .venmo{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border:1px solid var(--rule);border-radius:4px;padding:10px 10px 10px 16px;margin-top:8px}
 .venmo .lab{font-size:14px;color:var(--soft)}
-.venmo .handle{font-weight:600;font-size:18px;overflow-wrap:anywhere}
+.venmo .handle{display:block;font-weight:600;font-size:18px;overflow-wrap:anywhere;color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:4px}
 .copy{min-height:44px;padding:0 16px;border:1px solid var(--soft);border-radius:4px;background:transparent;color:var(--ink);font:500 15px Inter,system-ui,sans-serif;cursor:pointer}
 .copy[hidden]{display:none}
 .else{font-size:15px;color:var(--soft);margin:16px 0 0}
@@ -105,7 +105,7 @@ footer{border-top:1px solid var(--rule);margin-top:32px;padding:22px max(5vw,16p
     <div class="venmo">
       <div>
         <div class="lab">Venmo</div>
-        <div class="handle" id="venmo-handle">Preston's handle</div>
+        <a class="handle" id="venmo-handle" href="https://venmo.com/u/Preston-Davis-8" target="_blank" rel="noopener">@Preston-Davis-8</a>
       </div>
       <button class="copy" id="copy-venmo" type="button">Copy</button>
     </div>
@@ -122,7 +122,7 @@ footer{border-top:1px solid var(--rule);margin-top:32px;padding:22px max(5vw,16p
 {
   // Fill these in once Preston's links exist. While a value is empty, the page shows it as coming soon.
   const STRIPE_URL = "";      // e.g. https://buy.stripe.com/...
-  const VENMO_HANDLE = "";    // e.g. @Preston-Smiles
+  const VENMO_HANDLE = "@Preston-Davis-8";
 
   const card = document.getElementById("card");
   if (STRIPE_URL) { card.href = STRIPE_URL; }
@@ -130,7 +130,7 @@ footer{border-top:1px solid var(--rule);margin-top:32px;padding:22px max(5vw,16p
 
   const handle = document.getElementById("venmo-handle");
   const copy = document.getElementById("copy-venmo");
-  if (VENMO_HANDLE) { handle.textContent = VENMO_HANDLE; }
+  if (VENMO_HANDLE) { handle.textContent = VENMO_HANDLE; handle.href = "https://venmo.com/u/" + VENMO_HANDLE.replace(/^@/, ""); }
   else { handle.textContent = "Preston's handle, coming soon"; copy.hidden = true; }
 
   copy.addEventListener("click", async () => {
